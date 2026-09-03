@@ -49,7 +49,36 @@
    them with the picker that runs in `next dev`.
 --------------------------------------------------------------------------- */
 @layer base {
+  /* No hue at all: the accent becomes light itself. White CTA, black label,
+     silver headline gradient, white haze where the other themes glow.
+     The CTA chip is pure white rather than a ramp stop — see --brand-chip. */
   :root,
+  [data-theme="mono"] {
+    --brand-200: #ffffff;
+    --brand-300: #e4e4e9;
+    --brand-400: #c4c4cd;
+    --brand-500: #9a9aa4;
+    --brand-600: #6e6e78;
+    --brand-700: #43434c;
+    --brand-900: #1a1a1e;
+    --brand-300-rgb: 228 228 233;
+    --brand-400-rgb: 196 196 205;
+    --brand-500-rgb: 154 154 164;
+    --brand-glow-rgb: 226 226 235;
+    --brand-on: #08080a;
+    --brand-cta: #f7f7f9;
+    --brand-cta-2: #c9c9d2;
+  }
+
+  /* The chip overrides stay off bare :root on purpose. Every other theme
+     reads them through a var() fallback, so a value on :root would leak a
+     white chip into all of them. `html` always carries data-theme. */
+  [data-theme="mono"] {
+    --brand-chip: #fff;
+    --brand-chip-2: #fff;
+    --brand-chip-glow-rgb: 255 255 255;
+  }
+
   [data-theme="violet"] {
     --brand-200: #ddd2ff;
     --brand-300: #c4b5fd;
@@ -186,29 +215,6 @@
     --brand-on: #04241b;
     --brand-cta: #14c78b;
     --brand-cta-2: #04795a;
-  }
-
-  /* No hue at all: the accent becomes light itself. White CTA, black label,
-     silver headline gradient, white haze where the other themes glow.
-     The CTA chip is pure white rather than a ramp stop — see --brand-chip. */
-  [data-theme="mono"] {
-    --brand-200: #ffffff;
-    --brand-300: #e4e4e9;
-    --brand-400: #c4c4cd;
-    --brand-500: #9a9aa4;
-    --brand-600: #6e6e78;
-    --brand-700: #43434c;
-    --brand-900: #1a1a1e;
-    --brand-300-rgb: 228 228 233;
-    --brand-400-rgb: 196 196 205;
-    --brand-500-rgb: 154 154 164;
-    --brand-glow-rgb: 226 226 235;
-    --brand-on: #08080a;
-    --brand-cta: #f7f7f9;
-    --brand-cta-2: #c9c9d2;
-    --brand-chip: #fff;
-    --brand-chip-2: #fff;
-    --brand-chip-glow-rgb: 255 255 255;
   }
 }
 

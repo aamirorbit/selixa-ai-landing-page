@@ -25,7 +25,7 @@ Nine accent themes ship with the site. They share the same near-black shell and 
 
 | `NEXT_PUBLIC_SITE_THEME` | Name | Accent | CTA text | Character |
 | --- | --- | --- | --- | --- |
-| `violet` _(default)_ | Violet | `#8b5cf6` | white | The current look. What you get when the variable is unset. |
+| `violet` | Violet | `#8b5cf6` | white | Purple accent, the loudest of the coloured set. |
 | `dracula` | Dracula red | `#ff5555` | white | The Dracula palette's red, deepened through the CTA gradient. |
 | `blue` | Blue | `#3b82f6` | white | Cool azure. The most conventional of the set. |
 | `cyan` | Cyan | `#22d3ee` | dark | Bright ice. The diagram glows hardest here. |
@@ -33,12 +33,12 @@ Nine accent themes ship with the site. They share the same near-black shell and 
 | `amber` | Amber | `#f59e0b` | dark | Warm gold. Takes the chill off the near-black shell. |
 | `rose` | Rose | `#f43f5e` | white | Pink-red — warmer and less alarming than dracula. |
 | `emerald` | Emerald | `#10b981` | dark | Deep green, reads calm and financial. |
-| `mono` | Mono | `#9a9aa4` | dark | No hue at all: silver headline, white CTA with a black label, white haze where the others glow. |
+| `mono` _(default)_ | Mono | `#9a9aa4` | dark | No hue at all: silver headline, white CTA with a black label, white haze where the others glow. What you get when the variable is unset. |
 
 "Accent" is the base of each ramp (`--brand-500`); each theme also carries lighter and deeper stops. "CTA text" is what sits on the solid accent — the five light accents flip it to near-black, because white on lime is unreadable. Under `mono` the two semantic colours stay put: the green "contacted" pill in the admin table and red validation errors, both of which are meant to be read as status rather than styling.
 
 - Run `pnpm dev` and use the picker in the bottom-right corner to try them on the real page. The choice is remembered in that browser only, and the picker never renders in production.
-- Keep the one you like with `NEXT_PUBLIC_SITE_THEME=lime` in `.env.local` (and in the Vercel project settings), then restart. An unknown name falls back to violet.
+- Keep the one you like with `NEXT_PUBLIC_SITE_THEME=lime` in `.env.local` (and in the Vercel project settings), then restart. An unknown name falls back to mono.
 - Palettes are the `[data-theme="…"]` blocks at the top of `app/globals.css` — 13 variables each (plus an optional override for the round CTA chip), documented there. Adding a theme means copying one block and adding an entry to `lib/theme.ts`.
 
 ## Background image
