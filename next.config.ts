@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // PGlite is the local-dev database fallback; never bundle or ship it.
+  serverExternalPackages: ["@electric-sql/pglite"],
+  outputFileTracingExcludes: { "*": ["./node_modules/@electric-sql/pglite/**"] },
 };
 
 export default nextConfig;
