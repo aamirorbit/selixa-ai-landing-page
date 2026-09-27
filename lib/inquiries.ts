@@ -15,6 +15,14 @@ export type Inquiry = {
   personalEmail: boolean;
   source: string;
   status: InquiryStatus;
+  /** From /get-started: normalized domain ("acme.com") or "". */
+  site: string;
+  /** Tool slugs; "Something else" is "other:<name>" or "other". */
+  tools: string[];
+  /** Pain keys, 0–3. */
+  pains: string[];
+  /** Role key or "". */
+  role: string;
 };
 
 export type NewInquiry = Omit<Inquiry, "id" | "createdAt" | "status">;
@@ -30,9 +38,13 @@ type InquiryRow = {
   personal_email: boolean;
   source: string;
   status: string;
+  site: string | null;
+  tools: string[] | null;
+  pains: string[] | null;
+  role: string | null;
 };
 
-const COLUMNS = "id, created_at, name, email, company, building, problem, personal_email, source, status";
+const COLUMNS = "id, created_at, name, email, company, building, problem, personal_email, source, status, site, tools, pains, role";
 
 const fromRow = (r: InquiryRow): Inquiry => ({
   id: r.id,
@@ -45,6 +57,10 @@ const fromRow = (r: InquiryRow): Inquiry => ({
   personalEmail: r.personal_email,
   source: r.source,
   status: (STATUSES as readonly string[]).includes(r.status) ? (r.status as InquiryStatus) : "new",
+  site: r.site ?? "",
+  tools: r.tools ?? [],
+  pains: r.pains ?? [],
+  role: r.role ?? "",
 });
 
 export function isStatus(value: unknown): value is InquiryStatus {
@@ -56,9 +72,9 @@ export async function saveInquiry(input: NewInquiry): Promise<string | null> {
   const db = await getDb();
   if (!db) return null;
   const [row] = await db.query<{ id: string }>(
-    `INSERT INTO inquiries (name, email, company, building, problem, personal_email, source)
-     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
-    [input.name, input.email, input.company, input.building, input.problem, input.personalEmail, input.source],
+    `INSERT INTO inquiries (name, email, company, building, problem, personal_email, source, site, tools, pains, role)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`,
+    [input.name, input.email, input.company, input.building, input.problem, input.personalEmail, input.source, input.site, input.tools, input.pains, input.role],
   );
   return row.id;
 }

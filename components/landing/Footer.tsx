@@ -1,6 +1,9 @@
-import { ConversationCTA } from "@/components/ConversationCTA";
 import { Logo } from "@/components/Logo";
 import { SchemeSwitch } from "@/components/SchemeSwitch";
+import { agentHref } from "@/components/site/agents";
+import { AGENTS } from "@/lib/content/agents";
+import { INTEGRATIONS } from "@/lib/content/integrations";
+import { USE_CASES } from "@/lib/content/use-cases";
 import { MARKS, type Mark as MarkData } from "./marks";
 import { Mark } from "./ui";
 
@@ -40,29 +43,37 @@ const COLUMNS: Column[][] = [
   [
     {
       title: "Agents",
-      links: ["Meeting", "Research", "Product", "Analyst", "Roadmap", "Execution"].map((a) => ({
-        label: `${a} Agent`,
-        href: "/#agents",
-      })),
+      // Each agent's page once it exists (LIVE_AGENT_PAGES), else the hub.
+      links: AGENTS.map((a) => ({ label: a.name, href: agentHref(a.slug, "/agents") })),
     },
   ],
   [
     {
       title: "Integrations",
-      links: ["Slack", "Notion", "Google Drive", "Linear", "Jira", "GitHub", "Zoom", "Google Meet", "Intercom", "PostHog", "Mixpanel"].map(
-        (t) => ({ label: t, href: "/#integrations" }),
-      ),
+      links: INTEGRATIONS.map((i) => ({ label: i.name, href: `/integrations/${i.slug}` })),
     },
   ],
   [
     {
       title: "Built for",
-      links: ["Solo founders", "Lean startups", "Product managers", "Multi-product founders"].map((w) => ({
-        label: w,
-        href: "/#audience",
-      })),
+      // The four headline roles, each to its page, then the rest at /use-cases.
+      links: [
+        ...["solo-founders", "lean-startups", "product-managers", "multi-product-founders"].map((slug) => {
+          const u = USE_CASES.find((x) => x.slug === slug)!;
+          return { label: u.title, href: `/use-cases/${slug}` };
+        }),
+        { label: "All use cases", href: "/use-cases" },
+      ],
     },
   ],
+];
+
+/** Company pages. (The nav's "Get started" button and every site pill still open the form.) */
+const COMPANY = [
+  { label: "Get started", href: "/get-started" },
+  { label: "About", href: "/about" },
+  { label: "Security", href: "/security" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const linkClass = "text-[0.9375rem] text-fg-3 transition-colors duration-200 hover:text-fg";
@@ -149,12 +160,13 @@ export function Footer() {
                 <div>
                   <p className="text-[0.9375rem] font-medium text-fg">Company</p>
                   <ul className="mt-5 flex flex-col gap-3">
-                    <li>
-                      <ConversationCTA variant="link" label="Get started" className={`${linkClass} cursor-pointer text-left`} />
-                    </li>
-                    <li>
-                      <ConversationCTA variant="link" label="Contact" className={`${linkClass} cursor-pointer text-left`} />
-                    </li>
+                    {COMPANY.map((l) => (
+                      <li key={l.label}>
+                        <a href={l.href} className={linkClass}>
+                          {l.label}
+                        </a>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}

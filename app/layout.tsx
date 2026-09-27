@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import { SchemeScript } from "@/components/SchemeScript";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ThemePicker } from "@/components/ThemePicker";
 import { SCHEME_KEY } from "@/lib/scheme";
+import { SITE_URL } from "@/lib/site";
 import { ACTIVE_THEME } from "@/lib/theme";
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -25,7 +27,7 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://selixa.ai"),
+  metadataBase: new URL(SITE_URL),
   title: "Selixa — Your AI Product Manager",
   description:
     "Stop building in chaos. Selixa joins your meetings, understands your product, remembers every decision, and turns conversations into clear next steps.",
@@ -55,8 +57,12 @@ export const viewport: Viewport = {
  * Runs before first paint: applies a light/dark choice saved by the footer
  * switch, so a returning visitor never sees the other scheme flash first.
  * With no saved choice, CSS follows the system setting on its own.
+ *
+ * It also marks <html data-motion="on"> unless the visitor prefers reduced motion, so
+ * scroll scenes (components/site/StickyScene.tsx) take their tall, pinned layout before
+ * paint, with no jump at hydration, and never without JavaScript.
  */
-const applySavedScheme = `try{var s=localStorage.getItem("${SCHEME_KEY}");if(s==="light"||s==="dark")document.documentElement.dataset.scheme=s}catch(e){}`;
+const applySavedScheme = `try{var s=localStorage.getItem("${SCHEME_KEY}");if(s==="light"||s==="dark")document.documentElement.dataset.scheme=s}catch(e){}try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.motion="on"}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -68,9 +74,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${satoshi.variable} h-full antialiased`}
     >
       <head>
-        {/* Browser extensions inject their own <script> tags here before React loads, so React
-            may pair this one with theirs; its job is already done by then, so skip the comparison. */}
-        <script dangerouslySetInnerHTML={{ __html: applySavedScheme }} suppressHydrationWarning />
+        <SchemeScript code={applySavedScheme} />
       </head>
       {/* Extensions (e.g. ColorZilla) add attributes to <body> before React loads. */}
       <body className="flex min-h-full flex-col" suppressHydrationWarning>

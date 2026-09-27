@@ -22,6 +22,11 @@ const SCHEMA = [
     status text NOT NULL DEFAULT 'new'
   )`,
   `CREATE INDEX IF NOT EXISTS inquiries_created_at_idx ON inquiries (created_at DESC)`,
+  // /get-started answers (idempotent; older rows read as empty).
+  `ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS site text NOT NULL DEFAULT ''`,
+  `ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS tools text[] NOT NULL DEFAULT '{}'`,
+  `ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS pains text[] NOT NULL DEFAULT '{}'`,
+  `ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS role text NOT NULL DEFAULT ''`,
 ];
 
 let connection: Promise<Db | null> | undefined;

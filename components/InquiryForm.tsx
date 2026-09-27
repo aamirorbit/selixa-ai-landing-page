@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight, Briefcase, Check, CircleHelp, Loader2, Lock, Mail, Pencil, User } from "lucide-react";
-import { useActionState, useEffect, useId, useRef, type ReactNode } from "react";
+import { startTransition, useActionState, useEffect, useId, useRef, type FormEvent, type ReactNode } from "react";
 import { submitInquiry, type FieldName, type InquiryState } from "@/app/actions";
 
 const initial: InquiryState = { status: "idle" };
@@ -9,14 +9,17 @@ const initial: InquiryState = { status: "idle" };
 type InquiryFormProps = {
   titleId: string;
   heading: string;
-  intro: ReactNode;
+  /** Optional line under the heading (omitted on /contact, where the hero says it). */
+  intro?: ReactNode;
+  /** Which page the form is on (allowlisted by the server: "contact"; anything else is the modal). */
+  source?: "modal" | "contact";
   submitLabel?: string;
   compact?: boolean;
   /** Starting values, e.g. the site someone typed into the hero before opening the form. */
   defaults?: Partial<Record<FieldName, string>>;
 };
 
-export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", compact, defaults }: InquiryFormProps) {
+export function InquiryForm({ titleId, heading, intro, source = "modal", submitLabel = "Send", compact, defaults }: InquiryFormProps) {
   const [state, action, pending] = useActionState(submitInquiry, initial);
   const formRef = useRef<HTMLFormElement>(null);
   const errors = state.status === "error" ? (state.fields ?? {}) : {};
@@ -30,6 +33,14 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
     first?.focus({ preventScroll: false });
   }, [state]);
 
+  // Submit without letting React reset the form: every typed value stays on screen whatever
+  // the server says (validation or save errors).
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    startTransition(() => action(data));
+  };
+
   if (state.status === "success") return <Success name={state.name} titleId={titleId} compact={compact} />;
 
   return (
@@ -37,9 +48,10 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
       <h2 id={titleId} className="relative text-[1.625rem] font-medium leading-[1.2] tracking-[-0.02em] sm:text-[1.75rem]">
         {heading}
       </h2>
-      <p className="relative mt-3 text-[1.0625rem] leading-[1.55] text-fg-2 sm:text-[1.125rem]">{intro}</p>
+      {intro && <p className="relative mt-3 text-[1.0625rem] leading-[1.55] text-fg-2 sm:text-[1.125rem]">{intro}</p>}
 
-      <form ref={formRef} action={action} noValidate className="relative mt-5 flex flex-col gap-2.5">
+      <form ref={formRef} onSubmit={onSubmit} noValidate className="relative mt-5 flex flex-col gap-2.5">
+        <input type="hidden" name="source" value={source} />
         <div className="grid gap-2.5 sm:grid-cols-2">
           <Field name="name" label="Full Name" autoComplete="name" icon={<User />} error={errors.name} defaultValue={values?.name ?? defaults?.name} />
           <Field
@@ -88,7 +100,7 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
         </div>
 
         {state.status === "error" && (
-          <p role="alert" className="text-[0.9375rem] leading-snug text-red-300/90">
+          <p role="alert" className="text-[0.9375rem] leading-snug text-danger">
             {state.message}
           </p>
         )}
@@ -116,7 +128,7 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
   );
 }
 
-type FieldProps = {
+export type FieldProps = {
   name: FieldName;
   label: string;
   icon: ReactNode;
@@ -127,15 +139,18 @@ type FieldProps = {
   type?: string;
   autoComplete?: string;
   inputMode?: "email" | "text";
+  /** Controlled use (e.g. /get-started): the value and a change handler. */
+  value?: string;
+  onChange?: (value: string) => void;
 };
 
-function Field({ name, label, icon, error, defaultValue, multiline, rows = 3, type = "text", autoComplete, inputMode }: FieldProps) {
+export function Field({ name, label, icon, error, defaultValue, multiline, rows = 3, type = "text", autoComplete, inputMode, value, onChange }: FieldProps) {
   const id = useId();
   const errorId = `${id}-error`;
   const shared = {
     id,
     name,
-    defaultValue,
+    ...(value !== undefined ? { value, onChange: (e: { target: { value: string } }) => onChange?.(e.target.value) } : { defaultValue }),
     placeholder: label,
     "aria-label": label,
     "aria-invalid": error ? true : undefined,
@@ -159,7 +174,7 @@ function Field({ name, label, icon, error, defaultValue, multiline, rows = 3, ty
         </span>
       </div>
       {error && (
-        <p id={errorId} className="mt-1.5 pl-1 text-[0.8125rem] leading-snug text-red-300/90">
+        <p id={errorId} className="mt-1.5 pl-1 text-[0.8125rem] leading-snug text-danger">
           {error}
         </p>
       )}
@@ -168,12 +183,15 @@ function Field({ name, label, icon, error, defaultValue, multiline, rows = 3, ty
 }
 
 function Success({ name, titleId, compact }: { name: string; titleId: string; compact?: boolean }) {
+  // Screen readers hear the thanks: focus moves to it.
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => heading.current?.focus({ preventScroll: true }), []);
   return (
     <div className={`relative flex flex-col items-center justify-center text-center ${compact ? "min-h-[22rem]" : "min-h-[32rem]"}`}>
       <span className="grid h-16 w-16 place-items-center rounded-full border border-brand-500/40 bg-brand-500/10 text-brand-300 shadow-[0_0_40px_-6px_rgb(var(--brand-500-rgb)/0.6)]">
         <Check className="h-7 w-7" strokeWidth={2} aria-hidden="true" />
       </span>
-      <h2 id={titleId} className="mt-7 text-[1.75rem] font-medium tracking-[-0.02em]">
+      <h2 ref={heading} tabIndex={-1} id={titleId} className="mt-7 text-[1.75rem] font-medium tracking-[-0.02em] outline-none">
         Thanks, {name}.
       </h2>
       <p className="mt-3 max-w-[24rem] text-[1.0625rem] leading-[1.6] text-fg-2">

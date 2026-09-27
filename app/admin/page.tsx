@@ -2,6 +2,8 @@ import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin-auth";
 import { countInquiries, isDatabaseConfigured, isStatus, listInquiries, type Inquiry, type InquiryStatus } from "@/lib/inquiries";
+import { BrandMark } from "@/components/landing/BrandMark";
+import { painLabel, roleLabel, sourceTag, toolLogo } from "@/lib/onboarding";
 import { logout, updateStatus } from "./actions";
 
 const TABS: { key: InquiryStatus | "all"; label: string }[] = [
@@ -71,14 +73,15 @@ export default async function AdminInquiries(props: PageProps<"/admin">) {
           </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[64rem] border-collapse text-left text-[0.9rem]">
+            <table className="w-full min-w-[72rem] border-collapse text-left text-[0.9rem]">
               <thead>
                 <tr className="text-[0.75rem] tracking-[0.06em] text-fg-3 uppercase">
                   <th className="th">Received</th>
                   <th className="th">Contact</th>
-                  <th className="th">Company</th>
-                  <th className="th w-[30%]">Building</th>
-                  <th className="th w-[22%]">Problem</th>
+                  <th className="th">Product</th>
+                  <th className="th w-[18%]">Context</th>
+                  <th className="th w-[24%]">Building</th>
+                  <th className="th w-[18%]">Problem</th>
                   <th className="th">Status</th>
                   <th className="th text-right">Actions</th>
                 </tr>
@@ -104,18 +107,29 @@ function Row({ inquiry: i }: { inquiry: Inquiry }) {
           {timeAgo(i.createdAt)}
         </time>
         <div className="mt-0.5 text-[0.75rem] text-fg-3">{i.createdAt.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</div>
+        {sourceTag(i.source) && <div className="mt-1 text-[0.6875rem] text-fg-3">{sourceTag(i.source)}</div>}
       </td>
       <td className="td align-top">
         <div className="font-medium text-fg">{i.name}</div>
         <a href={`mailto:${i.email}`} className="text-fg-2 underline-offset-2 hover:underline">
           {i.email}
         </a>
-        {i.personalEmail && <div className="mt-0.5 text-[0.75rem] text-amber-200/80">Personal email</div>}
+        {i.role && <div className="mt-0.5 text-[0.75rem] text-fg-3">{roleLabel(i.role)}</div>}
+        {i.personalEmail && <div className="mt-0.5 text-[0.75rem] text-warn">Personal email</div>}
       </td>
-      <td className="td align-top text-fg-2">{i.company || <span className="text-fg-3">—</span>}</td>
+      <td className="td align-top text-fg-2">
+        {i.site ? (
+          <a href={`https://${i.site}`} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">
+            {i.site}
+          </a>
+        ) : (
+          i.company || <span className="text-fg-3">—</span>
+        )}
+      </td>
       <td className="td align-top">
-        <Expandable text={i.building} />
+        <Context tools={i.tools} pains={i.pains} />
       </td>
+      <td className="td align-top">{i.building ? <Expandable text={i.building} /> : <span className="text-fg-3">—</span>}</td>
       <td className="td align-top">{i.problem ? <Expandable text={i.problem} /> : <span className="text-fg-3">—</span>}</td>
       <td className="td align-top">
         <span className={`status status-${i.status}`}>{i.status}</span>
@@ -128,6 +142,43 @@ function Row({ inquiry: i }: { inquiry: Inquiry }) {
         </div>
       </td>
     </tr>
+  );
+}
+
+/** Tool marks (unlit) and pain tags from /get-started. */
+function Context({ tools, pains }: { tools: string[]; pains: string[] }) {
+  if (!tools.length && !pains.length) return <span className="text-fg-3">—</span>;
+  return (
+    <div className="flex flex-col gap-2">
+      {tools.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {tools.map((t) => {
+            const logo = toolLogo(t);
+            if (logo)
+              return (
+                <span key={t} title={logo.name}>
+                  <BrandMark logo={logo} lit={false} className="h-3.5 w-3.5" />
+                </span>
+              );
+            const other = t.startsWith("other:") ? t.slice(6) : "+";
+            return (
+              <span key={t} className="tag px-1.5 py-0 text-[0.6875rem]">
+                {other}
+              </span>
+            );
+          })}
+        </div>
+      )}
+      {pains.length > 0 && (
+        <div className="flex flex-wrap gap-1">
+          {pains.map((p) => (
+            <span key={p} className="tag px-1.5 py-0 text-[0.6875rem]">
+              {painLabel(p)}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

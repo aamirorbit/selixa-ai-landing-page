@@ -76,7 +76,7 @@ export function Agents() {
         <div aria-hidden="true" className="h-12 w-px bg-[linear-gradient(180deg,transparent,rgb(var(--brand-400-rgb)/0.7))]" />
         <Orb size={56} />
         <p className="text-center text-[1.125rem] leading-[1.5] text-fg">
-          One shared context. <span className="text-fg-3">Every agent knows the product.</span>
+          One product’s context. <span className="text-fg-3">Every agent knows it.</span>
         </p>
       </div>
     </Section>

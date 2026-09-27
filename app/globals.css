@@ -18,6 +18,9 @@
   --color-fg: var(--s-fg);
   --color-fg-2: var(--s-fg-2);
   --color-fg-3: var(--s-fg-3);
+  /* Errors: a soft red on dark, a deeper red on light so it stays readable */
+  --color-danger: var(--s-danger);
+  --color-warn: var(--s-warn);
 
   /* Accent — resolved from the theme picked below, never hard-coded */
   --color-brand-200: var(--brand-200);
@@ -47,13 +50,14 @@
     --s-fg: #f5f5f7;
     --s-fg-2: #b9b9c2;
     --s-fg-3: #8b8b95;
+    --s-danger: rgb(252 165 165 / 0.92);
+    --s-warn: rgb(253 230 138 / 0.8);
     /* Hairlines and tints are this colour at low alpha: white on dark, near-black on light */
     --ink-rgb: 255 255 255;
     /* Shadows: full strength on dark, a fraction of it on light */
     --shadow-rgb: 0 0 0;
     --shadow-k: 1;
-    --nav-bg: rgb(5 5 5 / 0.92);
-    --pill-bg: rgb(12 12 14 / 0.96);
+    --nav-bg: rgb(5 5 5 / 0.96);
     --backdrop: rgb(3 3 4 / 0.72);
     /* Footer wordmark, lit */
     --glyph-top: #ffffff;
@@ -77,11 +81,12 @@
     --s-fg: #0d0d10;
     --s-fg-2: #45454d;
     --s-fg-3: #6e6e77;
+    --s-danger: #b42318;
+    --s-warn: #92400e;
     --ink-rgb: 15 15 20;
     --shadow-rgb: 40 20 20;
     --shadow-k: 0.18;
-    --nav-bg: rgb(247 247 245 / 0.94);
-    --pill-bg: rgb(255 255 255 / 0.97);
+    --nav-bg: rgb(247 247 245 / 0.97);
     --backdrop: rgb(20 20 25 / 0.35);
     --glyph-top: #1a0806;
     --glyph-2: #7a140c;
@@ -104,11 +109,12 @@
     --s-fg: #0d0d10;
     --s-fg-2: #45454d;
     --s-fg-3: #6e6e77;
+    --s-danger: #b42318;
+    --s-warn: #92400e;
     --ink-rgb: 15 15 20;
     --shadow-rgb: 40 20 20;
     --shadow-k: 0.18;
-    --nav-bg: rgb(247 247 245 / 0.94);
-    --pill-bg: rgb(255 255 255 / 0.97);
+    --nav-bg: rgb(247 247 245 / 0.97);
     --backdrop: rgb(20 20 25 / 0.35);
     --glyph-top: #1a0806;
     --glyph-2: #7a140c;
@@ -462,7 +468,7 @@
       0 0 0 3px rgb(var(--brand-500-rgb) / 0.16);
   }
   .field[aria-invalid="true"] {
-    border-color: rgb(248 113 113 / 0.55);
+    border-color: color-mix(in srgb, var(--color-danger) 55%, transparent);
   }
   textarea.field {
     resize: vertical;
@@ -1411,55 +1417,31 @@
   }
 }
 
-/* Header: a full-width bar at the top of the page, a floating pill once you scroll.
+/* Header: clear at the top of the page, so it sits in the hero; a solid bar with a
+   hairline fades in once you scroll.
 
-   Built to stay smooth while the page scrolls: nothing in the header changes
-   size or position. The bar and the pill are two ready-made background layers,
-   and scrolling only cross-fades them (opacity + a small scale), which the
-   browser composites on the GPU without re-laying anything out. No backdrop
-   blur either — redrawing a blur under a moving page every frame is costly. */
+   Built to stay smooth under Lenis: nothing in the header changes size or
+   position, and the bar is a background layer that only changes opacity, which
+   the browser composites on the GPU. No backdrop blur — redrawing a blur under
+   a moving page every frame is costly. */
 @layer components {
   .nav-shell {
     isolation: isolate;
   }
   .nav-layer {
     position: absolute;
+    inset: 0;
     z-index: -1;
     pointer-events: none;
-    transition:
-      opacity 280ms var(--ease-out-expo),
-      transform 420ms var(--ease-out-expo);
-  }
-  /* At the top: the flat, full-width bar */
-  .nav-layer-bar {
-    inset: 0;
     background: var(--nav-bg);
-    border-bottom: 1px solid rgb(var(--ink-rgb) / 0.06);
-  }
-  /* Scrolled: the floating pill, drawn around the same content box */
-  .nav-layer-pill {
-    top: 0.5rem;
-    bottom: 0.5rem;
-    left: max(0.625rem, calc((100% - 1280px) / 2 + 1rem));
-    right: max(0.625rem, calc((100% - 1280px) / 2 + 1rem));
-    border-radius: 9999px;
-    border: 1px solid rgb(var(--ink-rgb) / 0.1);
-    background: var(--pill-bg);
-    box-shadow:
-      inset 0 1px 0 rgb(var(--ink-rgb) / 0.06),
-      0 20px 50px -20px rgb(var(--shadow-rgb) / calc(0.85 * var(--shadow-k))),
-      0 12px 40px -24px rgb(var(--brand-glow-rgb) / 0.35);
+    border-bottom: 1px solid rgb(var(--ink-rgb) / 0.08);
+    box-shadow: 0 12px 30px -24px rgb(var(--shadow-rgb) / calc(0.9 * var(--shadow-k)));
     opacity: 0;
-    transform: scale(0.985);
+    transition: opacity 260ms var(--ease-out-expo);
   }
-  .nav-shell[data-scrolled="true"] .nav-layer-bar {
-    opacity: 0;
-  }
-  .nav-shell[data-scrolled="true"] .nav-layer-pill {
+  .nav-shell[data-scrolled="true"] .nav-layer {
     opacity: 1;
-    transform: none;
   }
-
   @media (prefers-reduced-motion: reduce) {
     .nav-layer {
       transition: none;
@@ -1537,7 +1519,7 @@
       0 30px 70px -26px rgb(var(--brand-glow-rgb) / 0.8);
   }
   .site-cta[data-error="true"] {
-    border-color: rgb(248 113 113 / 0.6);
+    border-color: color-mix(in srgb, var(--color-danger) 60%, transparent);
   }
   .site-cta input:focus-visible {
     outline: none;
@@ -1608,5 +1590,897 @@
     .cta-live .site-cta {
       animation: none;
     }
+  }
+}
+
+/* Scroll scenes (components/site/StickyScene.tsx): a stage pinned under the nav while
+   the page scrolls a set distance. Static by default, so without JavaScript, with
+   reduced motion (no data-motion, set before paint in app/layout.tsx) or on a short
+   viewport (no data-live) the scene reads as a normal section. svh, not vh/dvh: the
+   scene length must not change when a phone's URL bar shows or hides. */
+@layer components {
+  .scene {
+    position: relative;
+  }
+  .scene-stage {
+    position: relative;
+  }
+  :root[data-motion="on"] .scene[data-live] {
+    height: calc(100svh - var(--scene-top, 4.5rem) + var(--scene-len) * 100svh);
+  }
+  :root[data-motion="on"] .scene[data-live] .scene-stage {
+    position: sticky;
+    top: var(--scene-top, 4.5rem);
+    height: calc(100svh - var(--scene-top, 4.5rem));
+    overflow: clip;
+  }
+  /* Moving parts get their own layer only while the scene is near the viewport. */
+  .scene-stage[data-active] [data-scrub] {
+    will-change: transform;
+  }
+  /* A scene whose static frame is a different layout renders both; CSS picks one before
+     paint (same conditions as the pinned layout), so there's no switch at hydration. */
+  .scene-live-only {
+    display: none;
+  }
+  :root[data-motion="on"] .scene[data-live] .scene-live-only {
+    display: revert;
+  }
+  :root[data-motion="on"] .scene[data-live] .scene-still-only {
+    display: none;
+  }
+  /* Stepped pieces inside a scene can render their p = 0 state from the server and let
+     CSS show the finished frame whenever the scene is static: [data-scene-show] is forced
+     visible, [data-scene-hide] forced hidden. Same conditions as the pinned layout. */
+  :root:not([data-motion="on"]) .scene [data-scene-show],
+  .scene:not([data-live]) [data-scene-show] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  :root:not([data-motion="on"]) .scene [data-scene-hide],
+  .scene:not([data-live]) [data-scene-hide] {
+    opacity: 0 !important;
+  }
+}
+
+/* .scheme-dark: any subtree renders in the dark scheme, whatever the page's scheme.
+   For "screen" objects (the Meeting Agent call window). The values are the dark
+   tokens from :root above; the --color-* aliases are re-declared so they resolve
+   against them inside the scope. */
+@layer base {
+  .scheme-dark {
+    color-scheme: dark;
+    --s-bg: #050505;
+    --s-bg-2: #09090b;
+    --s-panel: #0b0b0d;
+    --s-panel-2: #131316;
+    --s-well: rgb(0 0 0 / 0.4);
+    --s-fg: #f5f5f7;
+    --s-fg-2: #b9b9c2;
+    --s-fg-3: #8b8b95;
+    --ink-rgb: 255 255 255;
+    --shadow-rgb: 0 0 0;
+    --shadow-k: 1;
+    --color-bg: var(--s-bg);
+    --color-bg-2: var(--s-bg-2);
+    --color-panel: var(--s-panel);
+    --color-panel-2: var(--s-panel-2);
+    --color-well: var(--s-well);
+    --color-ink: rgb(var(--ink-rgb));
+    --color-surface: rgb(var(--ink-rgb) / 0.025);
+    --color-line: rgb(var(--ink-rgb) / 0.09);
+    --color-line-strong: rgb(var(--ink-rgb) / 0.15);
+    --color-fg: var(--s-fg);
+    --color-fg-2: var(--s-fg-2);
+    --color-fg-3: var(--s-fg-3);
+    --color-brand-200: var(--brand-200);
+    --color-brand-300: var(--brand-300);
+    --color-brand-400: var(--brand-400);
+    --color-danger: rgb(252 165 165 / 0.92);
+    color: var(--color-fg);
+  }
+  /* Crimson is the only theme with a light-scheme ramp; restore its dark stops. */
+  [data-theme="crimson"] .scheme-dark {
+    --brand-200: #ffd9d6;
+    --brand-300: #ffa8a0;
+    --brand-400: #ff6a5c;
+    --brand-300-rgb: 255 168 160;
+    --brand-400-rgb: 255 106 92;
+  }
+}
+
+/* Inner pages (components/site/*) */
+@layer components {
+  /* Draws an SVG stroke in once on page load (pathLength="1"); for heroes, no JS needed. */
+  .draw-once {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw-once 1.1s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes draw-once {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  /* A scroll hint's chevron, bobbing gently */
+  .bob {
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    50% {
+      transform: translateY(4px);
+    }
+  }
+  /* A one-off entrance on page load: fade (`.appear`) or fade + small pop (`.pop-in`), after --d. */
+  .appear {
+    animation: fade 300ms ease-out both;
+    animation-delay: var(--d, 0ms);
+  }
+  .pop-in {
+    animation: pop-in 240ms var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+  }
+  /* ChartLine's transform-only wipe: an outer clip slides in from the left while the
+     inner layer slides the other way, so the line looks still and is uncovered left → right. */
+  .wipe-outer,
+  .wipe-inner {
+    transition: transform var(--wipe-ms, 1200ms) var(--ease-out-expo);
+  }
+  .wipe-outer[data-on="false"] {
+    transform: translateX(-100%);
+  }
+  .wipe-inner[data-on="false"] {
+    transform: translateX(100%);
+  }
+  .wipe-outer[data-on="load"] {
+    animation: wipe-outer var(--wipe-ms, 1200ms) var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .wipe-inner[data-on="load"] {
+    animation: wipe-inner var(--wipe-ms, 1200ms) var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  @keyframes wipe-outer {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+  @keyframes wipe-inner {
+    from {
+      transform: translateX(100%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .draw-once {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+    .bob,
+    .appear,
+    .pop-in,
+    .wipe-outer[data-on="load"],
+    .wipe-inner[data-on="load"] {
+      animation: none;
+    }
+    .wipe-outer,
+    .wipe-inner {
+      transition: none;
+    }
+  }
+}
+
+/* /agents relay: the glow under the work card once it ships */
+@layer components {
+  .relay-glow {
+    background: radial-gradient(60% 55% at 50% 55%, rgb(var(--brand-glow-rgb) / 0.32), transparent 70%);
+  }
+  /* On the white panel a full-strength glow muddies the card edge; half reads the same. */
+  :root[data-scheme="light"] .relay-glow {
+    background: radial-gradient(60% 55% at 50% 55%, rgb(var(--brand-glow-rgb) / 0.16), transparent 70%);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"]) .relay-glow {
+      background: radial-gradient(60% 55% at 50% 55%, rgb(var(--brand-glow-rgb) / 0.16), transparent 70%);
+    }
+  }
+}
+
+/* PinCard (components/site/PinCard.tsx): paper on a board. White paper in light, a lifted
+   panel in dark; the shadow follows the scheme's shadow tokens. */
+@layer components {
+  .pin-card {
+    background: var(--color-panel-2);
+    box-shadow:
+      0 1px 0 rgb(var(--ink-rgb) / 0.04),
+      0 14px 30px -18px rgb(var(--shadow-rgb) / 0.55);
+  }
+  :root[data-scheme="light"] .pin-card {
+    background: var(--color-panel);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"]) .pin-card {
+      background: var(--color-panel);
+    }
+  }
+}
+
+/* ChartLine (components/site/ChartLine.tsx): the highlighted (anomaly) stroke and its area.
+   On light pages the 400 stop can be faint (mono theme), so the stroke steps to 500 and
+   the area halves. */
+@layer components {
+  .chart-hl {
+    stroke: var(--color-brand-400);
+  }
+  :root[data-scheme="light"] .chart-hl {
+    stroke: var(--color-brand-500);
+  }
+  :root[data-scheme="light"] {
+    --chart-area-a: 0.05;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"]) .chart-hl {
+      stroke: var(--color-brand-500);
+    }
+    :root:not([data-scheme="dark"]) {
+      --chart-area-a: 0.05;
+    }
+  }
+}
+
+/* Meeting Agent call screen (components/agents/meeting/CallScreen.tsx). Tiles carry a static
+   vignette; the scrim darkens the grid's centre so the headline reads. Both static. */
+@layer components {
+  .call-tile {
+    background:
+      radial-gradient(80% 70% at 50% 40%, rgb(var(--ink-rgb) / 0.04), transparent),
+      rgb(var(--ink-rgb) / 0.025);
+  }
+  .call-scrim {
+    background: radial-gradient(
+      46% 38% at 50% 54%,
+      var(--color-bg) 0%,
+      color-mix(in srgb, var(--color-bg) 70%, transparent) 45%,
+      transparent 100%
+    );
+  }
+  /* A dark screen set into a light page: a soft outer shadow so it sits in the page. The
+     light scheme's shadow channels are written out: inside .scheme-dark the var is dark. */
+  :root[data-scheme="light"] .call-frame {
+    box-shadow: 0 30px 80px -30px rgb(40 20 20 / 0.35);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"]) .call-frame {
+      box-shadow: 0 30px 80px -30px rgb(40 20 20 / 0.35);
+    }
+  }
+}
+
+/* Meeting Agent tape (components/agents/meeting/CallTape.tsx): fixed row heights so the tape
+   never changes size, and a static top mask so past lines dissolve upward. */
+@layer components {
+  .tape-row {
+    height: 132px;
+  }
+  @media (width >= 48rem) {
+    .tape-row {
+      height: 104px;
+    }
+  }
+  @media (width >= 48rem) and (max-height: 760px) {
+    .tape-row {
+      height: 92px;
+    }
+  }
+  .tape-mask {
+    mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 100%);
+  }
+}
+
+/* Research Agent board (components/agents/research/BoardWorld.tsx): a dot-grid surface that
+   bleeds past the world's edges (the extension keeps the grid aligned: 2016 = 72 × 28). */
+@layer components {
+  .board-surface::before {
+    content: "";
+    position: absolute;
+    inset: -2016px;
+    background: radial-gradient(rgb(var(--ink-rgb) / 0.07) 1px, transparent 1.3px) 0 0 / 28px 28px;
+    pointer-events: none;
+  }
+}
+@layer components {
+  /* Research hero scrim: the title reads over the board (left on desktop, top on phones). */
+  .research-scrim {
+    background: linear-gradient(180deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-bg) 85%, transparent) 25%, transparent 45%);
+  }
+  @media (width >= 48rem) {
+    .research-scrim {
+      background: linear-gradient(90deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-bg) 85%, transparent) 30%, transparent 55%);
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Tokens for inner pages. Hex lives here (token definitions) only.
+     --progress   progress fills (Execution ring, ticks, sync dot)
+     --dep-line   dependency lines (Roadmap)
+     --paper-*    the light "paper" sheet (DocSurface tone="paper"), per scheme
+     --doc-*      the sheet's shadow and outer edge, per scheme
+--------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --progress: var(--color-brand-400);
+    --dep-line: rgb(var(--brand-400-rgb) / 0.55);
+    --paper-panel: #f3f2ee;
+    --paper-bg: #e9e8e3;
+    --doc-shadow: 0 50px 120px -50px rgb(0 0 0 / 0.6);
+    --doc-edge: rgb(255 255 255 / 0.08);
+  }
+  :root[data-scheme="light"] {
+    --paper-panel: #ffffff;
+    --paper-bg: #f2f2f0;
+    --doc-shadow: 0 40px 100px -50px rgb(40 20 20 / 0.2);
+    --doc-edge: rgb(15 15 20 / 0.09);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"]) {
+      --paper-panel: #ffffff;
+      --paper-bg: #f2f2f0;
+      --doc-shadow: 0 40px 100px -50px rgb(40 20 20 / 0.2);
+      --doc-edge: rgb(15 15 20 / 0.09);
+    }
+  }
+  /* Mono on a light page: its 400 stop is too faint on white */
+  :root[data-scheme="light"][data-theme="mono"] {
+    --progress: var(--color-fg-2);
+    --dep-line: var(--color-fg-3);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"])[data-theme="mono"] {
+      --progress: var(--color-fg-2);
+      --dep-line: var(--color-fg-3);
+    }
+  }
+}
+
+/* Documents (components/site/DocSurface.tsx). `.doc` is a sheet (overflow visible, so the
+   sticky footer and citation popovers work); `.doc-paper` is the paper scope: light tokens
+   whatever the page's scheme, with the --color-* aliases re-declared so they resolve here. */
+@layer base {
+  .doc-paper {
+    color-scheme: light;
+    --s-bg: var(--paper-panel);
+    --s-bg-2: var(--paper-bg);
+    --s-panel: var(--paper-panel);
+    --s-panel-2: var(--paper-bg);
+    --s-well: rgb(15 15 20 / 0.035);
+    --s-fg: #0d0d10;
+    --s-fg-2: #45454d;
+    --s-fg-3: #6e6e77;
+    --ink-rgb: 15 15 20;
+    --shadow-rgb: 40 20 20;
+    --shadow-k: 0.18;
+    /* Accent on paper: the deep end of the ramp, so tags and bars stay readable */
+    --brand-200: var(--brand-700);
+    --brand-300: var(--brand-600);
+    --brand-400: var(--brand-500);
+    --color-bg: var(--s-bg);
+    --color-bg-2: var(--s-bg-2);
+    --color-panel: var(--s-panel);
+    --color-panel-2: var(--s-panel-2);
+    --color-well: var(--s-well);
+    --color-ink: rgb(var(--ink-rgb));
+    --color-surface: rgb(var(--ink-rgb) / 0.025);
+    --color-line: rgb(var(--ink-rgb) / 0.09);
+    --color-line-strong: rgb(var(--ink-rgb) / 0.15);
+    --color-fg: var(--s-fg);
+    --color-fg-2: var(--s-fg-2);
+    --color-fg-3: var(--s-fg-3);
+    --color-brand-200: var(--brand-200);
+    --color-brand-300: var(--brand-300);
+    --color-brand-400: var(--brand-400);
+    --progress: var(--color-brand-400);
+    --color-danger: #b42318;
+    color: var(--color-fg);
+  }
+  [data-theme="crimson"] .doc-paper {
+    --brand-200: #8f160d;
+    --brand-300: #c0281a;
+    --brand-400: #dc3324;
+    --brand-300-rgb: 192 40 26;
+    --brand-400-rgb: 220 51 36;
+  }
+  [data-theme="mono"] .doc-paper {
+    --brand-200: #1a1a1e;
+    --brand-300: #43434c;
+    --brand-400: #6e6e78;
+    --brand-300-rgb: 67 67 76;
+    --brand-400-rgb: 110 110 120;
+    --brand-500-rgb: 67 67 76;
+  }
+}
+
+@layer components {
+  .doc {
+    position: relative;
+    overflow: visible;
+    border-radius: 24px;
+    border: 1px solid var(--doc-edge);
+    background: var(--color-panel);
+    box-shadow: var(--doc-shadow);
+  }
+  /* Skeleton lines over a block that hasn't been written yet */
+  .doc-skel {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      180deg,
+      rgb(var(--ink-rgb) / 0.05) 0 0.5em,
+      transparent 0.5em var(--skel-pitch, 1.7em)
+    );
+    background-position: 0 0.35em;
+    transition: opacity 150ms ease-out;
+  }
+  .doc-text {
+    transition:
+      opacity 280ms var(--ease-out-expo),
+      transform 280ms var(--ease-out-expo);
+  }
+  [data-shown="false"] > .doc-text {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  [data-shown="true"] > .doc-skel {
+    opacity: 0;
+  }
+  /* Citation chip and popover */
+  .cite {
+    display: inline-grid;
+    place-items: center;
+    height: 18px;
+    padding: 0 0.375rem;
+    margin-left: 0.25em;
+    border-radius: 6px;
+    border: 1px solid var(--color-line);
+    background: rgb(var(--ink-rgb) / 0.04);
+    color: var(--color-fg-2);
+    font-size: 11px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    vertical-align: 0.15em;
+    cursor: pointer;
+    transition:
+      color 150ms,
+      border-color 150ms;
+  }
+  .cite:hover,
+  .cite:focus-visible,
+  .cite[aria-expanded="true"] {
+    border-color: rgb(var(--brand-400-rgb) / 0.4);
+    color: var(--color-brand-300);
+  }
+  .cite-pop {
+    position: absolute;
+    z-index: 30;
+    top: calc(100% + 8px);
+    width: 320px;
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--color-line);
+    background: var(--color-panel);
+    padding: 1rem;
+    box-shadow: 0 18px 50px -20px rgb(var(--shadow-rgb) / calc(0.6 + 0.4 * var(--shadow-k)));
+    transition:
+      opacity 180ms var(--ease-out-expo),
+      transform 180ms var(--ease-out-expo),
+      visibility 0s linear 180ms;
+  }
+  .cite-pop[data-open="false"] {
+    opacity: 0;
+    transform: translateY(4px);
+    visibility: hidden;
+  }
+  .cite-pop[data-open="true"] {
+    transition-delay: 0s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doc-skel,
+    .doc-text,
+    .cite-pop {
+      transition: none;
+    }
+  }
+}
+
+/* SlotBoard (components/site/SlotBoard.tsx): items move between slots by transform only.
+   The "jump" is a picked-up-and-placed arc on the moved item's inner layer. */
+@layer components {
+  .slot-board {
+    position: relative;
+    container-type: inline-size;
+  }
+  .slot-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition:
+      transform var(--move-ms, 480ms) var(--ease-out-expo),
+      opacity 200ms ease-out;
+  }
+  .slot-board[data-still="true"] .slot-item {
+    transition: none;
+  }
+  .slot-jump {
+    animation: slot-jump var(--move-ms, 560ms) var(--ease-out-expo);
+  }
+  @keyframes slot-jump {
+    40% {
+      transform: translateY(-10px) scale(1.03);
+    }
+  }
+  /* Horizontal bob for a "this moves sideways" hint */
+  .bob-x {
+    animation: bob-x 2.4s ease-in-out infinite;
+  }
+  @keyframes bob-x {
+    50% {
+      transform: translateX(4px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slot-item {
+      transition: none;
+    }
+    .slot-jump,
+    .bob-x {
+      animation: none;
+    }
+  }
+}
+@layer components {
+  /* A single glow pulse (e.g. a hand-off bar becoming ready) */
+  .glow-once {
+    animation: glow-once 500ms ease-out both;
+  }
+  @keyframes glow-once {
+    40% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .glow-once {
+      animation: none;
+    }
+  }
+}
+
+/* Intercom's lit mark: its cyan on dark, a darker teal on light backgrounds (logos.ts reads this). */
+@layer base {
+  :root {
+    --intercom-lit: #6afdef;
+  }
+  :root[data-scheme="light"],
+  .doc-paper {
+    --intercom-lit: #0e8f86;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"]) {
+      --intercom-lit: #0e8f86;
+    }
+  }
+  .scheme-dark {
+    --intercom-lit: #6afdef;
+  }
+}
+
+/* Integrations: the search field (a sibling of .site-cta), its idle caret, lane packets and
+   the per-tool hero wash (components/site/integrations/*). */
+@layer components {
+  .search-field {
+    display: flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid rgb(var(--ink-rgb) / 0.12);
+    background:
+      linear-gradient(180deg, rgb(var(--ink-rgb) / 0.05), rgb(var(--ink-rgb) / 0.015)),
+      var(--color-panel);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--ink-rgb) / 0.07),
+      0 24px 60px -30px rgb(var(--brand-glow-rgb) / 0.55);
+    transition:
+      border-color 220ms var(--ease-out-expo),
+      box-shadow 320ms var(--ease-out-expo);
+  }
+  .search-field:focus-within {
+    border-color: rgb(var(--brand-400-rgb) / 0.55);
+    box-shadow:
+      inset 0 1px 0 rgb(var(--ink-rgb) / 0.07),
+      0 0 0 4px rgb(var(--brand-500-rgb) / 0.14),
+      0 30px 70px -26px rgb(var(--brand-glow-rgb) / 0.8);
+  }
+  .search-field input::-webkit-search-cancel-button {
+    appearance: none;
+  }
+  /* "Type here" without taking focus: a caret at the start of the empty, unfocused field */
+  .search-caret {
+    opacity: 0;
+  }
+  .search-field:has(input:placeholder-shown):not(:focus-within) .search-caret {
+    opacity: 1;
+  }
+  /* A packet travelling a lane: the wrapper spans the lane, the dot inside moves along it */
+  .lane-packet {
+    animation: lane-packet var(--lane-ms, 1.8s) linear infinite;
+    animation-delay: var(--lane-delay, 0s);
+    animation-play-state: paused;
+    opacity: 0;
+  }
+  [data-inview] .lane-packet {
+    animation-play-state: running;
+  }
+  .lane-packet[data-dir="back"] {
+    animation-name: lane-packet-back;
+  }
+  .lane-packet[data-axis="y"] {
+    animation-name: lane-packet-y;
+  }
+  .lane-packet[data-axis="y"][data-dir="back"] {
+    animation-name: lane-packet-y-back;
+  }
+  @keyframes lane-packet {
+    0% { transform: translateX(0); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateX(var(--lane, 100px)); opacity: 0; }
+  }
+  @keyframes lane-packet-back {
+    0% { transform: translateX(var(--lane, 100px)); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateX(0); opacity: 0; }
+  }
+  @keyframes lane-packet-y {
+    0% { transform: translateY(0); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateY(var(--lane, 56px)); opacity: 0; }
+  }
+  @keyframes lane-packet-y-back {
+    0% { transform: translateY(var(--lane, 56px)); opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { transform: translateY(0); opacity: 0; }
+  }
+  /* Per-tool hero wash: the tool's colour in its own hero, and nowhere below */
+  .tool-wash {
+    --tool-a: var(--tool-a-dark);
+  }
+  :root[data-scheme="light"] .tool-wash {
+    --tool-a: var(--tool-a-light);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"]) .tool-wash {
+      --tool-a: var(--tool-a-light);
+    }
+  }
+  .tool-wash-layer {
+    background:
+      radial-gradient(60% 55% at 50% 22%, rgb(var(--tool-rgb) / var(--tool-a)), transparent 70%),
+      radial-gradient(38% 30% at 50% 30%, rgb(var(--tool-rgb) / calc(var(--tool-a) * 0.6)), transparent 70%);
+    mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .search-caret .caret {
+      animation: none;
+    }
+    .lane-packet {
+      display: none;
+    }
+  }
+}
+@layer components {
+  /* A chip row that scrolls sideways fades at its edges (#000 is a mask alpha). Where the row
+     wraps instead, the component turns the mask off (e.g. md:[mask-image:none]). */
+  .chip-row {
+    mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent);
+  }
+}
+
+/* SplitCompare (components/site/SplitCompare.tsx): placed from --f before JS (percent of the
+   full-frame boxes), touch devices start on "before". JS then writes px transforms. */
+@layer components {
+  .split {
+    --f: 0.5;
+  }
+  @media (pointer: coarse) and (not (any-pointer: fine)) {
+    .split {
+      --f: 1;
+    }
+  }
+  .split-clip,
+  .split-handle {
+    transform: translateX(calc(var(--f) * 100%));
+  }
+  .split-handle {
+    width: 100%;
+    pointer-events: none;
+  }
+  .split-handle > * {
+    pointer-events: auto;
+  }
+  .split-inner {
+    transform: translateX(calc(var(--f) * -100%));
+  }
+  .split[data-dragging] .split-clip,
+  .split[data-dragging] .split-inner,
+  .split[data-dragging] .split-handle {
+    will-change: transform;
+  }
+}
+@layer components {
+  /* Touch-only devices (no fine pointer anywhere) vs everything else */
+  .coarse-only {
+    display: none;
+  }
+  @media (pointer: coarse) and (not (any-pointer: fine)) {
+    .fine-only {
+      display: none;
+    }
+    .coarse-only {
+      display: block;
+    }
+  }
+}
+
+/* DayTimeline variant C: cards stack like a deck as you scroll (CSS sticky, nothing animated).
+   Opaque cards with a soft top shadow; reduced motion turns it into a plain list. */
+@layer components {
+  .day-deck > * {
+    top: calc(5.5rem + var(--i) * 10px);
+    margin-bottom: 22vh;
+    box-shadow: 0 -18px 40px -24px rgb(var(--shadow-rgb) / calc(0.9 * var(--shadow-k)));
+  }
+  @media (width >= 48rem) {
+    .day-deck > * {
+      top: calc(7rem + var(--i) * 14px);
+      margin-bottom: 28vh;
+    }
+  }
+  .day-deck > :last-child {
+    margin-bottom: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .day-deck > * {
+      position: static;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+/* Light scheme + mono theme: mono's ramp is near-white, so brand-tinted text would vanish on
+   light surfaces. Map 200/300/400 to dark greys (same values as mono on paper). */
+@layer base {
+  :root[data-scheme="light"][data-theme="mono"] {
+    --brand-200: #1a1a1e;
+    --brand-300: #43434c;
+    --brand-400: #6e6e78;
+    --brand-500: #55555e;
+    --brand-300-rgb: 67 67 76;
+    --brand-400-rgb: 110 110 120;
+    --brand-500-rgb: 85 85 94;
+    --brand-on: #ffffff;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-scheme="dark"])[data-theme="mono"] {
+      --brand-200: #1a1a1e;
+      --brand-300: #43434c;
+      --brand-400: #6e6e78;
+      --brand-500: #55555e;
+      --brand-300-rgb: 67 67 76;
+      --brand-400-rgb: 110 110 120;
+      --brand-500-rgb: 85 85 94;
+    --brand-on: #ffffff;
+    }
+  }
+}
+
+/* The seal ring: a 1px brand ring just outside a sealed panel (the /security containers, the
+   /get-started brief card). Fades/scales in when sealed; opacity/transform only. */
+@layer components {
+  .seal-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: calc(var(--seal-r, 20px) + 4px);
+    border: 1px solid rgb(var(--brand-400-rgb) / 0.4);
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.98);
+    transition:
+      opacity 500ms var(--ease-out-expo),
+      transform 500ms var(--ease-out-expo);
+  }
+  .seal-ring[data-on="true"] {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .seal-ring {
+      transition: none;
+    }
+  }
+}
+@layer components {
+  /* ChaosToOrder scraps: the position they're pulled from (desktop, or their phone band) */
+  .scrap {
+    --sx: var(--x);
+    --sy: var(--y);
+  }
+  @media (width < 40rem) {
+    .scrap {
+      --sx: var(--px);
+      --sy: var(--py);
+    }
+  }
+}
+@layer components {
+  /* /get-started brief card: a value arriving (opacity/transform, 220ms) */
+  @keyframes brief-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px) scale(0.96);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [style*="brief-in"] {
+      animation: none !important;
+    }
+  }
+}
+@layer components {
+  /* /get-started pains counter: a small shake when a fourth pick is refused */
+  @keyframes nudge {
+    25% {
+      transform: translateX(-3px);
+    }
+    75% {
+      transform: translateX(3px);
+    }
+  }
+}
+@layer components {
+  /* SplitCompare: below md the frame starts on "before" for every pointer (JS agrees) */
+  @media (width < 48rem) {
+    .split {
+      --f: 1;
+    }
+  }
+  /* Reduced motion: the newer interactive pieces (timeline rails, lit cards, the use-case
+     panel, the split toggle, the brief card) change state instantly. */
+  @media (prefers-reduced-motion: reduce) {
+    .card-lit,
+    [role="tabpanel"],
+    [role="tabpanel"] *,
+    .split *,
+    .seal-ring {
+      transition: none !important;
+    }
+  }
+}
+@layer components {
+  /* /agents/product: the finished memo is the server frame; with motion on, its content waits
+     for the writer (a hydration moment), so it never flashes and fades back. The sheet itself
+     shows; only what's inside waits. */
+  :root[data-motion="on"] .memo-gate:not([data-ready]) .doc > :not(:first-child) {
+    visibility: hidden;
   }
 }

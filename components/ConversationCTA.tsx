@@ -1,7 +1,9 @@
 "use client";
 
 import { ArrowUpRight, Globe, X } from "lucide-react";
-import { useId, useRef, useState, type FormEvent, type MouseEvent } from "react";
+import { useId, useImperativeHandle, useRef, useState, type FormEvent, type MouseEvent, type ReactNode, type Ref } from "react";
+import type { FieldName } from "@/app/actions";
+import { toDomain } from "@/lib/site";
 import { InquiryForm } from "./InquiryForm";
 import { BrandMark } from "./landing/BrandMark";
 import { LOGOS } from "./landing/logos";
@@ -14,36 +16,48 @@ type Props = {
    */
   variant?: "premium" | "compact" | "link" | "site";
   className?: string;
+  /** Starting values for the form, e.g. { problem: "Integration request: " }. */
+  defaults?: Partial<Record<FieldName, string>>;
+  /** Field to focus on open (caret at the end). Default: the name field. */
+  focus?: FieldName;
+  /** "link" variant: custom button content instead of the label. */
+  children?: ReactNode;
+  /** Open the form from code, optionally with other defaults (e.g. a search query). */
+  ref?: Ref<ConversationCTAHandle>;
 };
 
-/** "https://www.Acme.com/pricing" → "acme.com". Empty if it doesn't look like a site. */
-function toDomain(input: string) {
-  const raw = input.trim().toLowerCase();
-  if (!raw) return "";
-  try {
-    const host = new URL(raw.includes("://") ? raw : `https://${raw}`).hostname.replace(/^www\./, "");
-    return host.includes(".") ? host : "";
-  } catch {
-    return "";
-  }
-}
+export type ConversationCTAHandle = { open: (defaults?: Partial<Record<FieldName, string>>) => void };
 
 const TRUST = ["Slack", "Linear", "Notion", "GitHub", "Zoom"].map((n) => LOGOS.find((l) => l.name === n)!);
 
 /** Call-to-action that opens the inquiry form in a modal dialog. */
-export function ConversationCTA({ label = "Get started", variant = "premium", className = "" }: Props) {
+export function ConversationCTA({ label = "Get started", variant = "premium", className = "", defaults, focus = "name", children, ref }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const [site, setSite] = useState("");
   const [siteError, setSiteError] = useState(false);
+  // Defaults passed at open time (e.g. a search query) override the prop's.
+  const [opened, setOpened] = useState<Partial<Record<FieldName, string>> | undefined>(undefined);
+  const formDefaults = { ...defaults, ...opened, ...(site ? { company: site } : null) };
+  const hasDefaults = Object.keys(formDefaults).length > 0;
 
-  const open = () => {
+  const open = (extra?: Partial<Record<FieldName, string>>) => {
+    if (extra) setOpened(extra);
     dialog.current?.showModal();
-    // Start them on the first empty field rather than the close button.
-    requestAnimationFrame(() =>
-      dialog.current?.querySelector<HTMLInputElement>('input[name="name"]')?.focus(),
-    );
+    // Start them on the chosen field (the first empty one by default) rather than the close button,
+    // with the caret after any prefilled text.
+    requestAnimationFrame(() => {
+      const el = dialog.current?.querySelector<HTMLInputElement | HTMLTextAreaElement>(`[name="${focus}"]`);
+      if (!el) return;
+      el.focus();
+      try {
+        el.setSelectionRange(el.value.length, el.value.length);
+      } catch {
+        // Some input types (email) don't support selection; focus is enough.
+      }
+    });
   };
+  useImperativeHandle(ref, () => ({ open }));
   const close = () => dialog.current?.close();
   // The panel fills the dialog box, so a click that lands on the dialog itself hit the backdrop.
   const onBackdrop = (e: MouseEvent<HTMLDialogElement>) => e.target === dialog.current && close();
@@ -64,15 +78,15 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
   return (
     <>
       {variant === "premium" ? (
-        <button type="button" onClick={open} className="btn-premium">
+        <button type="button" onClick={() => open()} className="btn-premium">
           <span className="relative">{label}</span>
           <span className="chip" aria-hidden="true">
             <ArrowUpRight className="h-[1.125rem] w-[1.125rem]" strokeWidth={2.25} />
           </span>
         </button>
       ) : variant === "link" ? (
-        <button type="button" onClick={open} className={className}>
-          {label}
+        <button type="button" onClick={() => open()} className={className}>
+          {children ?? label}
         </button>
       ) : variant === "site" ? (
         <div className={`flex w-full max-w-[34rem] flex-col items-center ${className}`}>
@@ -101,7 +115,7 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
             </button>
           </form>
           {siteError ? (
-            <p id={`${titleId}-site-error`} role="alert" className="mt-3 text-[0.875rem] text-red-300/90">
+            <p id={`${titleId}-site-error`} role="alert" className="mt-3 text-[0.875rem] text-danger">
               That doesn&rsquo;t look like a website. Try something like acme.com.
             </p>
           ) : (
@@ -125,7 +139,7 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
       ) : (
         <button
           type="button"
-          onClick={open}
+          onClick={() => open()}
           className="inline-flex items-center rounded-full bg-[linear-gradient(180deg,var(--brand-cta),var(--brand-cta-2))] px-[1.125rem] py-2.5 text-[0.875rem] font-medium leading-none text-[var(--brand-on)] transition-[filter] duration-200 hover:brightness-110"
         >
           {label}
@@ -138,8 +152,9 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
             <X className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
           </button>
           <InquiryForm
-            // A new site means a fresh form carrying it.
-            key={site}
+            // New starting values (a site, a query) mean a fresh form carrying them. The same
+            // values keep the same form, so anything typed survives closing and reopening.
+            key={JSON.stringify(formDefaults)}
             titleId={titleId}
             heading={site ? `Let’s get Selixa learning ${site}` : "Get started with Selixa"}
             intro={
@@ -155,7 +170,7 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
                 </>
               )
             }
-            defaults={site ? { company: site } : undefined}
+            defaults={hasDefaults ? formDefaults : undefined}
             submitLabel="Request access"
             compact
           />

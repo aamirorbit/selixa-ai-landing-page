@@ -8,9 +8,11 @@ import { useEffect, useRef, useState } from "react";
  * element is on screen.
  *
  * The server renders the finished frame, so without JavaScript (or with reduced
- * motion) the demo simply shows its end state.
+ * motion) the demo simply shows its end state. With `{ loop: false }` it plays once and
+ * stops on the last step.
  */
-export function useSequence<T extends HTMLElement = HTMLDivElement>(durations: number[]) {
+export function useSequence<T extends HTMLElement = HTMLDivElement>(durations: number[], opts: { loop?: boolean } = {}) {
+  const loop = opts.loop ?? true;
   const ref = useRef<T>(null);
   const last = durations.length - 1;
   const [step, setStep] = useState(last);
@@ -30,10 +32,12 @@ export function useSequence<T extends HTMLElement = HTMLDivElement>(durations: n
 
   useEffect(() => {
     if (still || !visible) return;
+    // Without looping, the last step is the end: no more timers.
+    if (!loop && step >= last) return;
     const holds = timings.split(",").map(Number);
     const t = window.setTimeout(() => setStep((s) => (s >= last ? 0 : s + 1)), holds[step]);
     return () => window.clearTimeout(t);
-  }, [still, visible, step, last, timings]);
+  }, [still, visible, step, last, timings, loop]);
 
   return { ref, step, still };
 }

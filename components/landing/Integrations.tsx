@@ -1,10 +1,14 @@
 "use client";
 
 import { Check } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
+import { INTEGRATIONS } from "@/lib/content/integrations";
 import { BrandMark as Logo } from "./BrandMark";
 import { LOGOS } from "./logos";
 import { Orb, Section, SectionHeader, d } from "./ui";
+
+const SLUG: Record<string, string> = Object.fromEntries(INTEGRATIONS.map((i) => [i.name, i.slug]));
 
 export function Integrations() {
   // Lit only while pointed at (or focused) — nothing cycles on its own.
@@ -22,15 +26,16 @@ export function Integrations() {
         {LOGOS.map((logo, i) => {
           const lit = hovered === i;
           return (
-            <li
-              key={logo.name}
-              tabIndex={0}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              onFocus={() => setHovered(i)}
-              onBlur={() => setHovered(null)}
-              className={`flex cursor-default items-center gap-4 outline-none px-5 py-6 transition-colors duration-700 sm:px-6 sm:py-7 ${lit ? "bg-[color-mix(in_oklab,var(--color-bg)_93%,rgb(var(--brand-500-rgb)))]" : "bg-bg"}`}
-            >
+            <li key={logo.name} className="flex">
+              {/* Each tile opens that tool's page */}
+              <Link
+                href={SLUG[logo.name] ? `/integrations/${SLUG[logo.name]}` : "/integrations"}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                onFocus={() => setHovered(i)}
+                onBlur={() => setHovered(null)}
+                className={`flex w-full items-center gap-4 outline-none px-5 py-6 transition-colors duration-700 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-400/60 sm:px-6 sm:py-7 ${lit ? "bg-[color-mix(in_oklab,var(--color-bg)_93%,rgb(var(--brand-500-rgb)))]" : "bg-bg"}`}
+              >
               <span
                 className={`grid h-12 w-12 shrink-0 place-items-center rounded-[14px] border transition-[border-color,box-shadow,background-color] duration-700 ${
                   lit
@@ -53,6 +58,7 @@ export function Integrations() {
                   )}
                 </span>
               </span>
+              </Link>
             </li>
           );
         })}

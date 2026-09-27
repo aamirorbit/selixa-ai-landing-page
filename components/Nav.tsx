@@ -2,26 +2,11 @@
 
 import {
   ArrowRight,
-  ChartLine,
   ChevronDown,
-  Compass,
-  Layers,
   ListChecks,
-  Map as MapIcon,
   Menu,
   Plus,
-  Rocket,
-  Telescope,
-  User,
-  Users,
   Video,
-  Workflow,
-  Eye,
-  Code,
-  PenTool,
-  Headphones,
-  Briefcase,
-  FlaskConical,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -30,52 +15,28 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { BrandMark } from "./landing/BrandMark";
 import { LOGOS } from "./landing/logos";
 import { Mark, Orb } from "./landing/ui";
+import { AGENTS as AGENT_DATA } from "@/lib/content/agents";
+import { INTEGRATIONS as INTEGRATION_DATA } from "@/lib/content/integrations";
+import { USE_CASES as USE_CASE_DATA } from "@/lib/content/use-cases";
+import { iconForUseCase } from "./site/useCaseIcons";
+import { AGENT_ICONS, agentHref } from "./site/agents";
 import { ConversationCTA } from "./ConversationCTA";
 import { Logo } from "./Logo";
 
 type Item = { title: string; body: string; href: string; icon?: LucideIcon; logo?: (typeof LOGOS)[number] };
 
-const AGENTS: Item[] = [
-  { title: "Meeting Agent", body: "Joins calls, captures decisions.", href: "/#agents", icon: Video },
-  { title: "Research Agent", body: "Customer and market signals.", href: "/#agents", icon: Telescope },
-  { title: "Analyst Agent", body: "Connects data to what’s happening.", href: "/#agents", icon: ChartLine },
-  { title: "Product Agent", body: "Turns context into priorities.", href: "/#agents", icon: Compass },
-  { title: "Roadmap Agent", body: "Keeps the roadmap current.", href: "/#agents", icon: MapIcon },
-  { title: "Execution Agent", body: "Plans into tasks, tracks progress.", href: "/#agents", icon: ListChecks },
-];
+// From lib/content/agents.ts, in hand-off order. Each item goes to its agent's page once it
+// exists (LIVE_AGENT_PAGES), else to the hub.
+const AGENTS: Item[] = AGENT_DATA.map((a) => ({ title: a.name, body: a.short, href: agentHref(a.slug, "/agents"), icon: AGENT_ICONS[a.icon] }));
 
-const DOES: Record<string, string> = {
-  Slack: "Threads and decisions.",
-  Notion: "Docs and specs.",
-  "Google Drive": "Docs and research.",
-  Linear: "Issues and cycles.",
-  Jira: "Issues and epics.",
-  GitHub: "PRs and releases.",
-  Zoom: "Joins your calls.",
-  "Google Meet": "Joins your calls.",
-  Intercom: "Customer conversations.",
-  PostHog: "Product analytics.",
-  Mixpanel: "Product analytics.",
-};
+// From lib/content/integrations.ts (joined to the marks by name), each to its own page.
 const INTEGRATIONS: Item[] = [
-  ...LOGOS.map((logo) => ({ title: logo.name, body: DOES[logo.name] ?? "", href: "/#integrations", logo })),
-  { title: "More on the way", body: "Tell us what you use.", href: "/#integrations", icon: Plus },
+  ...INTEGRATION_DATA.map((i) => ({ title: i.name, body: i.job, href: `/integrations/${i.slug}`, logo: LOGOS.find((l) => l.name === i.name) })),
+  { title: "More on the way", body: "Tell us what you use.", href: "/integrations#request", icon: Plus },
 ];
 
-const USE_CASES: Item[] = [
-  { title: "Solo founders", body: "Your AI product team.", href: "/#audience", icon: User },
-  { title: "Lean startups", body: "Move without more meetings.", href: "/#audience", icon: Rocket },
-  { title: "Product managers", body: "Less time collecting context.", href: "/#audience", icon: Users },
-  { title: "Multi-product founders", body: "One workspace for all of it.", href: "/#products", icon: Layers },
-  { title: "Heads of product", body: "Every team’s decisions in one view.", href: "/#workspace", icon: Eye },
-  { title: "Engineering leads", body: "Decisions that reach the backlog.", href: "/#execution", icon: Code },
-  { title: "Design teams", body: "Research and feedback in one place.", href: "/#context", icon: PenTool },
-  { title: "Product-led SaaS", body: "Usage data into priorities.", href: "/#proactive", icon: ChartLine },
-  { title: "Customer success", body: "Feedback that reaches the roadmap.", href: "/#context", icon: Headphones },
-  { title: "Product ops", body: "Reviews and rituals on track.", href: "/#workspace", icon: Workflow },
-  { title: "Agencies and studios", body: "Separate context per client.", href: "/#products", icon: Briefcase },
-  { title: "Venture studios", body: "New products, no lost threads.", href: "/#products", icon: FlaskConical },
-];
+// From lib/content/use-cases.ts (titles and lines as in the menu), each to its own page.
+const USE_CASES: Item[] = USE_CASE_DATA.map((u) => ({ title: u.title, body: u.line, href: `/use-cases/${u.slug}`, icon: iconForUseCase(u.slug) }));
 
 type MenuId = "agents" | "integrations" | "use-cases";
 const MENUS: { id: MenuId; label: string; items: Item[]; cols: string; tiles?: boolean; card?: () => ReactNode }[] = [
@@ -87,7 +48,7 @@ const MENUS: { id: MenuId; label: string; items: Item[]; cols: string; tiles?: b
 export function Nav() {
   const [open, setOpen] = useState<MenuId | null>(null);
   const [sheet, setSheet] = useState(false);
-  // Past the first few pixels of scroll, the bar floats up into a pill.
+  // Past the first few pixels of scroll, the solid bar fades in behind the header.
   const [scrolled, setScrolled] = useState(false);
   const header = useRef<HTMLElement>(null);
   const closeTimer = useRef<number | undefined>(undefined);
@@ -132,11 +93,10 @@ export function Nav() {
     <header
       ref={header}
       onMouseLeave={hideSoon}
-      data-scrolled={scrolled && !sheet}
+      data-scrolled={scrolled || sheet}
       className="nav-shell sticky top-0 z-40"
     >
-      <div aria-hidden="true" className="nav-layer nav-layer-bar" />
-      <div aria-hidden="true" className="nav-layer nav-layer-pill" />
+      <div aria-hidden="true" className="nav-layer" />
       <div className="mx-auto flex h-[4.5rem] w-full max-w-[1280px] items-center gap-10 px-5 sm:px-8">
         <Link href="/" onClick={close} className="flex items-center" aria-label="Selixa home">
           <Mark className="h-6 w-6 shrink-0 text-fg" />
@@ -287,7 +247,7 @@ function Card({ children, href, cta }: { children: ReactNode; href: string; cta:
 
 function AgentsCard() {
   return (
-    <Card href="/#agents" cta="Meet the agents">
+    <Card href="/agents" cta="Meet the agents">
       <div className="flex items-center gap-3">
         <Orb size={40} />
         <span className="flex items-center gap-2 text-[0.75rem] text-brand-300">
@@ -296,7 +256,7 @@ function AgentsCard() {
         </span>
       </div>
       <p className="mt-6 text-[1.375rem] leading-[1.25] tracking-[-0.02em] text-fg">
-        One shared context. Every agent knows the product.
+        One product’s context. <span className="text-fg-3">Every agent knows it.</span>
       </p>
       <ul className="mt-6 flex flex-col gap-2.5 text-[0.8125rem] text-fg-2">
         <li className="flex items-center gap-2">
@@ -315,7 +275,7 @@ function AgentsCard() {
 function IntegrationsCard() {
   const ring = LOGOS.slice(0, 8);
   return (
-    <Card href="/#integrations" cta="See all integrations">
+    <Card href="/integrations" cta="See all integrations">
       {/* The tools, orbiting the one place they flow into */}
       <div className="relative mx-auto aspect-square w-[11.5rem]">
         <div aria-hidden="true" className="absolute inset-[14%] rounded-full border border-dashed border-ink/10" />
