@@ -4,7 +4,8 @@ import { Palette, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ACTIVE_THEME, isThemeId, THEMES, type ThemeId } from "@/lib/theme";
 
-const STORAGE_KEY = "selixa-theme";
+// Bumped when the default changes, so an old pick from the picker doesn't outlive it.
+const STORAGE_KEY = "selixa-theme-v2";
 
 function stored(): ThemeId {
   if (typeof window === "undefined") return ACTIVE_THEME;

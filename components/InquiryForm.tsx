@@ -12,9 +12,11 @@ type InquiryFormProps = {
   intro: ReactNode;
   submitLabel?: string;
   compact?: boolean;
+  /** Starting values, e.g. the site someone typed into the hero before opening the form. */
+  defaults?: Partial<Record<FieldName, string>>;
 };
 
-export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", compact }: InquiryFormProps) {
+export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", compact, defaults }: InquiryFormProps) {
   const [state, action, pending] = useActionState(submitInquiry, initial);
   const formRef = useRef<HTMLFormElement>(null);
   const errors = state.status === "error" ? (state.fields ?? {}) : {};
@@ -39,7 +41,7 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
 
       <form ref={formRef} action={action} noValidate className="relative mt-5 flex flex-col gap-2.5">
         <div className="grid gap-2.5 sm:grid-cols-2">
-          <Field name="name" label="Full Name" autoComplete="name" icon={<User />} error={errors.name} defaultValue={values?.name} />
+          <Field name="name" label="Full Name" autoComplete="name" icon={<User />} error={errors.name} defaultValue={values?.name ?? defaults?.name} />
           <Field
             name="email"
             label="Work Email"
@@ -48,7 +50,7 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
             inputMode="email"
             icon={<Mail />}
             error={errors.email}
-            defaultValue={values?.email}
+            defaultValue={values?.email ?? defaults?.email}
           />
         </div>
         <Field
@@ -57,7 +59,7 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
           autoComplete="organization"
           icon={<Briefcase />}
           error={errors.company}
-          defaultValue={values?.company}
+          defaultValue={values?.company ?? defaults?.company}
         />
         <Field
           name="building"
@@ -66,7 +68,7 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
           rows={2}
           icon={<Pencil />}
           error={errors.building}
-          defaultValue={values?.building}
+          defaultValue={values?.building ?? defaults?.building}
         />
         <Field
           name="problem"
@@ -75,7 +77,7 @@ export function InquiryForm({ titleId, heading, intro, submitLabel = "Send", com
           rows={1}
           icon={<CircleHelp />}
           error={errors.problem}
-          defaultValue={values?.problem}
+          defaultValue={values?.problem ?? defaults?.problem}
         />
 
         {/* Honeypot, invisible to people */}

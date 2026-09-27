@@ -1,18 +1,53 @@
 import { Background } from "@/components/Background";
-import { Hero } from "@/components/Hero";
+import { Agents } from "@/components/landing/Agents";
+import { Audience } from "@/components/landing/Audience";
+import { Context } from "@/components/landing/Context";
+import { Decide } from "@/components/landing/Decide";
+import { Execution } from "@/components/landing/Execution";
+import { FinalCTA } from "@/components/landing/FinalCTA";
+import { Footer } from "@/components/landing/Footer";
+import { Hero } from "@/components/landing/Hero";
+import { Integrations } from "@/components/landing/Integrations";
+import { Meeting } from "@/components/landing/Meeting";
+import { Proactive } from "@/components/landing/Proactive";
+import { Problem } from "@/components/landing/Problem";
+import { Products } from "@/components/landing/Products";
+import { ScrollReveal } from "@/components/landing/ScrollReveal";
+import { Workspace } from "@/components/landing/Workspace";
 import { Nav } from "@/components/Nav";
 
 /** Set to "/background.jpg" (file in /public) when the artwork is ready. */
 const BACKGROUND_IMAGE: string | null = null;
 
+/**
+ * One story, top to bottom: product context is scattered → Selixa brings it
+ * together → joins the meeting → knows the product → helps decide → agents
+ * act → and it keeps going. Then the opening line again.
+ */
 export default function Home() {
   return (
-    <main className="relative flex min-h-dvh flex-1 flex-col overflow-x-clip">
-      <Background src={BACKGROUND_IMAGE} />
-      <div className="relative z-10 mx-auto flex w-full max-w-[1536px] flex-1 flex-col px-6 sm:px-10 lg:px-12 xl:px-[57px]">
-        <Nav />
-        <Hero />
-      </div>
-    </main>
+    <>
+      <Nav />
+      <main className="relative flex-1 overflow-x-clip">
+        <Background src={BACKGROUND_IMAGE} />
+        <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">
+          <Hero />
+          <Problem />
+          <Meeting />
+          <Context />
+          <Decide />
+          <Agents />
+          <Products />
+          <Workspace />
+          <Proactive />
+          <Execution />
+          <Integrations />
+          <Audience />
+          <FinalCTA />
+        </div>
+      </main>
+      <Footer />
+      <ScrollReveal />
+    </>
   );
 }

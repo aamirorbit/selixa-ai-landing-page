@@ -6,6 +6,7 @@
  * (`.env.local` locally, project settings on Vercel) and restart/redeploy.
  */
 export const THEMES = [
+  { id: "crimson", label: "Crimson", swatch: "#f23a2b" },
   { id: "violet", label: "Violet", swatch: "#8b5cf6" },
   { id: "dracula", label: "Dracula red", swatch: "#ff5555" },
   { id: "blue", label: "Blue", swatch: "#3b82f6" },
@@ -19,7 +20,7 @@ export const THEMES = [
 
 export type ThemeId = (typeof THEMES)[number]["id"];
 
-export const DEFAULT_THEME: ThemeId = "mono";
+export const DEFAULT_THEME: ThemeId = "crimson";
 
 export function isThemeId(value: unknown): value is ThemeId {
   return typeof value === "string" && THEMES.some((t) => t.id === value);
@@ -27,5 +28,5 @@ export function isThemeId(value: unknown): value is ThemeId {
 
 const configured = process.env.NEXT_PUBLIC_SITE_THEME;
 
-/** The theme the site ships with. Falls back to mono for an unset or unknown name. */
+/** The theme the site ships with. Falls back to crimson for an unset or unknown name. */
 export const ACTIVE_THEME: ThemeId = isThemeId(configured) ? configured : DEFAULT_THEME;

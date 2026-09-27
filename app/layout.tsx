@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import { ThemePicker } from "@/components/ThemePicker";
+import { SCHEME_KEY } from "@/lib/scheme";
 import { ACTIVE_THEME } from "@/lib/theme";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,37 +26,56 @@ const satoshi = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://selixa.ai"),
-  title: "Selixa — Forward Deployed Intelligence",
+  title: "Selixa — Your AI Product Manager",
   description:
-    "Selixa works with a select group of teams to solve high-impact problems with AI. Private deployments, by invitation only. We don't just build. We own the outcome.",
+    "Stop building in chaos. Selixa joins your meetings, understands your product, remembers every decision, and turns conversations into clear next steps.",
   openGraph: {
-    title: "Selixa — Forward Deployed Intelligence",
+    title: "Selixa — Your AI Product Manager",
     description:
-      "AI systems that own the outcome. Selixa works with a select group of teams to solve high-impact problems with AI.",
+      "Selixa joins your meetings, understands your product, remembers every decision, and turns conversations into clear next steps.",
     siteName: "Selixa",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Selixa — Forward Deployed Intelligence",
-    description: "AI systems that own the outcome.",
+    title: "Selixa — Your AI Product Manager",
+    description: "Stop building in chaos.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#050505",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#050505" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f5" },
+  ],
+  colorScheme: "dark light",
 };
+
+/**
+ * Runs before first paint: applies a light/dark choice saved by the footer
+ * switch, so a returning visitor never sees the other scheme flash first.
+ * With no saved choice, CSS follows the system setting on its own.
+ */
+const applySavedScheme = `try{var s=localStorage.getItem("${SCHEME_KEY}");if(s==="light"||s==="dark")document.documentElement.dataset.scheme=s}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      // The scheme script above sets data-scheme before React hydrates.
+      suppressHydrationWarning
       data-theme={ACTIVE_THEME}
       className={`${inter.variable} ${satoshi.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <head>
+        {/* Browser extensions inject their own <script> tags here before React loads, so React
+            may pair this one with theirs; its job is already done by then, so skip the comparison. */}
+        <script dangerouslySetInnerHTML={{ __html: applySavedScheme }} suppressHydrationWarning />
+      </head>
+      {/* Extensions (e.g. ColorZilla) add attributes to <body> before React loads. */}
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         {children}
+        <SmoothScroll />
         {/* Accent switcher for picking a theme; never rendered in production. */}
         {process.env.NODE_ENV !== "production" && <ThemePicker />}
       </body>

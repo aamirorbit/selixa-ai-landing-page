@@ -1,16 +1,16 @@
 import Link from "next/link";
 
+const wordmark = "text-[1.3125rem] font-medium uppercase leading-none tracking-[0.26em] translate-x-[0.12em]";
+
 /**
- * Wordmark only for now. When the official logo lands, drop it in /public
- * and replace the <span> with:
- *   <Image src="/logo.svg" alt="Selixa" width={160} height={38} priority />
+ * The Selixa wordmark. Links home by default; pass `asText` when it sits
+ * inside another link (e.g. next to the mark in the header).
  */
-export function Logo({ className = "" }: { className?: string }) {
+export function Logo({ className = "", asText = false }: { className?: string; asText?: boolean }) {
+  if (asText) return <span className={`inline-flex items-center text-fg ${wordmark} ${className}`}>Selixa</span>;
   return (
     <Link href="/" className={`inline-flex items-center text-fg ${className}`} aria-label="Selixa home">
-      <span className="text-[1.3125rem] font-medium uppercase leading-none tracking-[0.26em] translate-x-[0.12em]">
-        Selixa
-      </span>
+      <span className={wordmark}>Selixa</span>
     </Link>
   );
 }
