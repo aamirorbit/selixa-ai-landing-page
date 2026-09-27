@@ -50,6 +50,8 @@ export function Nav() {
   const [sheet, setSheet] = useState(false);
   // Past the first few pixels of scroll, the solid bar fades in behind the header.
   const [scrolled, setScrolled] = useState(false);
+  // Once the closing section (or the footer) reaches the top, the brand is on screen there, so the header tucks away.
+  const [atFooter, setAtFooter] = useState(false);
   const header = useRef<HTMLElement>(null);
   const closeTimer = useRef<number | undefined>(undefined);
 
@@ -74,7 +76,13 @@ export function Nav() {
     let raf = 0;
     const onScroll = () => {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => setScrolled(window.scrollY > 24));
+      raf = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 24);
+        // From the page's closing section (marked data-hide-nav) or else the footer, down.
+        const end = document.querySelector("[data-hide-nav]") ?? document.querySelector("footer");
+        const h = header.current?.offsetHeight ?? 72;
+        setAtFooter(!!end && end.getBoundingClientRect().top <= h);
+      });
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -94,6 +102,7 @@ export function Nav() {
       ref={header}
       onMouseLeave={hideSoon}
       data-scrolled={scrolled || sheet}
+      data-hidden={atFooter && !sheet && !open}
       className="nav-shell sticky top-0 z-40"
     >
       <div aria-hidden="true" className="nav-layer" />

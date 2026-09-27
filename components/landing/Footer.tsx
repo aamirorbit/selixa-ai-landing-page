@@ -1,5 +1,6 @@
 import { Logo } from "@/components/Logo";
 import { SchemeSwitch } from "@/components/SchemeSwitch";
+import { FooterWordmark } from "./FooterWordmark";
 import { agentHref } from "@/components/site/agents";
 import { AGENTS } from "@/lib/content/agents";
 import { INTEGRATIONS } from "@/lib/content/integrations";
@@ -178,14 +179,8 @@ export function Footer() {
       {/* Sign-off: the wordmark, huge and softly lit, resting on the line above the copyright */}
       <div aria-hidden="true" className="group/word relative mx-auto max-w-[1280px] select-none px-5 sm:px-8">
         <div className="pointer-events-none absolute inset-x-0 bottom-[-30%] mx-auto h-[110%] w-[80%] rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgb(var(--brand-glow-rgb)/0.28),transparent_65%)] blur-2xl" />
-        {/* Each letter lights up under the cursor */}
-        <p className="relative pb-[0.06em] pt-4 text-center text-[clamp(4.5rem,21vw,19rem)] font-medium uppercase leading-[0.8] tracking-[0.06em]">
-          {"Selixa".split("").map((ch, i) => (
-            <span key={i} className="glyph">
-              {ch}
-            </span>
-          ))}
-        </p>
+        {/* Each letter fills with light down to the cursor */}
+        <FooterWordmark />
       </div>
 
       <div className="relative z-10 border-t border-line">

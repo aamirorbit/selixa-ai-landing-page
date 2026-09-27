@@ -58,6 +58,8 @@ type ChaosToOrderProps = {
   after?: ReactNode | ((state: { done: boolean; still: boolean }) => ReactNode);
   /** ms before the chaos starts (when on screen at load). */
   delayStart?: number;
+  /** Marks this section as where the header tucks away (see components/Nav.tsx). */
+  hidesNav?: boolean;
 };
 
 /**
@@ -79,6 +81,7 @@ export function ChaosToOrder({
   titleClassName = "text-[clamp(3rem,7.4vw,6.5rem)] leading-[0.95] tracking-[-0.055em]",
   after,
   delayStart = 0,
+  hidesNav = false,
 }: ChaosToOrderProps) {
   const lead0 = delayStart ? 1 : 0;
   //                       [wait]        chaos pull settle hold
@@ -110,6 +113,7 @@ export function ChaosToOrder({
   return (
     <section
       ref={ref}
+      data-hide-nav={hidesNav || undefined}
       className={`relative overflow-hidden ${size === "screen" ? "flex min-h-[calc(100svh-4.5rem)] flex-col justify-center py-20" : "py-28 sm:py-36 lg:py-44"}`}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid place-items-center">

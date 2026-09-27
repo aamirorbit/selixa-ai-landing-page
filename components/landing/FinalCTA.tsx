@@ -12,6 +12,8 @@ import { d } from "./ui";
 export function FinalCTA() {
   return (
     <ChaosToOrder
+      // The header tucks away from here down: this closing section and the footer carry the brand.
+      hidesNav
       label="stop building in chaos."
       word="chaos."
       lead={

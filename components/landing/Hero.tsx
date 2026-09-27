@@ -33,8 +33,7 @@ export function Hero() {
           className="reveal mt-8 max-w-[38rem] text-[1.125rem] leading-[1.6] text-fg-2 text-pretty sm:text-[1.25rem]"
           style={d(220)}
         >
-          Selixa joins your meetings, understands your product, remembers every decision, and turns conversations
-          into clear next steps.
+          &amp; let Selixa turn scattered product work into clear next steps.
         </p>
 
         <div className="reveal mt-10 flex w-full justify-center" style={d(300)}>

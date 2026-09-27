@@ -1427,6 +1427,16 @@
 @layer components {
   .nav-shell {
     isolation: isolate;
+    /* A soft glide with a fade, symmetric in and out — no snap. */
+    transition:
+      transform 700ms cubic-bezier(0.45, 0, 0.2, 1),
+      opacity 600ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+  /* Tucked away while the footer (with its own logo) fills the top of the screen */
+  .nav-shell[data-hidden="true"] {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
   }
   .nav-layer {
     position: absolute;
@@ -1443,51 +1453,56 @@
     opacity: 1;
   }
   @media (prefers-reduced-motion: reduce) {
+    .nav-shell,
     .nav-layer {
       transition: none;
     }
   }
 }
 
-/* Footer wordmark: faint letters that light up under the cursor.
-   The gradient is twice the letter's height — the lit ramp on top, the faint
-   one below — and hovering slides it from the faint half to the lit half. */
+/* Footer wordmark: faint letters that softly light up under the cursor.
+   The lit copy sits on top at opacity 0 and cross-fades in — a smooth ease in
+   and a slower ease out, rather than a snap. Opacity only, so it's cheap. */
 @layer components {
   .glyph {
+    position: relative;
     display: inline-block;
     color: transparent;
     background-image: linear-gradient(
       180deg,
-      var(--glyph-top) 0%,
-      var(--glyph-2) 14%,
-      var(--brand-400) 30%,
-      var(--brand-600) 48%,
-      rgb(var(--ink-rgb) / 0.16) 50%,
-      rgb(var(--ink-rgb) / 0.06) 85%,
+      rgb(var(--ink-rgb) / 0.16) 0%,
+      rgb(var(--ink-rgb) / 0.06) 70%,
       rgb(var(--ink-rgb) / 0.02) 100%
     );
-    background-size: 100% 200%;
-    background-position: 0 100%;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 0 rgb(var(--brand-glow-rgb) / 0));
-    transition:
-      background-position 700ms var(--ease-out-expo),
-      filter 700ms var(--ease-out-expo),
-      transform 700ms var(--ease-out-expo);
   }
-  .glyph:hover {
-    background-position: 0 0;
-    filter: drop-shadow(0 0 28px rgb(var(--brand-glow-rgb) / 0.75)) drop-shadow(0 0 6px rgb(255 120 100 / 0.5));
-    transform: translateY(-0.02em);
-    transition-duration: 250ms;
+  .glyph::after {
+    content: attr(data-ch);
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background-image: linear-gradient(
+      180deg,
+      var(--glyph-top) 0%,
+      var(--glyph-2) 28%,
+      var(--brand-400) 60%,
+      var(--brand-600) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 24px rgb(var(--brand-glow-rgb) / 0.5));
+    opacity: 0;
+    transition: opacity 900ms cubic-bezier(0.33, 1, 0.68, 1);
+    pointer-events: none;
+  }
+  .glyph:hover::after {
+    opacity: 1;
+    transition-duration: 450ms;
   }
   @media (prefers-reduced-motion: reduce) {
-    .glyph {
+    .glyph::after {
       transition: none;
-    }
-    .glyph:hover {
-      transform: none;
     }
   }
 }
