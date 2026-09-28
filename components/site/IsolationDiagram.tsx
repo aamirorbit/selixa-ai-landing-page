@@ -71,7 +71,7 @@ type IsolationDiagramProps = {
   /** Default Atlas, Beacon, Cove, Drift. */
   products?: string[];
   contents: string[];
-  /** The agent's chip, with {product} filled in: "Selixa agent, working in {product}". */
+  /** The agent's chip, with {product} filled in: "Selixa, working in {product}". */
   agentLabel: string;
   wallLabel: string;
   blockedLabel: string;

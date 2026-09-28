@@ -23,11 +23,11 @@ export const metadata: Metadata = pageMetadata({
   description: agent.description,
   ogTitle: C.meta.ogTitle,
   ogDescription: C.meta.ogDescription,
-  path: "/agents/roadmap",
+  path: "/product/roadmap",
 });
 
 /**
- * /agents/roadmap: the page scrolls sideways through Now / Next / Later. Then the board holds
+ * /product/roadmap: the page scrolls sideways through Now / Next / Later. Then the board holds
  * still so a card can say why it moved, and four products show their own roadmaps.
  * No overflow-hidden above the scene: it would break position: sticky.
  */

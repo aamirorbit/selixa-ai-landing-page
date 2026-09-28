@@ -1,15 +1,15 @@
-// Every visible string on /agents/product that isn't agent data, from docs/pages/agents-product.copy.md.
+// Every visible string on /product/priorities that isn't agent data, from docs/pages/agents-product.copy.md.
 // Owner decision: Related shows the memo's inputs (Meeting, Research, Analyst). The copy has no
 // headline or reasons for those; the headline is the Designer's wording from the spec
 // ("where the evidence comes from") and the reasons are each agent's `line` (data). Flagged.
 
 export const PRODUCT_COPY = {
   meta: {
-    title: "Product Agent — Selixa",
+    title: "Priorities — Selixa",
     ogTitle: "It takes a position — Selixa",
     ogDescription: "A product memo that writes itself, cites its evidence and defends its call.",
   },
-  hero: { eyebrow: "Product Agent" },
+  hero: { eyebrow: "Priorities" },
   doc: {
     crumbs: ["Atlas", "Memos"],
     title: "Prioritize onboarding",
@@ -53,7 +53,7 @@ export const PRODUCT_COPY = {
     impact: {
       heading: "Impact",
       body: "Recovers most of the activation drop within two release cycles. Measured weekly.",
-      agentTag: "Analyst Agent",
+      agentTag: "Analytics",
     },
     next: {
       heading: "Next steps",
@@ -61,10 +61,10 @@ export const PRODUCT_COPY = {
     },
   },
   sources: [
-    { kind: "Meeting", title: "Product review · Sep 24 · 02:41", quote: "People still stall at the integrations step.", linkText: "Open in Meeting Agent", href: "meeting" },
-    { kind: "Intercom", title: "Intercom · 7 notes", quote: "Onboarding takes too long.", linkText: "Open in Research Agent", href: "research" },
-    { kind: "Research", title: "Research brief · Onboarding", quote: "3 of 6 competitors ask for integrations later.", linkText: "Open in Research Agent", href: "research" },
-    { kind: "PostHog", title: "PostHog · Setup completion", quote: "62%, down 9% since Aug 12.", linkText: "Open in Analyst Agent", href: "analyst" },
+    { kind: "Meeting", title: "Product review · Sep 24 · 02:41", quote: "People still stall at the integrations step.", linkText: "Open in Meetings", href: "meeting" },
+    { kind: "Intercom", title: "Intercom · 7 notes", quote: "Onboarding takes too long.", linkText: "Open in Research", href: "research" },
+    { kind: "Research", title: "Research brief · Onboarding", quote: "3 of 6 competitors ask for integrations later.", linkText: "Open in Research", href: "research" },
+    { kind: "PostHog", title: "PostHog · Setup completion", quote: "62%, down 9% since Aug 12.", linkText: "Open in Analytics", href: "analyst" },
   ],
   notes: {
     headline: "and it defends it.",

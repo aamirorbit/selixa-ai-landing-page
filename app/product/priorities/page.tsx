@@ -18,11 +18,11 @@ export const metadata: Metadata = pageMetadata({
   description: agent.description,
   ogTitle: C.meta.ogTitle,
   ogDescription: C.meta.ogDescription,
-  path: "/agents/product",
+  path: "/product/priorities",
 });
 
 /**
- * /agents/product: the page is a document being written. The hero hands straight on to one
+ * /product/priorities: the page is a document being written. The hero hands straight on to one
  * sheet of paper (light in both schemes) that writes itself section by section as you read.
  * No pinned scene on this page.
  */

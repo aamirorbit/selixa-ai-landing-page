@@ -191,7 +191,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
               items={i.agents.map((s) => {
                 const a = AGENTS.find((x) => x.slug === s)!;
                 const Icon = AGENT_ICONS[a.icon];
-                return { href: agentHref(s, "/agents"), title: a.name, body: a.line, icon: <Icon strokeWidth={1.6} aria-hidden="true" />, linkText: T.related.cardLink };
+                return { href: agentHref(s, "/product"), title: a.name, body: a.line, icon: <Icon strokeWidth={1.6} aria-hidden="true" />, linkText: T.related.cardLink };
               })}
             />
             <Link href="/integrations" className="link-arrow mt-8 text-[0.9375rem]">

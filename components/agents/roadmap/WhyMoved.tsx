@@ -60,7 +60,7 @@ function DrawerBody({ on, titleRef, titleId, onClose }: { on: boolean; titleRef?
             <Video className="h-3.5 w-3.5 text-brand-300" strokeWidth={1.75} aria-hidden="true" />
             {D.meeting}
           </span>
-          <Link href="/agents/meeting" className="link-arrow text-[0.8125rem]">
+          <Link href="/product/meetings" className="link-arrow text-[0.8125rem]">
             {D.meetingLink}
             <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
           </Link>
@@ -84,7 +84,7 @@ function DrawerBody({ on, titleRef, titleId, onClose }: { on: boolean; titleRef?
             <Compass className="h-3.5 w-3.5 text-brand-300" strokeWidth={1.75} aria-hidden="true" />
             {D.recommendation}
           </span>
-          <Link href="/agents/product" className="link-arrow text-[0.8125rem]">
+          <Link href="/product/priorities" className="link-arrow text-[0.8125rem]">
             {D.memoLink}
             <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
           </Link>

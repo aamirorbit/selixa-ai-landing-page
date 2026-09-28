@@ -1,4 +1,4 @@
-// Every visible string on /agents/meeting that isn't agent data, from docs/pages/agents-meeting.copy.md.
+// Every visible string on /product/meetings that isn't agent data, from docs/pages/agents-meeting.copy.md.
 // Owner decisions: consent-dependent strings (presence badge, consent line, Selixa's participant
 // tag) are left out until confirmed; the email peek is dropped; missing micro-labels use the
 // shortest honest wording (scrollHint, endLink, appTag, panelTitle).
@@ -7,12 +7,12 @@ export type ChipKind = "decision" | "action" | "question" | "insight";
 
 export const MEETING_COPY = {
   meta: {
-    title: "Meeting Agent — Selixa",
+    title: "Meetings — Selixa",
     ogTitle: "It’s already in the room — Selixa",
     ogDescription: "A 24-minute product review, captured as 3 decisions and 5 action items.",
   },
   hero: {
-    eyebrow: "Meeting Agent",
+    eyebrow: "Meetings",
     windowTitle: "Atlas · Product review",
     endTime: "24:18",
     tiles: [

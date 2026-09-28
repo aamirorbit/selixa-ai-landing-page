@@ -1,16 +1,16 @@
-// Every visible string on /agents/execution that isn't agent data, from docs/pages/agents-execution.copy.md,
+// Every visible string on /product/tasks that isn't agent data, from docs/pages/agents-execution.copy.md,
 // plus the task list. Owner decisions: sync is shown one way only (Selixa → tracker): no return
 // rail, no "Status changes flow both ways." line, no "← Status back" label. The hero loop starts
 // at 0 (the board visibly empties). Slack is the only nudge channel.
 
 export const EXECUTION_COPY = {
   meta: {
-    title: "Execution Agent — Selixa",
+    title: "Tasks — Selixa",
     ogTitle: "From decision to done — Selixa",
     ogDescription: "One decision, 14 tasks, three owners, no chasing.",
   },
   hero: {
-    eyebrow: "Execution Agent",
+    eyebrow: "Tasks",
     board: "Onboarding v2",
     columns: { todo: "To do", doing: "In progress", done: "Done" },
     of: "of",
@@ -60,7 +60,7 @@ export const EXECUTION_COPY = {
     change: "Back up since Oct 14",
     sub: "Measured weekly",
     marker: "Oct 14",
-    link: "See how the Analyst Agent tracks it",
+    link: "See how Selixa tracks it",
   },
   related: {
     label: "Before and after",

@@ -7,14 +7,14 @@ import { useSequence } from "./useSequence";
 
 type Agent = { name: string; body: string; status: string; doing: string; icon: LucideIcon };
 
-// Ordered as a hand-off: each agent picks up where the last one left off.
+// Ordered as a hand-off: each area picks up where the last one left off.
 const AGENTS: Agent[] = [
-  { name: "Meeting Agent", body: "Joins meetings, captures decisions and follow-ups.", status: "In 2 calls today", doing: "Captured 3 decisions from Product review", icon: Video },
-  { name: "Research Agent", body: "Finds customer, market and competitor signals.", status: "Tracking 6 competitors", doing: "Found 3 competitors with shorter onboarding", icon: Telescope },
-  { name: "Analyst Agent", body: "Connects product data to what’s happening.", status: "Watching 12 metrics", doing: "Linked the activation drop to the Aug 12 release", icon: ChartLine },
-  { name: "Product Agent", body: "Turns context into priorities and product decisions.", status: "3 recommendations", doing: "Recommended: prioritize onboarding", icon: Compass },
-  { name: "Roadmap Agent", body: "Turns decisions into an evolving roadmap.", status: "Updated 2h ago", doing: "Moved Onboarding v2 to Now", icon: MapIcon },
-  { name: "Execution Agent", body: "Turns plans into tasks and follows progress.", status: "14 tasks in flight", doing: "Created 14 tasks in Linear", icon: ListChecks },
+  { name: "Meetings", body: "Joins meetings, captures decisions and follow-ups.", status: "In 2 calls today", doing: "Captured 3 decisions from Product review", icon: Video },
+  { name: "Research", body: "Finds customer, market and competitor signals.", status: "Tracking 6 competitors", doing: "Found 3 competitors with shorter onboarding", icon: Telescope },
+  { name: "Analytics", body: "Connects product data to what’s happening.", status: "Watching 12 metrics", doing: "Linked the activation drop to the Aug 12 release", icon: ChartLine },
+  { name: "Priorities", body: "Turns context into priorities and product decisions.", status: "3 recommendations", doing: "Recommended: prioritize onboarding", icon: Compass },
+  { name: "Roadmap", body: "Turns decisions into an evolving roadmap.", status: "Updated 2h ago", doing: "Moved Onboarding v2 to Now", icon: MapIcon },
+  { name: "Tasks", body: "Turns plans into tasks and follows progress.", status: "14 tasks in flight", doing: "Created 14 tasks in Linear", icon: ListChecks },
 ];
 
 const HOLD = 1600;
@@ -24,7 +24,7 @@ export function Agents() {
 
   return (
     <Section id="agents">
-      <SectionHeader num="06" label="Agents" title="Your product team, in AI." />
+      <SectionHeader num="06" label="What it does" title="The whole job, in one AI." />
 
       <ul ref={ref} className="mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {AGENTS.map(({ name, body, status, doing, icon: Icon }, i) => {
@@ -76,7 +76,7 @@ export function Agents() {
         <div aria-hidden="true" className="h-12 w-px bg-[linear-gradient(180deg,transparent,rgb(var(--brand-400-rgb)/0.7))]" />
         <Orb size={56} />
         <p className="text-center text-[1.125rem] leading-[1.5] text-fg">
-          One product’s context. <span className="text-fg-3">Every agent knows it.</span>
+          One product’s context. <span className="text-fg-3">Selixa knows all of it.</span>
         </p>
       </div>
     </Section>

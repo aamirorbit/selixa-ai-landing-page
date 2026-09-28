@@ -123,7 +123,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
               items={u.agents.map((s) => {
                 const a = AGENTS.find((x) => x.slug === s)!;
                 const Icon = AGENT_ICONS[a.icon];
-                return { href: agentHref(s, "/agents"), title: a.name, body: a.line, icon: <Icon strokeWidth={1.6} aria-hidden="true" />, linkText: T.agents.cardLink };
+                return { href: agentHref(s, "/product"), title: a.name, body: a.line, icon: <Icon strokeWidth={1.6} aria-hidden="true" />, linkText: T.agents.cardLink };
               })}
             />
           </section>

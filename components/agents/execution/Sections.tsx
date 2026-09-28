@@ -291,7 +291,7 @@ export function OutcomeClose() {
           />
         </div>
 
-        <Link href="/agents/analyst" className="link-arrow mt-8 text-[0.875rem]">
+        <Link href="/product/analytics" className="link-arrow mt-8 text-[0.875rem]">
           {OC.link}
           <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
         </Link>

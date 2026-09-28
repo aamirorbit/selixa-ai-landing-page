@@ -1,23 +1,23 @@
-// Every visible string on /agents that isn't agent data, from docs/pages/agents-hub.copy.md.
+// Every visible string on /product that isn't area data, from docs/pages/agents-hub.copy.md.
 // Agent names, lines, "produces", status and hand-offs come from lib/content/agents.ts.
 
 export const HUB_COPY = {
   meta: {
-    title: "Agents — Selixa",
+    title: "Product — Selixa",
     description:
-      "Six AI agents that run your product work: meetings, research, analytics, priorities, roadmap and tasks. Each product keeps its own context.",
-    ogTitle: "Your product team, in AI — Selixa",
-    ogDescription: "One piece of work, six agents, from a meeting to 14 shipped tasks.",
+      "Selixa is one AI Product Manager for the whole job: meetings, research, analytics, priorities, roadmap and tasks. Each product keeps its own context.",
+    ogTitle: "The whole job, in one AI — Selixa",
+    ogDescription: "One piece of work, from a meeting to 14 shipped tasks. Selixa carries it the whole way.",
   },
   hero: {
-    eyebrow: "Agents",
-    headline: "your product team, in AI.",
-    line: "Six agents. One hand-off, from meeting to shipped.",
+    eyebrow: "Product",
+    headline: "the whole job, in one AI.",
+    line: "From the meeting to shipped tasks. Selixa carries it all the way.",
     scrollHint: "Follow one piece of work",
   },
   relay: {
     label: "The relay",
-    headline: "one card, six hands.",
+    headline: "one card, start to finish.",
     line: "Watch a problem become a plan.",
     cardLabel: "Atlas · Work item",
     cardTitle: "Onboarding is losing people",
@@ -34,24 +34,24 @@ export const HUB_COPY = {
     endLine: "From one meeting to 14 tasks. Nobody chased it.",
   },
   index: {
-    label: "The team",
-    headline: "meet the agents.",
+    label: "The work",
+    headline: "everything it does.",
     producesLabel: "Produces",
     linkText: "See how it works",
   },
   context: {
     label: "Context",
     headline: "one product’s context.",
-    line: "The whole team shares it. No other product can see it.",
+    line: "Selixa works inside it. No other product can see it.",
     active: "Atlas",
     activeTag: "Isolated",
     memory: ["Meetings", "Research", "Data", "Decisions", "Roadmap", "Tasks"],
     greyed: "Beacon",
     greyedTag: "Separate memory",
-    greyedNote: "Same team. Its own context.",
+    greyedNote: "Same Selixa. Its own context.",
   },
   cta: {
     headline: "stop building in chaos.",
-    line: "Put the team on your product.",
+    line: "Put Selixa on your product.",
   },
 } as const;

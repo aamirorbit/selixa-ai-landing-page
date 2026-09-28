@@ -17,11 +17,11 @@ const { meta, hero, relay, cta } = HUB_COPY;
 export const metadata: Metadata = {
   title: meta.title,
   description: meta.description,
-  alternates: { canonical: "/agents" },
+  alternates: { canonical: "/product" },
   openGraph: {
     title: meta.ogTitle,
     description: meta.ogDescription,
-    url: "/agents",
+    url: "/product",
     siteName: "Selixa",
     type: "website",
   },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * /agents: one piece of work travels the whole team. Hero → the relay (pinned,
+ * /product: one piece of work travels the whole team. Hero → the relay (pinned,
  * scroll-scrubbed) → the six agents → one product's context → the website CTA.
  * No overflow-hidden on anything above the relay: it would break position: sticky.
  */

@@ -1,15 +1,15 @@
-// Every visible string on /agents/analyst that isn't agent data, from
+// Every visible string on /product/analytics that isn't agent data, from
 // docs/pages/agents-analyst.copy.md, plus the demo series (spec §3.2–3.4). Illustrative:
 // activation goes 38.0% → 35.0% (shown as −8%, relative).
 
 export const ANALYST_COPY = {
   meta: {
-    title: "Analyst Agent — Selixa",
+    title: "Analytics — Selixa",
     ogTitle: "Numbers, with a cause — Selixa",
     ogDescription: "Activation fell 8%. Selixa found the release, the step and the calls behind it.",
   },
   hero: {
-    eyebrow: "Analyst Agent",
+    eyebrow: "Analytics",
     chartTitle: "Activation · Atlas",
     rangeChip: "Last 12 weeks",
     legend: "Activation rate, weekly",
@@ -31,7 +31,7 @@ export const ANALYST_COPY = {
     items: [
       { title: "Aug 12 release", detail: "Integrations step added to setup", source: "GitHub · PR #451", logo: "GitHub" },
       { title: "Setup completion −9%", detail: "38% never finish setup", source: "PostHog", logo: "PostHog" },
-      { title: "4 customer calls", detail: "All mention the integrations step", source: "Meeting Agent", logo: null },
+      { title: "4 customer calls", detail: "All mention the integrations step", source: "Meetings", logo: null },
       { title: "7 feedback notes", detail: "“Onboarding takes too long”", source: "Intercom", logo: "Intercom" },
     ],
     summary: "Activation −8% since the Aug 12 release.",

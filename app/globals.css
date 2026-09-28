@@ -59,9 +59,6 @@
     --shadow-k: 1;
     --nav-bg: rgb(5 5 5 / 0.96);
     --backdrop: rgb(3 3 4 / 0.72);
-    /* Footer wordmark, lit */
-    --glyph-top: #ffffff;
-    --glyph-2: #ffd0c9;
     /* "chaos." in the closing section, left to right */
     --chaos-in: #ffc9c2;
     --chaos-0: #ffb4aa;
@@ -88,8 +85,6 @@
     --shadow-k: 0.18;
     --nav-bg: rgb(247 247 245 / 0.97);
     --backdrop: rgb(20 20 25 / 0.35);
-    --glyph-top: #1a0806;
-    --glyph-2: #7a140c;
     --chaos-in: #7a140c;
     --chaos-0: #8f160d;
     --chaos-1: #a81a0f;
@@ -116,8 +111,6 @@
     --shadow-k: 0.18;
     --nav-bg: rgb(247 247 245 / 0.97);
     --backdrop: rgb(20 20 25 / 0.35);
-    --glyph-top: #1a0806;
-    --glyph-2: #7a140c;
     --chaos-in: #7a140c;
     --chaos-0: #8f160d;
     --chaos-1: #a81a0f;
@@ -1461,21 +1454,21 @@
 }
 
 /* Footer wordmark: faint letters that softly light up under the cursor.
-   The lit copy sits on top at opacity 0 and cross-fades in — a smooth ease in
+   One flat, faint ink, faded by a single mask across the whole word — so the
+   fade runs as one smooth sweep rather than restarting inside every letter.
+   The lit copy starts from the page background and deepens into the brand
+   red, so it reads light→red in light mode and dark→red in dark mode.
+   It sits on top at opacity 0 and cross-fades in — a smooth ease in
    and a slower ease out, rather than a snap. Opacity only, so it's cheap. */
 @layer components {
+  .glyph-word {
+    color: rgb(var(--ink-rgb) / 0.075);
+    -webkit-mask-image: linear-gradient(180deg, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0.65) 45%, #000 100%);
+    mask-image: linear-gradient(180deg, rgb(0 0 0 / 0.2) 0%, rgb(0 0 0 / 0.65) 45%, #000 100%);
+  }
   .glyph {
     position: relative;
     display: inline-block;
-    color: transparent;
-    background-image: linear-gradient(
-      180deg,
-      rgb(var(--ink-rgb) / 0.16) 0%,
-      rgb(var(--ink-rgb) / 0.06) 70%,
-      rgb(var(--ink-rgb) / 0.02) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
   }
   .glyph::after {
     content: attr(data-ch);
@@ -1484,14 +1477,13 @@
     color: transparent;
     background-image: linear-gradient(
       180deg,
-      var(--glyph-top) 0%,
-      var(--glyph-2) 28%,
+      color-mix(in srgb, var(--color-bg) 90%, var(--brand-400)) 0%,
+      color-mix(in srgb, var(--color-bg) 55%, var(--brand-400)) 30%,
       var(--brand-400) 60%,
       var(--brand-600) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 0 24px rgb(var(--brand-glow-rgb) / 0.5));
     opacity: 0;
     transition: opacity 900ms cubic-bezier(0.33, 1, 0.68, 1);
     pointer-events: none;
@@ -1791,7 +1783,7 @@
   }
 }
 
-/* /agents relay: the glow under the work card once it ships */
+/* /product relay: the glow under the work card once it ships */
 @layer components {
   .relay-glow {
     background: radial-gradient(60% 55% at 50% 55%, rgb(var(--brand-glow-rgb) / 0.32), transparent 70%);
@@ -2503,7 +2495,7 @@
   }
 }
 @layer components {
-  /* /agents/product: the finished memo is the server frame; with motion on, its content waits
+  /* /product/priorities: the finished memo is the server frame; with motion on, its content waits
      for the writer (a hydration moment), so it never flashes and fades back. The sheet itself
      shows; only what's inside waits. */
   :root[data-motion="on"] .memo-gate:not([data-ready]) .doc > :not(:first-child) {

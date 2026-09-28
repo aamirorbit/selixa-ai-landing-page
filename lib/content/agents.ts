@@ -1,4 +1,5 @@
-// The six Selixa agents, in hand-off order: each one picks up where the last left off.
+// The six areas of Selixa's work, in hand-off order: each one picks up where the last left off.
+// (Formerly the six agents; ids and types keep that name, see docs/archive/agents-framing.md.)
 // Wording matches the home page (components/landing/Agents.tsx) and the header menu
 // (components/Nav.tsx). Demo numbers are illustrative and follow the home page's story:
 // onboarding friction → activation drop → prioritize onboarding → 14 tasks.
@@ -10,22 +11,22 @@ export type AgentIcon = "Video" | "Telescope" | "ChartLine" | "Compass" | "Map" 
 
 export type Agent = {
   slug: AgentSlug;
-  /** Full name, e.g. "Meeting Agent". */
+  /** Display name, e.g. "Meetings". */
   name: string;
   /** Menu blurb, six words or fewer. */
   short: string;
   /** One sentence for cards. */
   line: string;
-  /** What it hands over to the next agent, in a few words. */
+  /** What it hands over to the next area, in a few words. */
   produces: string;
-  /** What it adds to the shared work item in the /agents relay. */
+  /** What it adds to the shared work item in the /product relay. */
   handoff: string;
   /** Live-looking status for the card's corner. Illustrative. */
   status: string;
   /** Action line typed out when the card is live. Illustrative. */
   doing: string;
   icon: AgentIcon;
-  /** Detail page (/agents/<slug>) hero headline, lowercase as on the home page. */
+  /** Detail page (/product/<AGENT_PATH[slug]>) hero headline, lowercase as on the home page. */
   headline: string;
   /** Detail page meta description. */
   description: string;
@@ -36,7 +37,7 @@ export type Agent = {
 export const AGENTS: Agent[] = [
   {
     slug: "meeting",
-    name: "Meeting Agent",
+    name: "Meetings",
     short: "Joins calls, captures decisions.",
     line: "Joins meetings, captures decisions and follow-ups.",
     produces: "Decisions and action items",
@@ -51,7 +52,7 @@ export const AGENTS: Agent[] = [
   },
   {
     slug: "research",
-    name: "Research Agent",
+    name: "Research",
     short: "Customer and market signals.",
     line: "Finds customer, market and competitor signals.",
     produces: "Evidence from customers and competitors",
@@ -66,7 +67,7 @@ export const AGENTS: Agent[] = [
   },
   {
     slug: "analyst",
-    name: "Analyst Agent",
+    name: "Analytics",
     short: "Connects data to what’s happening.",
     line: "Connects product data to what’s happening.",
     produces: "The numbers, with a cause",
@@ -81,7 +82,7 @@ export const AGENTS: Agent[] = [
   },
   {
     slug: "product",
-    name: "Product Agent",
+    name: "Priorities",
     short: "Turns context into priorities.",
     line: "Turns context into priorities and product decisions.",
     produces: "A recommendation",
@@ -96,7 +97,7 @@ export const AGENTS: Agent[] = [
   },
   {
     slug: "roadmap",
-    name: "Roadmap Agent",
+    name: "Roadmap",
     short: "Keeps the roadmap current.",
     line: "Turns decisions into an evolving roadmap.",
     produces: "An up-to-date roadmap",
@@ -111,7 +112,7 @@ export const AGENTS: Agent[] = [
   },
   {
     slug: "execution",
-    name: "Execution Agent",
+    name: "Tasks",
     short: "Plans into tasks, tracks progress.",
     line: "Turns plans into tasks and follows progress.",
     produces: "Tasks with owners",

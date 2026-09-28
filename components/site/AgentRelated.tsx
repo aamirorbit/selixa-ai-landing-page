@@ -21,7 +21,7 @@ export function AgentRelated({ num, label, headline, agents, linkText }: AgentRe
   const items: RelatedItem[] = agents.map(({ slug, reason }) => {
     const agent = AGENTS.find((a) => a.slug === slug)!;
     const Icon = AGENT_ICONS[agent.icon];
-    return { href: agentHref(slug, "/agents"), title: agent.name, body: reason, icon: <Icon strokeWidth={1.6} aria-hidden="true" />, linkText };
+    return { href: agentHref(slug, "/product"), title: agent.name, body: reason, icon: <Icon strokeWidth={1.6} aria-hidden="true" />, linkText };
   });
   return (
     <section id="related" className="relative py-24 sm:py-32">

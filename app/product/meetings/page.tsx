@@ -22,11 +22,11 @@ export const metadata: Metadata = pageMetadata({
   description: agent.description,
   ogTitle: C.meta.ogTitle,
   ogDescription: C.meta.ogDescription,
-  path: "/agents/meeting",
+  path: "/product/meetings",
 });
 
 /**
- * /agents/meeting: the page is a meeting. A call screen, then the call's tape plays as you
+ * /product/meetings: the page is a meeting. A call screen, then the call's tape plays as you
  * scroll (the only scrubbed scene), then the recap it sends, where it joins, what's next.
  * No overflow-hidden above the tape: it would break position: sticky.
  */

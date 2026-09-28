@@ -1,16 +1,16 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import type { MetadataRoute } from "next";
-import { LIVE_AGENT_PAGES, SITE_ROUTES, SITE_URL } from "@/lib/site";
+import { AGENT_PATH, LIVE_AGENT_PAGES, SITE_ROUTES, SITE_URL } from "@/lib/site";
 
 /**
- * Guard against drift: while building (or in dev), fail loudly if an agent is marked live
+ * Guard against drift: while building (or in dev), fail loudly if an area is marked live
  * without its page. The sitemap is prerendered, so this never runs in production requests.
  */
 function assertLivePagesExist() {
   if (process.env.NEXT_PHASE !== "phase-production-build" && process.env.NODE_ENV !== "development") return;
-  const missing = LIVE_AGENT_PAGES.filter((slug) => !existsSync(join(/*turbopackIgnore: true*/ process.cwd(), "app", "agents", slug, "page.tsx")));
-  if (missing.length) throw new Error(`LIVE_AGENT_PAGES lists agents without a page: ${missing.join(", ")} (lib/site.ts)`);
+  const missing = LIVE_AGENT_PAGES.filter((slug) => !existsSync(join(/*turbopackIgnore: true*/ process.cwd(), "app", "product", AGENT_PATH[slug], "page.tsx")));
+  if (missing.length) throw new Error(`LIVE_AGENT_PAGES lists areas without a page: ${missing.join(", ")} (lib/site.ts)`);
   // Integration and use-case pages each come from one template.
   for (const file of [
     ["app", "integrations", "page.tsx"],

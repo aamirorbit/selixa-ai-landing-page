@@ -18,11 +18,11 @@ export const metadata: Metadata = pageMetadata({
   description: agent.description,
   ogTitle: C.meta.ogTitle,
   ogDescription: C.meta.ogDescription,
-  path: "/agents/research",
+  path: "/product/research",
 });
 
 /**
- * /agents/research: a pin board of evidence you pan across. The hero is the scene's first
+ * /product/research: a pin board of evidence you pan across. The hero is the scene's first
  * frame, full-bleed (outside the 1280 container); then sources, related, the CTA.
  * No overflow-hidden above the scene: it would break position: sticky.
  */

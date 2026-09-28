@@ -16,15 +16,15 @@ const C = {
   headline: "every product, sealed.",
   line: "Each product gets its own context. Nothing crosses over.",
   contents: ["Meetings", "Docs", "Decisions", "Memory"],
-  agent: "Selixa agent, working in {product}",
+  agent: "Selixa, working in {product}",
   wall: "Sealed",
   blocked: "Not shared",
-  caption: "Agents work inside one product at a time.",
+  caption: "Selixa works inside one product at a time.",
   srDiagram:
-    "Four sample products, Atlas, Beacon, Cove and Drift, each sealed with its own meetings, docs, decisions and memory. A Selixa agent works inside one at a time. Nothing is shared between them.",
+    "Four sample products, Atlas, Beacon, Cove and Drift, each sealed with its own meetings, docs, decisions and memory. Selixa works inside one at a time. Nothing is shared between them.",
   principles: [
     { title: "Its own context.", body: "Each product keeps its own meetings, docs, decisions and memory." },
-    { title: "One product at a time.", body: "Agents work inside a single product's context." },
+    { title: "One product at a time.", body: "Selixa works inside a single product's context." },
     { title: "Nothing shared.", body: "Nothing moves from one product to another." },
   ],
   holding: {
@@ -44,7 +44,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 /**
- * /security: the isolation principle, drawn. Four sealed containers; an agent works inside one
+ * /security: the isolation principle, drawn. Four sealed containers; Selixa works inside one
  * at a time and a path from Atlas stops at the wall. Then three principle rows and one honest
  * holding note.
  */

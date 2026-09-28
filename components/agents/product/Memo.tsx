@@ -23,10 +23,10 @@ const S = C.sections;
 const logo = (name: string) => LOGOS.find((l) => l.name === name);
 
 const SOURCES: CiteSource[] = [
-  { ...C.sources[0], icon: Video, href: "/agents/meeting" },
-  { ...C.sources[1], logo: logo("Intercom"), href: "/agents/research" },
-  { ...C.sources[2], icon: Telescope, href: "/agents/research" },
-  { ...C.sources[3], logo: logo("PostHog"), href: "/agents/analyst" },
+  { ...C.sources[0], icon: Video, href: "/product/meetings" },
+  { ...C.sources[1], logo: logo("Intercom"), href: "/product/research" },
+  { ...C.sources[2], icon: Telescope, href: "/product/research" },
+  { ...C.sources[3], logo: logo("PostHog"), href: "/product/analytics" },
 ].map((s) => ({ kind: s.kind, title: s.title, quote: s.quote, linkText: s.linkText, href: s.href, icon: "icon" in s ? s.icon : undefined, logo: "logo" in s ? s.logo : undefined }));
 
 /** The Evidence section's [1], which opens once by itself to teach the citations. */
@@ -313,7 +313,7 @@ function Impact() {
   return (
     <DocBlock index={0} as="p">
       {S.impact.body}{" "}
-      <Link href="/agents/analyst" className="tag ml-1 inline-flex -translate-y-px gap-1.5 whitespace-nowrap py-0.5 align-middle text-[0.75rem] hover:text-fg">
+      <Link href="/product/analytics" className="tag ml-1 inline-flex -translate-y-px gap-1.5 whitespace-nowrap py-0.5 align-middle text-[0.75rem] hover:text-fg">
         <ChartLine className="h-3 w-3 text-brand-300" strokeWidth={2} aria-hidden="true" />
         {S.impact.agentTag}
       </Link>
@@ -362,11 +362,11 @@ function HandoffBar({ ready, shown }: { ready: boolean; shown: boolean }) {
         </span>
       </span>
       <span className={`flex gap-2 transition-opacity duration-300 ${ready ? "opacity-100" : "opacity-45"}`}>
-        <Link href="/agents/roadmap" aria-disabled={!ready} className={`btn-ghost btn-ghost-sm flex-1 justify-center sm:flex-none ${hint}`}>
+        <Link href="/product/roadmap" aria-disabled={!ready} className={`btn-ghost btn-ghost-sm flex-1 justify-center sm:flex-none ${hint}`}>
           <MapIcon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
           {C.handoff.button1}
         </Link>
-        <Link href="/agents/execution" aria-disabled={!ready} className="btn-ghost btn-ghost-sm flex-1 justify-center sm:flex-none">
+        <Link href="/product/tasks" aria-disabled={!ready} className="btn-ghost btn-ghost-sm flex-1 justify-center sm:flex-none">
           <FileText className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
           {C.handoff.button2}
         </Link>

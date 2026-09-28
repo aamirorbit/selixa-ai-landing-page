@@ -36,13 +36,13 @@ These come from decisions already made on the home page. Break one only on purpo
 | Route | Page | Template or bespoke | Status |
 |---|---|---|---|
 | `/` | Home | Bespoke | Built |
-| `/agents` | All agents | Bespoke | Planned |
-| `/agents/meeting` | Meeting Agent | Bespoke | Planned |
-| `/agents/research` | Research Agent | Bespoke | Planned |
-| `/agents/analyst` | Analyst Agent | Bespoke | Planned |
-| `/agents/product` | Product Agent | Bespoke | Planned |
-| `/agents/roadmap` | Roadmap Agent | Bespoke | Planned |
-| `/agents/execution` | Execution Agent | Bespoke | Planned |
+| `/product` | Product hub (all six areas) | Bespoke | Planned |
+| `/product/meetings` | Meetings | Bespoke | Planned |
+| `/product/research` | Research | Bespoke | Planned |
+| `/product/analytics` | Analytics | Bespoke | Planned |
+| `/product/priorities` | Priorities | Bespoke | Planned |
+| `/product/roadmap` | Roadmap | Bespoke | Planned |
+| `/product/tasks` | Tasks | Bespoke | Planned |
 | `/integrations` | Integrations directory | Bespoke | Planned |
 | `/integrations/[slug]` | One per tool (11) | Template, brand-tinted | Planned |
 | `/use-cases` | Use cases | Bespoke | Planned |
@@ -56,7 +56,7 @@ These come from decisions already made on the home page. Break one only on purpo
 | `/privacy`, `/terms` | Legal | Plain document | Needed before launch |
 | `/404` | Not found | Bespoke | Planned |
 
-Header stays **Agents · Integrations · Use cases · Blog**. The mega-menu items link to these pages instead of home-page anchors once the pages exist. The footer gains Company (About, Security, Changelog, Contact) and Legal.
+Header stays **Product · Integrations · Use cases · Blog** (the Product menu was "Agents" until Sep 2026; see `docs/archive/agents-framing.md`). The mega-menu items link to these pages instead of home-page anchors once the pages exist. The footer gains Company (About, Security, Changelog, Contact) and Legal.
 
 Why the 7 agent pages are bespoke but integrations and use cases are templates: there are only six agents and each is a different *kind* of work, so each earns its own interface metaphor. There are 11 integrations and 12 use cases, which are the same *kind* of page repeated, so a strong template (varied by brand colour or persona) reads better than 23 one-offs and is far easier to keep current.
 

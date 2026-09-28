@@ -5,7 +5,7 @@ import type { BrandLogo } from "@/components/landing/logos";
 type SourceChipProps = {
   /** An integration's mark (components/landing/logos.ts)… */
   logo?: BrandLogo;
-  /** …or a lucide icon, for non-brand sources ("Meeting Agent"). */
+  /** …or a lucide icon, for non-brand sources ("Meetings"). */
   icon?: LucideIcon;
   label: string;
   /** Brand colour on the mark (default false: monochrome). */

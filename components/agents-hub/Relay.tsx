@@ -10,7 +10,7 @@ import { AGENTS, type Agent } from "@/lib/content/agents";
 import { HUB_COPY } from "./copy";
 
 /*
- * The relay: one work card travels the six agents as the page scrolls (spec §3.2).
+ * The relay: one work card travels the six areas as the page scrolls (spec §3.2).
  * Scrub position, step content: the card, notch, token and rail fills follow progress
  * directly (transform writes, no React state); rows, chips and station states change on
  * beats, with short CSS transitions.
@@ -154,7 +154,7 @@ function Mini({ i, landed, shipped, still, phone }: { i: number; landed: boolean
 /** One row of the card: tag line (+ mini visual), then the hand-off, the "working" dots, or an empty bar. */
 function Row({ agent, i, state, shipped, still, phone }: { agent: Agent; i: number; state: Station; shipped: boolean; still: boolean; phone?: boolean }) {
   const landed = state === "done";
-  // Phones prefix the agent; once only where they're the same word ("Roadmap").
+  // Phones prefix the area; once only where they're the same word ("Roadmap").
   const short = agentShortName(agent);
   const tag = phone && short !== C.tags[i] ? `${short} · ${C.tags[i]}` : C.tags[i];
   return (
@@ -194,7 +194,7 @@ function Row({ agent, i, state, shipped, still, phone }: { agent: Agent; i: numb
 function WorkCard({ b, children }: { b: number; children: ReactNode }) {
   return (
     <div className="window">
-      {/* Lit from the Product Agent's recommendation on */}
+      {/* Lit from the Priorities recommendation on */}
       <span className={`card-lit pointer-events-none absolute inset-0 rounded-[18px] border transition-opacity duration-[400ms] ${show(b >= 8)}`} />
       <div className="relative flex h-[76px] flex-col justify-center gap-1.5 px-5 [@media(max-height:760px)]:h-[68px]">
         <div className="flex items-center justify-between gap-3">
@@ -268,7 +268,6 @@ function DesktopRelay({ b, still }: { b: number; still: boolean }) {
               <StationTile agent={agent} state={state} className="h-11 w-11 rounded-[12px] [@media(max-height:760px)]:h-9 [@media(max-height:760px)]:w-9 [@media(max-height:760px)]:rounded-[10px]" />
               <span className="mt-2.5 whitespace-nowrap text-[0.8125rem] text-fg-2">
                 {agentShortName(agent)}
-                <span className="hidden lg:inline"> Agent</span>
               </span>
               <Stack className="mt-1 h-4 place-items-center text-[0.75rem]">
                 <span className={`h-1.5 w-1.5 rounded-full bg-ink/20 transition-opacity duration-200 ${show(state === "idle")}`} />

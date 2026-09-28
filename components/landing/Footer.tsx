@@ -43,9 +43,9 @@ const COLUMNS: Column[][] = [
   ],
   [
     {
-      title: "Agents",
-      // Each agent's page once it exists (LIVE_AGENT_PAGES), else the hub.
-      links: AGENTS.map((a) => ({ label: a.name, href: agentHref(a.slug, "/agents") })),
+      title: "What it does",
+      // Each area's page once it exists (LIVE_AGENT_PAGES), else the hub.
+      links: AGENTS.map((a) => ({ label: a.name, href: agentHref(a.slug, "/product") })),
     },
   ],
   [
@@ -177,8 +177,8 @@ export function Footer() {
       </div>
 
       {/* Sign-off: the wordmark, huge and softly lit, resting on the line above the copyright */}
-      <div aria-hidden="true" className="group/word relative mx-auto max-w-[1280px] select-none px-5 sm:px-8">
-        <div className="pointer-events-none absolute inset-x-0 bottom-[-30%] mx-auto h-[110%] w-[80%] rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgb(var(--brand-glow-rgb)/0.28),transparent_65%)] blur-2xl" />
+      <div aria-hidden="true" className="group/word relative mx-auto max-w-[1280px] select-none px-5 [container-type:inline-size] sm:px-8">
+        <div className="pointer-events-none absolute inset-x-0 bottom-[-30%] mx-auto h-[110%] w-[80%] rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgb(var(--brand-glow-rgb)/0.16),transparent_70%)] blur-3xl" />
         {/* Each letter fills with light down to the cursor */}
         <FooterWordmark />
       </div>

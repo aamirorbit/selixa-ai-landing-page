@@ -1,14 +1,14 @@
-// Every visible string on /agents/research that isn't agent data, from
+// Every visible string on /product/research that isn't agent data, from
 // docs/pages/agents-research.copy.md, plus the board layout (world coordinates, spec §3.2–3.3).
 // No real brands: competitors are Competitor A / B / C.
 
 export const RESEARCH_COPY = {
   meta: {
-    title: "Research Agent — Selixa",
+    title: "Research — Selixa",
     ogTitle: "It finds the signal — Selixa",
     ogDescription: "Customer quotes, competitors and market notes, pulled into one brief.",
   },
-  hero: { eyebrow: "Research Agent" },
+  hero: { eyebrow: "Research" },
   stops: [
     { name: "Customers", caption: "Customers: 4 calls and 7 notes say the same thing.", chip: "Complaints up 60% in two weeks" },
     { name: "Competitors", caption: "Competitors: 3 of 6 ask for integrations later.", chip: "3 competitors with shorter onboarding" },
@@ -30,7 +30,7 @@ export const RESEARCH_COPY = {
       { n: 2, label: "market notes" },
     ],
     sources: ["Intercom", "Slack", "Notion", "Google Drive"],
-    footer: "Sent to Product Agent",
+    footer: "Sent to Priorities",
     placeholder: "Research brief",
   },
   sources: { label: "Sources", headline: "reads where your evidence lives." },
@@ -71,7 +71,7 @@ export const CARDS: BoardCard[] = [
   { id: "k-c", cluster: 1, kind: "screenshot", tag: "Competitor C", text: "One screen to first value.", shot: "single" },
   { id: "m-1", cluster: 2, kind: "note", tag: "Market note", text: "Self-serve trials are decided in the first session." },
   { id: "m-2", cluster: 2, kind: "note", tag: "Market note", text: "Teams expect value before setup." },
-  { id: "m-an", cluster: 2, kind: "note", tag: "Analyst note · from Analyst Agent", text: "Activation −8% since the Aug 12 release", spark: true },
+  { id: "m-an", cluster: 2, kind: "note", tag: "Analyst note · from Analytics", text: "Activation −8% since the Aug 12 release", spark: true },
 ];
 
 /** A card's place on a board: centre x, the card's top edge (where the pin is), width, rotation. */

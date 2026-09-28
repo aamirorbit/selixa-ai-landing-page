@@ -28,7 +28,7 @@ export const HUB_COPY = {
   },
   hero: { eyebrow: "Use cases", headline: "built for people building products.", line: "Pick your role. See your day with Selixa." },
   chipsLabel: "Choose your role",
-  preview: { pain: "The pain", agents: "Agents you'll lean on", day: "A day with Selixa", link: "See the full day" },
+  preview: { pain: "The pain", agents: "Where Selixa helps most", day: "A day with Selixa", link: "See the full day" },
   grid: { label: "Every role", headline: "every role, at a glance.", cardLink: "Read more" },
   cta: { headline: "stop building in chaos.", line: "Whatever your role, start with your product." },
 } as const;
@@ -45,7 +45,7 @@ export const PAGE_COPY = {
     toggleWith: "With Selixa",
   },
   timeline: { label: "The day", headline: "a day with Selixa.", line: "Four moments. What Selixa did in each.", selixa: "Selixa" },
-  agents: { label: "Agents", headline: "agents you'll lean on.", cardLink: "See how it works" },
+  agents: { label: "What it does", headline: "where it helps most.", cardLink: "See how it works" },
   tools: { label: "Tools", headline: "tools you'll connect.", line: "Selixa reads them for this product only.", link: "All integrations" },
   cta: { headline: "stop building in chaos.", line: "Start with your product's website." },
 } as const;

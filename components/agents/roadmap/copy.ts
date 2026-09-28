@@ -1,4 +1,4 @@
-// Every visible string on /agents/roadmap that isn't agent data, from docs/pages/agents-roadmap.copy.md,
+// Every visible string on /product/roadmap that isn't agent data, from docs/pages/agents-roadmap.copy.md,
 // plus the board data. Owner decisions: moves play in the order 1, 3, 2, 4 (so each happens where
 // the camera is); the dependency points at the existing "Public API v2" card (the copy's "Import
 // API" isn't on the board), so its toast and blocked tag name Public API v2; only Onboarding v2
@@ -8,11 +8,11 @@ export type ColId = "now" | "next" | "later";
 
 export const ROADMAP_COPY = {
   meta: {
-    title: "Roadmap Agent — Selixa",
+    title: "Roadmap — Selixa",
     ogTitle: "A roadmap that keeps up — Selixa",
     ogDescription: "Decided in the meeting. On the roadmap before it ends, with the reason attached.",
   },
-  hero: { eyebrow: "Roadmap Agent", toast: "Decision captured" },
+  hero: { eyebrow: "Roadmap", toast: "Decision captured" },
   columns: { now: "Now", next: "Next", later: "Later" } as Record<ColId, string>,
   board: {
     label: "Atlas roadmap",

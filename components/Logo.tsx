@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const wordmark = "text-[1.3125rem] font-medium uppercase leading-none tracking-[0.26em] translate-x-[0.12em]";
+const wordmark = "text-[1.3125rem] font-medium leading-none tracking-[0.01em]";
 
 /**
  * The Selixa wordmark. Links home by default; pass `asText` when it sits

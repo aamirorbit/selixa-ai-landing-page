@@ -25,9 +25,9 @@ import { Logo } from "./Logo";
 
 type Item = { title: string; body: string; href: string; icon?: LucideIcon; logo?: (typeof LOGOS)[number] };
 
-// From lib/content/agents.ts, in hand-off order. Each item goes to its agent's page once it
+// From lib/content/agents.ts, in hand-off order. Each item goes to its area's page once it
 // exists (LIVE_AGENT_PAGES), else to the hub.
-const AGENTS: Item[] = AGENT_DATA.map((a) => ({ title: a.name, body: a.short, href: agentHref(a.slug, "/agents"), icon: AGENT_ICONS[a.icon] }));
+const AGENTS: Item[] = AGENT_DATA.map((a) => ({ title: a.name, body: a.short, href: agentHref(a.slug, "/product"), icon: AGENT_ICONS[a.icon] }));
 
 // From lib/content/integrations.ts (joined to the marks by name), each to its own page.
 const INTEGRATIONS: Item[] = [
@@ -40,7 +40,7 @@ const USE_CASES: Item[] = USE_CASE_DATA.map((u) => ({ title: u.title, body: u.li
 
 type MenuId = "agents" | "integrations" | "use-cases";
 const MENUS: { id: MenuId; label: string; items: Item[]; cols: string; tiles?: boolean; card?: () => ReactNode }[] = [
-  { id: "agents", label: "Agents", items: AGENTS, cols: "sm:grid-cols-2", card: AgentsCard },
+  { id: "agents", label: "Product", items: AGENTS, cols: "sm:grid-cols-2", card: AgentsCard },
   { id: "integrations", label: "Integrations", items: INTEGRATIONS, cols: "sm:grid-cols-2 lg:grid-cols-3", card: IntegrationsCard },
   { id: "use-cases", label: "Use cases", items: USE_CASES, cols: "sm:grid-cols-2 lg:grid-cols-3" },
 ];
@@ -256,7 +256,7 @@ function Card({ children, href, cta }: { children: ReactNode; href: string; cta:
 
 function AgentsCard() {
   return (
-    <Card href="/agents" cta="Meet the agents">
+    <Card href="/product" cta="See everything it does">
       <div className="flex items-center gap-3">
         <Orb size={40} />
         <span className="flex items-center gap-2 text-[0.75rem] text-brand-300">
@@ -265,7 +265,7 @@ function AgentsCard() {
         </span>
       </div>
       <p className="mt-6 text-[1.375rem] leading-[1.25] tracking-[-0.02em] text-fg">
-        One product’s context. <span className="text-fg-3">Every agent knows it.</span>
+        One product’s context. <span className="text-fg-3">Selixa knows all of it.</span>
       </p>
       <ul className="mt-6 flex flex-col gap-2.5 text-[0.8125rem] text-fg-2">
         <li className="flex items-center gap-2">

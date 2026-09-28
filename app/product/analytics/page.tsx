@@ -21,11 +21,11 @@ export const metadata: Metadata = pageMetadata({
   description: agent.description,
   ogTitle: C.meta.ogTitle,
   ogDescription: C.meta.ogDescription,
-  path: "/agents/analyst",
+  path: "/product/analytics",
 });
 
 /**
- * /agents/analyst: one big chart, annotated live. A compact hero hands straight on to the
+ * /product/analytics: one big chart, annotated live. A compact hero hands straight on to the
  * pinned chart (both fit the first screen); then ask a number, the metrics, what's next.
  * No overflow-hidden above the chart scene: it would break position: sticky.
  */

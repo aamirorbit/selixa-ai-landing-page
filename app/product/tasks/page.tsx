@@ -21,11 +21,11 @@ export const metadata: Metadata = pageMetadata({
   description: agent.description,
   ogTitle: C.meta.ogTitle,
   ogDescription: C.meta.ogDescription,
-  path: "/agents/execution",
+  path: "/product/tasks",
 });
 
 /**
- * /agents/execution: a board that empties. Then where the tasks came from (the breakdown,
+ * /product/tasks: a board that empties. Then where the tasks came from (the breakdown,
  * scroll-scrubbed), how they keep moving (nudges), where they live (your tracker) and what
  * they were for (the number). No overflow-hidden above the scene: it would break sticky.
  */

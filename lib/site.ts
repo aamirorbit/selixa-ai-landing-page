@@ -6,19 +6,35 @@ import { USE_CASES } from "@/lib/content/use-cases";
 export const SITE_URL = "https://selixa.ai";
 
 /**
- * Agents whose /agents/<slug> page exists: the single list. The sitemap, the hub's cards,
- * the header menu, the footer and every Related section all follow it. Add a slug only in
- * the same change that adds app/agents/<slug>/page.tsx.
+ * The areas of work whose page exists: the single list. The sitemap, the hub's cards, the
+ * header menu, the footer and every Related section all follow it. Add a slug only in the
+ * same change that adds app/product/<AGENT_PATH[slug]>/page.tsx.
  */
 export const LIVE_AGENT_PAGES = ["meeting", "research", "analyst", "product", "roadmap", "execution"] as const satisfies readonly AgentSlug[];
+
+/**
+ * Each area's URL segment under /product. The slugs are the agents-era ids, kept so the
+ * framing can come back (docs/archive/agents-framing.md); only the URLs moved.
+ */
+export const AGENT_PATH: Record<AgentSlug, string> = {
+  meeting: "meetings",
+  research: "research",
+  analyst: "analytics",
+  product: "priorities",
+  roadmap: "roadmap",
+  execution: "tasks",
+};
+
+/** The hub that lists all six areas. */
+export const PRODUCT_HUB = "/product";
 
 type Route = { path: string; changeFrequency: "daily" | "weekly" | "monthly"; priority: number };
 
 /** Public routes that exist today, for app/sitemap.ts. Never list a route before it exists. */
 export const SITE_ROUTES: Route[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
-  { path: "/agents", changeFrequency: "monthly", priority: 0.9 },
-  ...LIVE_AGENT_PAGES.map((slug): Route => ({ path: `/agents/${slug}`, changeFrequency: "monthly", priority: 0.8 })),
+  { path: "/product", changeFrequency: "monthly", priority: 0.9 },
+  ...LIVE_AGENT_PAGES.map((slug): Route => ({ path: `${PRODUCT_HUB}/${AGENT_PATH[slug]}`, changeFrequency: "monthly", priority: 0.8 })),
   { path: "/integrations", changeFrequency: "monthly", priority: 0.8 },
   // Every tool page is generated from the same list (app/integrations/[slug], generateStaticParams).
   ...INTEGRATIONS.map((i): Route => ({ path: `/integrations/${i.slug}`, changeFrequency: "monthly", priority: 0.6 })),

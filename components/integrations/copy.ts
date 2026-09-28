@@ -34,14 +34,14 @@ export const HUB_COPY = {
     headline: "one product, one context.",
     line: "What you connect to Atlas stays in Atlas.",
     tools: "Your tools",
-    agents: "Agents",
+    agents: "Selixa",
     reads: "reads →",
     writes: "← writes back",
     product: { initial: "A", name: "Atlas", tag: "Isolated" },
     context: ["Conversations", "Docs", "Meetings", "Issues", "Feedback", "Data"],
     greyed: { initial: "B", name: "Beacon", tag: "Separate context", note: "Its own tools. Its own memory." },
     summary:
-      "What you connect to Atlas stays in Atlas. Your tools feed Atlas's isolated context; its six agents work there and write back to your tools. Beacon has its own tools and its own memory.",
+      "What you connect to Atlas stays in Atlas. Your tools feed Atlas's isolated context; Selixa works there and writes back to your tools. Beacon has its own tools and its own memory.",
   },
   request: {
     label: "Request",
@@ -68,7 +68,7 @@ export const TOOL_COPY = {
     prefix: (name: string) => `Question about the ${name} integration: `,
   },
   setup: { label: "Setup", headline: "set up in 3 steps." },
-  related: { label: "Related", headline: "related agents.", cardLink: "See how it works", allLink: "All integrations" },
+  related: { label: "Related", headline: "where it's used.", cardLink: "See how it works", allLink: "All integrations" },
   cta: { headline: "stop building in chaos.", line: (name: string) => `Connect ${name} to your product.` },
   meta: {
     title: (name: string) => `${name} integration — Selixa`,
