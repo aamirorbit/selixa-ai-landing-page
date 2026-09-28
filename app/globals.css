@@ -2383,7 +2383,8 @@
 }
 
 /* Light scheme + mono theme: mono's ramp is near-white, so brand-tinted text would vanish on
-   light surfaces. Map 200/300/400 to dark greys (same values as mono on paper). */
+   light surfaces. Map 200/300/400 to dark greys (same values as mono on paper), and make the
+   solid CTA and round chip near-black so their white label/arrow stays visible. */
 @layer base {
   :root[data-scheme="light"][data-theme="mono"] {
     --brand-200: #1a1a1e;
@@ -2394,6 +2395,11 @@
     --brand-400-rgb: 110 110 120;
     --brand-500-rgb: 85 85 94;
     --brand-on: #ffffff;
+    --brand-cta: #2a2a30;
+    --brand-cta-2: #0d0d10;
+    --brand-chip: #2a2a30;
+    --brand-chip-2: #0d0d10;
+    --brand-chip-glow-rgb: 40 40 48;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-scheme="dark"])[data-theme="mono"] {
@@ -2404,7 +2410,12 @@
       --brand-300-rgb: 67 67 76;
       --brand-400-rgb: 110 110 120;
       --brand-500-rgb: 85 85 94;
-    --brand-on: #ffffff;
+      --brand-on: #ffffff;
+      --brand-cta: #2a2a30;
+      --brand-cta-2: #0d0d10;
+      --brand-chip: #2a2a30;
+      --brand-chip-2: #0d0d10;
+      --brand-chip-glow-rgb: 40 40 48;
     }
   }
 }
