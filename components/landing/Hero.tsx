@@ -1,10 +1,10 @@
 import { ConversationCTA } from "@/components/ConversationCTA";
-import { Capabilities } from "./Capabilities";
+import { ChaosWord, HeroChaos } from "./HeroChaos";
 import { d } from "./ui";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col justify-center py-16 lg:py-10">
+    <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col [--hf:clamp(3.25rem,8.2vw,7.5rem)] justify-center py-16 lg:py-10">
       {/* Rings behind the headline */}
       <div aria-hidden="true" className="fade pointer-events-none absolute inset-0 grid place-items-center" style={d(300)}>
         <div className="absolute aspect-square w-[min(92vw,56rem)] rounded-full border border-ink/[0.05]" />
@@ -14,6 +14,9 @@ export function Hero() {
         <div className="absolute bottom-[-18%] h-[46%] w-[min(120vw,80rem)] rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgb(var(--brand-glow-rgb)/0.2),transparent_65%)] blur-2xl" />
       </div>
 
+      {/* The chaos; it ends in the full stop of "chaos." */}
+      <HeroChaos />
+
       <div className="relative mx-auto flex max-w-[52rem] flex-col items-center text-center">
         <span className="reveal pill gap-2.5 px-4 py-3" style={d(60)}>
           <span className="live-dot" aria-hidden="true" />
@@ -21,12 +24,12 @@ export function Hero() {
         </span>
 
         <h1
-          className="reveal mt-8 font-display text-[clamp(3.25rem,8.2vw,7.5rem)] font-light leading-[0.95] tracking-[-0.055em] text-fg"
+          className="reveal mt-8 font-display text-[length:var(--hf)] font-light leading-[0.95] tracking-[-0.055em] text-fg"
           style={d(140)}
         >
           stop building
           <br />
-          <span className="text-brand-gradient inline-block pb-[0.12em] -mb-[0.12em]">in chaos.</span>
+          <ChaosWord />
         </h1>
 
         <p
@@ -40,8 +43,6 @@ export function Hero() {
           <ConversationCTA variant="site" label="Get started" />
         </div>
       </div>
-
-      <Capabilities className="reveal" style={d(420)} />
     </section>
   );
 }

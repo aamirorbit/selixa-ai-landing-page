@@ -2523,3 +2523,128 @@
     visibility: hidden;
   }
 }
+
+/* Hero: the chaos the headline promises to end (components/landing/HeroChaos.tsx).
+   Fragments fade in scattered, drift, then are pulled into the two columns beside the
+   headline (or into its centre on smaller screens) and vanish as the columns reveal.
+   Transforms and opacity only. The stage is a size container so every fragment can aim
+   at the same target in cqw/cqh, whatever its own size. */
+@layer components {
+  .hero-stage {
+    container-type: size;
+    /* Where every fragment goes: the full stop of "chaos." (set by HeroTarget), with the
+       headline's rough centre until then */
+    --tx: 58cqw;
+    --ty: 45cqh;
+  }
+  .frag {
+    position: absolute;
+    left: calc(var(--sx) * 1%);
+    top: calc(var(--sy) * 1%);
+    animation:
+      frag-in 700ms var(--ease-out-expo) var(--in) both,
+      frag-go 900ms cubic-bezier(0.55, 0, 0.85, 0.35) var(--go) forwards;
+  }
+  .frag-drift {
+    animation: frag-drift 1.8s ease-in-out var(--in) both;
+  }
+  .frag-card {
+    translate: -50% -50%;
+    rotate: var(--r);
+    animation: frag-straighten 600ms var(--ease-out-expo) var(--go) forwards;
+  }
+  .frag[data-depth="1"] .frag-card {
+    opacity: 0.75;
+  }
+  .frag[data-depth="2"] .frag-card {
+    opacity: 0.45;
+    filter: blur(1.5px);
+  }
+  @media (max-width: 767px) {
+    .frag-card {
+      scale: 0.8;
+    }
+    .frag[data-depth] .frag-card {
+      opacity: 0.4;
+    }
+  }
+  @keyframes frag-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes frag-drift {
+    to {
+      transform: translate(var(--wx), var(--wy));
+    }
+  }
+  /* Straighten and sharpen on the way in; each keeps its own depth dimming */
+  @keyframes frag-straighten {
+    to {
+      rotate: 0deg;
+      filter: none;
+    }
+  }
+  /* Sucked in: accelerating into the dot, shrinking to nothing as it lands */
+  @keyframes frag-go {
+    70% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      transform: translate(calc(var(--tx) - var(--sx) * 1cqw), calc(var(--ty) - var(--sy) * 1cqh)) scale(0.04);
+    }
+  }
+
+  /* "chaos." shivers out of line, then settles as the fragments are pulled in */
+  .chaos-ch {
+    animation:
+      chaos-shiver 180ms linear 700ms 5,
+      chaos-settle 1100ms var(--ease-out-expo) var(--cd) both;
+  }
+  @keyframes chaos-shiver {
+    50% {
+      translate: var(--sh);
+    }
+  }
+  /* The full stop takes the fragments in: one swell and a flash of glow as they land */
+  .chaos-dot {
+    animation:
+      chaos-shiver 180ms linear 700ms 5,
+      chaos-settle 1100ms var(--ease-out-expo) var(--cd) both,
+      chaos-dot-take 900ms var(--ease-out-expo) 2250ms both;
+  }
+  @keyframes chaos-dot-take {
+    30% {
+      scale: 1.35;
+      filter: drop-shadow(0 0 0.12em rgb(var(--brand-glow-rgb) / 0.9));
+    }
+    to {
+      scale: 1;
+      filter: none;
+    }
+  }
+  @keyframes chaos-settle {
+    from {
+      transform: translate(var(--jx), var(--jy)) rotate(var(--jr));
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-stage {
+      display: none;
+    }
+    .chaos-ch,
+    .chaos-dot {
+      animation: none;
+    }
+  }
+}
