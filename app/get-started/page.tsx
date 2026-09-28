@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { GS } from "@/components/get-started/copy";
 import { OnboardingFlow } from "@/components/get-started/OnboardingFlow";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { Nav } from "@/components/Nav";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata, toDomain } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({ ...GS.meta, path: "/get-started" });
@@ -19,6 +21,7 @@ export default async function GetStartedPage({ searchParams }: { searchParams: P
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Get started", path: "/get-started" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-8">
           <OnboardingFlow initialSite={initialSite} />

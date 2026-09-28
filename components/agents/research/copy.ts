@@ -4,7 +4,7 @@
 
 export const RESEARCH_COPY = {
   meta: {
-    title: "Research — Selixa",
+    title: "AI customer research for product teams — Selixa",
     ogTitle: "It finds the signal — Selixa",
     ogDescription: "Customer quotes, competitors and market notes, pulled into one brief.",
   },

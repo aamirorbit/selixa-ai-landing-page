@@ -4,7 +4,7 @@
 
 export const ANALYST_COPY = {
   meta: {
-    title: "Analytics — Selixa",
+    title: "AI product analytics that explain why — Selixa",
     ogTitle: "Numbers, with a cause — Selixa",
     ogDescription: "Activation fell 8%. Selixa found the release, the step and the calls behind it.",
   },

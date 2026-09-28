@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import type { Metadata } from "next";
 import { HUB_COPY } from "@/components/integrations/copy";
 import { ConversationCTA } from "@/components/ConversationCTA";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { LOGOS } from "@/components/landing/logos";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
@@ -14,6 +15,7 @@ import { logoOf } from "@/components/site/integrations/look";
 import { PageHero } from "@/components/site/PageHero";
 import { AGENTS } from "@/lib/content/agents";
 import { INTEGRATIONS } from "@/lib/content/integrations";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 const C = HUB_COPY;
@@ -29,6 +31,7 @@ export default function IntegrationsPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Integrations", path: "/integrations" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">
           <PageHero eyebrow={C.hero.eyebrow} title={C.hero.headline} line={C.hero.line} visual={<IntegrationSearch copy={C.search} />} className="sm:pt-20" />

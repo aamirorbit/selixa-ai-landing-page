@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import { JsonLd } from "@/components/JsonLd";
 import { SchemeScript } from "@/components/SchemeScript";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ThemePicker } from "@/components/ThemePicker";
 import { SCHEME_KEY } from "@/lib/scheme";
+import { siteJsonLd } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import { ACTIVE_THEME } from "@/lib/theme";
 import "lenis/dist/lenis.css";
@@ -75,6 +77,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <head>
         <SchemeScript code={applySavedScheme} />
+        <JsonLd data={siteJsonLd} />
       </head>
       {/* Extensions (e.g. ColorZilla) add attributes to <body> before React loads. */}
       <body className="flex min-h-full flex-col" suppressHydrationWarning>

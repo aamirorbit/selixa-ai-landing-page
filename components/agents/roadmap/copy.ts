@@ -8,7 +8,7 @@ export type ColId = "now" | "next" | "later";
 
 export const ROADMAP_COPY = {
   meta: {
-    title: "Roadmap — Selixa",
+    title: "An AI roadmap that updates itself — Selixa",
     ogTitle: "A roadmap that keeps up — Selixa",
     ogDescription: "Decided in the meeting. On the roadmap before it ends, with the reason attached.",
   },

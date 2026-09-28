@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { AboutOpening, SettlingHeadline } from "@/components/about/AboutPieces";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { d } from "@/components/landing/ui";
 import { Nav } from "@/components/Nav";
 import { CTASection } from "@/components/site/CTASection";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 // Copy: docs/pages/about.copy.md. Statements only: no team, photos, investors, dates or numbers.
@@ -39,6 +41,7 @@ export default function AboutPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "About", path: "/about" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <h1 className="sr-only">About Selixa</h1>
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-8">

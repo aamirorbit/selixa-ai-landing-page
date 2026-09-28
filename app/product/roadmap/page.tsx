@@ -5,6 +5,7 @@ import { ProductDeck } from "@/components/agents/roadmap/ProductDeck";
 import { RoadmapPlane } from "@/components/agents/roadmap/RoadmapPlane";
 import { RoadmapRibbon } from "@/components/agents/roadmap/RoadmapRibbon";
 import { WhyMoved } from "@/components/agents/roadmap/WhyMoved";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { SectionHeader } from "@/components/landing/ui";
@@ -13,6 +14,7 @@ import { AgentRelated } from "@/components/site/AgentRelated";
 import { CTASection } from "@/components/site/CTASection";
 import { PageHero } from "@/components/site/PageHero";
 import { agentBySlug } from "@/lib/content/agents";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 const C = ROADMAP_COPY;
@@ -35,6 +37,7 @@ export default function RoadmapAgentPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Product", path: "/product" }, { name: agent.name, path: "/product/roadmap" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">
           <PageHero

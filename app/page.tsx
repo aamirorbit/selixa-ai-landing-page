@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { Background } from "@/components/Background";
+import { JsonLd } from "@/components/JsonLd";
 import { Agents } from "@/components/landing/Agents";
 import { Audience } from "@/components/landing/Audience";
 import { Context } from "@/components/landing/Context";
@@ -15,6 +17,9 @@ import { Products } from "@/components/landing/Products";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { Workspace } from "@/components/landing/Workspace";
 import { Nav } from "@/components/Nav";
+import { softwareJsonLd } from "@/lib/seo";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 /** Set to "/background.jpg" (file in /public) when the artwork is ready. */
 const BACKGROUND_IMAGE: string | null = null;
@@ -28,6 +33,7 @@ export default function Home() {
   return (
     <>
       <Nav />
+      <JsonLd data={softwareJsonLd} />
       <main className="relative flex-1 overflow-x-clip">
         <Background src={BACKGROUND_IMAGE} />
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">

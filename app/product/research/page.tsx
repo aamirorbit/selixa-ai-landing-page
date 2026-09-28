@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { RESEARCH_COPY } from "@/components/agents/research/copy";
 import { ResearchScene } from "@/components/agents/research/ResearchScene";
 import { Sources } from "@/components/agents/research/Sources";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { Nav } from "@/components/Nav";
 import { AgentRelated } from "@/components/site/AgentRelated";
 import { CTASection } from "@/components/site/CTASection";
 import { agentBySlug } from "@/lib/content/agents";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 const C = RESEARCH_COPY;
@@ -30,6 +32,7 @@ export default function ResearchAgentPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Product", path: "/product" }, { name: agent.name, path: "/product/research" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <ResearchScene />
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">

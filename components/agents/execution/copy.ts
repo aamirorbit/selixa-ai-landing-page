@@ -5,7 +5,7 @@
 
 export const EXECUTION_COPY = {
   meta: {
-    title: "Tasks — Selixa",
+    title: "Turn product decisions into tasks — Selixa",
     ogTitle: "From decision to done — Selixa",
     ogDescription: "One decision, 14 tasks, three owners, no chasing.",
   },

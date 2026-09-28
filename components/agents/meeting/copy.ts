@@ -7,7 +7,7 @@ export type ChipKind = "decision" | "action" | "question" | "insight";
 
 export const MEETING_COPY = {
   meta: {
-    title: "Meetings — Selixa",
+    title: "AI meeting notes for product teams — Selixa",
     ogTitle: "It’s already in the room — Selixa",
     ogDescription: "A 24-minute product review, captured as 3 decisions and 5 action items.",
   },

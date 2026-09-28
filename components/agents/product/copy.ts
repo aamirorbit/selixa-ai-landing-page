@@ -5,7 +5,7 @@
 
 export const PRODUCT_COPY = {
   meta: {
-    title: "Priorities — Selixa",
+    title: "AI product prioritization, with sources — Selixa",
     ogTitle: "It takes a position — Selixa",
     ogDescription: "A product memo that writes itself, cites its evidence and defends its call.",
   },

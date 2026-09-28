@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { d } from "@/components/landing/ui";
@@ -6,6 +7,7 @@ import { Nav } from "@/components/Nav";
 import { CTASection } from "@/components/site/CTASection";
 import { IsolationDiagram } from "@/components/site/IsolationDiagram";
 import { PageHero } from "@/components/site/PageHero";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 // Copy: docs/pages/security.copy.md. Only the isolation principle ships; every other trust
@@ -52,6 +54,7 @@ export default function SecurityPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Security", path: "/security" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-8">
           <PageHero

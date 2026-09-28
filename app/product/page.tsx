@@ -5,12 +5,14 @@ import { ContextSection } from "@/components/agents-hub/ContextBoundary";
 import { HUB_COPY } from "@/components/agents-hub/copy";
 import { Relay } from "@/components/agents-hub/Relay";
 import { TeamIndex } from "@/components/agents-hub/TeamIndex";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { SectionHeader } from "@/components/landing/ui";
 import { Nav } from "@/components/Nav";
 import { CTASection } from "@/components/site/CTASection";
 import { PageHero } from "@/components/site/PageHero";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 const { meta, hero, relay, cta } = HUB_COPY;
 
@@ -41,6 +43,7 @@ export default function AgentsPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Product", path: "/product" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">
           <PageHero

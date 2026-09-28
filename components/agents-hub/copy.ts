@@ -3,7 +3,7 @@
 
 export const HUB_COPY = {
   meta: {
-    title: "Product — Selixa",
+    title: "Product — Selixa, the AI Product Manager",
     description:
       "Selixa is one AI Product Manager for the whole job: meetings, research, analytics, priorities, roadmap and tasks. Each product keeps its own context.",
     ogTitle: "The whole job, in one AI — Selixa",

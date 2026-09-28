@@ -4,6 +4,7 @@ import { CallTape } from "@/components/agents/meeting/CallTape";
 import { MEETING_COPY } from "@/components/agents/meeting/copy";
 import { RecapMessage } from "@/components/agents/meeting/RecapMessage";
 import { WhereYouMeet } from "@/components/agents/meeting/WhereYouMeet";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { SectionHeader } from "@/components/landing/ui";
@@ -12,6 +13,7 @@ import { AgentRelated } from "@/components/site/AgentRelated";
 import { CTASection } from "@/components/site/CTASection";
 import { ScrollHint } from "@/components/site/ScrollHint";
 import { agentBySlug } from "@/lib/content/agents";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 const C = MEETING_COPY;
@@ -34,6 +36,7 @@ export default function MeetingAgentPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Product", path: "/product" }, { name: agent.name, path: "/product/meetings" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <CallScreen />
         <div className="mt-6 flex justify-center">

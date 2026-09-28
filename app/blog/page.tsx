@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
 import { ConversationCTA } from "@/components/ConversationCTA";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { Orb } from "@/components/landing/ui";
 import { Nav } from "@/components/Nav";
+import { breadcrumbJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Blog — Selixa",
   description: "Notes on building products with an AI Product Manager.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function Blog() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Blog", path: "/blog" }])} />
       <main className="relative flex flex-1 flex-col items-center justify-center px-5 py-32 text-center">
         <Orb size={64} />
         <p className="eyebrow mt-10">Blog</p>

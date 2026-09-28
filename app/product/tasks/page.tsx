@@ -3,6 +3,7 @@ import { BreakdownTree } from "@/components/agents/execution/BreakdownTree";
 import { EXECUTION_COPY } from "@/components/agents/execution/copy";
 import { KanbanWindow } from "@/components/agents/execution/KanbanWindow";
 import { NudgeStack, OutcomeClose, TrackerSync } from "@/components/agents/execution/Sections";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { SectionHeader } from "@/components/landing/ui";
@@ -11,6 +12,7 @@ import { AgentRelated } from "@/components/site/AgentRelated";
 import { CTASection } from "@/components/site/CTASection";
 import { PageHero } from "@/components/site/PageHero";
 import { agentBySlug } from "@/lib/content/agents";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 const C = EXECUTION_COPY;
@@ -33,6 +35,7 @@ export default function ExecutionAgentPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Product", path: "/product" }, { name: agent.name, path: "/product/tasks" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">
           <PageHero eyebrow={C.hero.eyebrow} title={agent.headline} line={agent.line} visual={<KanbanWindow />} />

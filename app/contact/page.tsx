@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { InquiryForm } from "@/components/InquiryForm";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
 import { d } from "@/components/landing/ui";
 import { Nav } from "@/components/Nav";
 import { PageHeroTitle } from "@/components/site/PageHero";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -24,6 +26,7 @@ export default function ContactPage() {
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Contact", path: "/contact" }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-8">
           <section className="grid min-h-[calc(100svh-4.5rem)] grid-cols-1 items-center gap-10 py-16 lg:grid-cols-12 lg:gap-12 lg:py-20">

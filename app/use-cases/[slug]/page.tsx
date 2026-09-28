@@ -2,6 +2,7 @@ import { ArrowRight, ChevronsLeftRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { JsonLd } from "@/components/JsonLd";
 import { PAGE_COPY } from "@/components/use-cases/copy";
 import { DayResolved, DayScraps } from "@/components/use-cases/DayLayers";
 import { Footer } from "@/components/landing/Footer";
@@ -19,6 +20,7 @@ import { SplitCompare } from "@/components/site/SplitCompare";
 import { AGENTS } from "@/lib/content/agents";
 import { INTEGRATIONS } from "@/lib/content/integrations";
 import { USE_CASES } from "@/lib/content/use-cases";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 const T = PAGE_COPY;
@@ -62,6 +64,7 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Use cases", path: "/use-cases" }, { name: u.title, path: `/use-cases/${u.slug}` }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">
           <PageHero

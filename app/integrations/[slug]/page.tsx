@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TOOL_COPY } from "@/components/integrations/copy";
 import { ConversationCTA } from "@/components/ConversationCTA";
+import { JsonLd } from "@/components/JsonLd";
 import { BrandMark } from "@/components/landing/BrandMark";
 import { Footer } from "@/components/landing/Footer";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
@@ -18,6 +19,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { RelatedCards } from "@/components/site/RelatedCards";
 import { AGENTS } from "@/lib/content/agents";
 import { INTEGRATIONS, integrationBySlug } from "@/lib/content/integrations";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { pageMetadata } from "@/lib/site";
 
 const T = TOOL_COPY;
@@ -54,6 +56,7 @@ export default async function IntegrationPage({ params }: { params: Promise<{ sl
   return (
     <>
       <Nav />
+      <JsonLd data={breadcrumbJsonLd([{ name: "Integrations", path: "/integrations" }, { name: i.name, path: `/integrations/${i.slug}` }])} />
       <main className="relative flex-1 overflow-x-clip">
         <div className="relative z-10 mx-auto w-full max-w-[1280px] px-5 sm:px-8">
           <ToolWash look={look}>
