@@ -119,18 +119,19 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
               That doesn&rsquo;t look like a website. Try something like acme.com.
             </p>
           ) : (
-            <p className="mt-4 flex items-center gap-3 text-[0.875rem] text-fg-3">
-              <span className="flex -space-x-1.5" aria-hidden="true">
+            <p className="mt-5 flex items-center justify-center gap-3 text-[0.875rem] text-fg-3 sm:mt-4">
+              <span className="flex -space-x-1 sm:-space-x-1.5" aria-hidden="true">
                 {TRUST.map((logo) => (
                   <span
                     key={logo.name}
-                    className="grid h-7 w-7 place-items-center rounded-full border-2 border-bg bg-panel-2"
+                    className="grid h-9 w-9 place-items-center rounded-full border-2 border-bg bg-panel-2 sm:h-7 sm:w-7"
                   >
-                    <BrandMark logo={logo} lit className="h-3.5 w-3.5" />
+                    <BrandMark logo={logo} lit className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
                   </span>
                 ))}
               </span>
-              <span>
+              {/* Phones get the logos alone; the line only returns from sm up */}
+              <span className="sr-only sm:not-sr-only">
                 Works with <span className="text-fg-2">Slack, Linear, Notion</span> and the tools you already use
               </span>
             </p>
