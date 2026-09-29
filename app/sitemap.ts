@@ -20,6 +20,7 @@ function assertLivePagesExist() {
     ["app", "get-started", "page.tsx"],
     ["app", "about", "page.tsx"],
     ["app", "security", "page.tsx"],
+    ["app", "brand", "page.tsx"],
     ["app", "contact", "page.tsx"],
   ]) {
     if (!existsSync(join(/*turbopackIgnore: true*/ process.cwd(), ...file))) throw new Error(`Sitemap lists pages but ${file.join("/")} is missing`);

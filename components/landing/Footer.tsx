@@ -74,6 +74,7 @@ const COMPANY = [
   { label: "Get started", href: "/get-started" },
   { label: "About", href: "/about" },
   { label: "Security", href: "/security" },
+  { label: "Brand", href: "/brand" },
   { label: "Contact", href: "/contact" },
 ];
 

@@ -45,6 +45,7 @@ export const SITE_ROUTES: Route[] = [
   { path: "/get-started", changeFrequency: "monthly", priority: 0.7 },
   { path: "/about", changeFrequency: "monthly", priority: 0.5 },
   { path: "/security", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/brand", changeFrequency: "monthly", priority: 0.4 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.4 },
 ];
 
