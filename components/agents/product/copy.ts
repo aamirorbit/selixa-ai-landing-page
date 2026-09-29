@@ -92,5 +92,5 @@ export const PRODUCT_COPY = {
     linkText: "See how it works",
     agents: ["meeting", "research", "analyst"],
   },
-  cta: { headline: "stop building in chaos.", line: "Get a recommendation you can argue with." },
+  cta: { headline: "stop guessing what to build next.", line: "Get a recommendation you can argue with." },
 } as const;

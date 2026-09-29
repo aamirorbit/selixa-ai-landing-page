@@ -27,8 +27,8 @@ const STATEMENTS: { n: string; parts: React.ReactNode[] }[] = [
 
 export const metadata: Metadata = pageMetadata({
   title: "About — Selixa",
-  description: "Product work is scattered across meetings, docs and tools. Selixa is an AI Product Manager built so teams can stop building in chaos.",
-  ogTitle: "stop building in chaos. — Selixa",
+  description: "Product work is scattered across meetings, docs and tools. Selixa is product intelligence built so teams can stop guessing what to build next.",
+  ogTitle: "stop guessing what to build next. — Selixa",
   ogDescription: "Why we're building an AI Product Manager.",
   path: "/about",
 });

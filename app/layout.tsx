@@ -30,20 +30,20 @@ const satoshi = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Selixa — Your AI Product Manager",
+  title: "Selixa — Product intelligence",
   description:
-    "Stop building in chaos. Selixa joins your meetings, understands your product, remembers every decision, and turns conversations into clear next steps.",
+    "Stop guessing what to build next. Selixa connects your customer feedback, product data, team conversations, and engineering work so you know what matters and what to do next.",
   openGraph: {
-    title: "Selixa — Your AI Product Manager",
+    title: "Selixa — Product intelligence",
     description:
-      "Selixa joins your meetings, understands your product, remembers every decision, and turns conversations into clear next steps.",
+      "Selixa connects your customer feedback, product data, team conversations, and engineering work so you know what matters and what to do next.",
     siteName: "Selixa",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Selixa — Your AI Product Manager",
-    description: "Stop building in chaos.",
+    title: "Selixa — Product intelligence",
+    description: "Stop guessing what to build next.",
   },
 };
 

@@ -323,7 +323,7 @@ const JITTER: [number, number, number][] = [
   [0.08, 0.05, 14],
 ];
 
-export function ChaosWord({ text = "in chaos." }: { text?: string }) {
+export function ChaosWord({ text }: { text: string }) {
   const WORD = text;
   // Only the last word misbehaves. It takes the tail of JITTER, so its full stop always gets
   // the last (widest) offset, as "chaos." did.

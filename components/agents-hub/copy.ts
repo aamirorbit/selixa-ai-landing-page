@@ -51,7 +51,7 @@ export const HUB_COPY = {
     greyedNote: "Same Selixa. Its own context.",
   },
   cta: {
-    headline: "stop building in chaos.",
+    headline: "stop guessing what to build next.",
     line: "Put Selixa on your product.",
   },
 } as const;

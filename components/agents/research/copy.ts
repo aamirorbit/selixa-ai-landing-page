@@ -43,7 +43,7 @@ export const RESEARCH_COPY = {
       { slug: "product", reason: "Turns the brief into a recommendation." },
     ],
   },
-  cta: { headline: "stop building in chaos.", line: "Let Selixa read what your customers are saying." },
+  cta: { headline: "stop guessing what to build next.", line: "Let Selixa read what your customers are saying." },
 } as const;
 
 export type CardKind = "quote" | "ticket" | "count" | "screenshot" | "note";

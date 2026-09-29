@@ -50,7 +50,7 @@ export const HUB_COPY = {
     button: "Request an integration",
     prefix: "Integration request: ",
   },
-  cta: { headline: "stop building in chaos.", line: "Start with your product's website." },
+  cta: { headline: "stop guessing what to build next.", line: "Start with your product's website." },
 } as const;
 
 export const TOOL_COPY = {
@@ -69,7 +69,7 @@ export const TOOL_COPY = {
   },
   setup: { label: "Setup", headline: "set up in 3 steps." },
   related: { label: "Related", headline: "where it's used.", cardLink: "See how it works", allLink: "All integrations" },
-  cta: { headline: "stop building in chaos.", line: (name: string) => `Connect ${name} to your product.` },
+  cta: { headline: "stop guessing what to build next.", line: (name: string) => `Connect ${name} to your product.` },
   meta: {
     title: (name: string) => `${name} integration — Selixa`,
     ogTitle: (name: string) => `${name} + Selixa`,

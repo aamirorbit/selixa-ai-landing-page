@@ -15,7 +15,7 @@ import { pageMetadata } from "@/lib/site";
 // components/landing/ui.tsx (Mark), in Satoshi Light and Inter, so they match the site.
 const K = "/brand";
 /** Bump after re-running scripts/render-brand-assets.py, so browsers fetch the new banners. */
-const V = "?v=19";
+const V = "?v=20";
 
 const C = {
   eyebrow: "Brand",
@@ -27,8 +27,8 @@ const C = {
     line: "Backing Selixa? Put it in your profile header.",
     banners: [
       { id: "integrated", label: "Integrated", alt: "LinkedIn banner: Agentic Operating Systems for Product Management, integrated with 11 tools" },
-      { id: "plain", label: "Plain", alt: "LinkedIn banner: stop building in chaos, on a plain background" },
-      { id: "headline", label: "Headline", alt: "LinkedIn banner: stop building in chaos" },
+      { id: "plain", label: "Plain", alt: "LinkedIn banner: stop guessing what to build next, on a plain background" },
+      { id: "headline", label: "Headline", alt: "LinkedIn banner: stop guessing what to build next" },
       { id: "tagline", label: "Tagline", alt: "LinkedIn banner: Agentic Operating Systems for Product Management" },
       { id: "connected", label: "Connected", alt: "LinkedIn banner: 11 tools flow into Selixa, and out come decisions, an updated roadmap, tasks and a recap" },
     ].map((b) => ({ ...b, src: { dark: `${K}/linkedin-banner-${b.id}-dark.png${V}`, light: `${K}/linkedin-banner-${b.id}-light.png${V}` } })),
@@ -66,8 +66,8 @@ const C = {
   type: {
     headline: "the type.",
     faces: [
-      { name: "Satoshi Light", use: "Headlines, always lowercase.", sample: "stop building in chaos.", display: true },
-      { name: "Inter", use: "Everything else. Never bold.", sample: "Your AI Product Manager.", display: false },
+      { name: "Satoshi Light", use: "Headlines, always lowercase.", sample: "stop guessing what to build next.", display: true },
+      { name: "Inter", use: "Everything else. Never bold.", sample: "Product intelligence.", display: false },
     ],
   },
   name: {
@@ -80,7 +80,7 @@ const C = {
     do: ["Give the logo room to breathe.", "Use it on plain, calm backgrounds.", "Link to selixa.ai when you can."],
     dont: ["Stretch, rotate or recolour the mark.", "Add effects or outlines.", "Suggest Selixa endorses you."],
   },
-  cta: { headline: "stop building in chaos.", line: "Start with your product's website." },
+  cta: { headline: "stop guessing what to build next.", line: "Start with your product's website." },
 };
 
 export const metadata: Metadata = pageMetadata({

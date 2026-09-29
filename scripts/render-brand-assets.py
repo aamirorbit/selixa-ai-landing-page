@@ -51,7 +51,7 @@ satoshi=lambda px,c: f'font:300 {px}px/1.04 Satoshi;letter-spacing:-0.035em;colo
 grad=lambda c,t: f'<span class="grad" style="--in:{c["inn"]}">{t}</span>'
 
 def b_headline(c):
-    return frame(c, backdrop(c,1060)+f'<div style="{right}"><div style="{satoshi(96,c)}">stop building in {grad(c,"chaos.")}</div></div>')
+    return frame(c, backdrop(c,1060)+f'<div style="{right}"><div style="{satoshi(84,c)}">stop guessing<br>what to build {grad(c,"next.")}</div></div>')
 
 def b_tagline(c):
     return frame(c, backdrop(c,1060)+f'<div style="{right}"><div style="{satoshi(70,c)}">{grad(c,"Agentic")} Operating Systems<br>for Product Management</div></div>')
@@ -129,7 +129,7 @@ def b_plain(c):
     """Nothing but the line, on a flat field."""
     return f'''<div style="position:relative;width:{W}px;height:{H}px;background:{c["bg"]};overflow:hidden">
 <div style="position:absolute;right:112px;top:50%;transform:translateY(-50%);text-align:right;{satoshi(72,c)}">
-  stop building in {grad(c,"chaos.")}
+  stop guessing<br>what to build {grad(c,"next.")}
 </div></div>'''
 
 BANNERS={"headline":b_headline,"tagline":b_tagline,"connected":b_connected,"integrated":b_integrated,"plain":b_plain}

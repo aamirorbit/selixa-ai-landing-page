@@ -34,7 +34,7 @@ const C = {
     line: "Details on storage, encryption and retention are being finalized. Ask us anything:",
     email: "hello@selixa.ai",
   },
-  cta: { headline: "stop building in chaos.", line: "Start with your product's website." },
+  cta: { headline: "stop guessing what to build next.", line: "Start with your product's website." },
 };
 
 export const metadata: Metadata = pageMetadata({

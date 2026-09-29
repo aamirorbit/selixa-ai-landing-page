@@ -65,7 +65,7 @@ export const ANALYST_COPY = {
       { slug: "product", reason: "Decides what to do about it." },
     ],
   },
-  cta: { headline: "stop building in chaos.", line: "Find out why your numbers moved." },
+  cta: { headline: "stop guessing what to build next.", line: "Find out why your numbers moved." },
 } as const;
 
 /** Weekly activation, Jul 1 → Sep 23 (index 6 = Aug 12). */

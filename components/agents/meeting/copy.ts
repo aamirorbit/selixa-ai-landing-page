@@ -93,5 +93,5 @@ export const MEETING_COPY = {
       { slug: "roadmap", reason: "The decision moves Onboarding v2 to Now." },
     ],
   },
-  cta: { headline: "stop building in chaos.", line: "Bring Selixa to your next product review." },
+  cta: { headline: "stop guessing what to build next.", line: "Bring Selixa to your next product review." },
 } as const;

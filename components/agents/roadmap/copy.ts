@@ -73,7 +73,7 @@ export const ROADMAP_COPY = {
       { slug: "execution", reason: "Turns Now into tasks." },
     ],
   },
-  cta: { headline: "stop building in chaos.", line: "Keep your roadmap as current as your last meeting." },
+  cta: { headline: "stop guessing what to build next.", line: "Keep your roadmap as current as your last meeting." },
 } as const;
 
 export type RoadmapCard = {

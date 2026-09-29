@@ -11,10 +11,10 @@ import { AGENT_PATH, PRODUCT_HUB, SITE_URL } from "@/lib/site";
 
 export const BRAND = {
   name: "Selixa",
-  tagline: "Your AI Product Manager",
+  tagline: "Product intelligence",
   /** One sentence: what it is. Leads llms.txt and the Organization/SoftwareApplication description. */
   summary:
-    "Selixa is an AI Product Manager: it joins your product meetings, reads your tools, remembers every decision, and turns scattered product work into clear next steps and tracked tasks.",
+    "Selixa is product intelligence for founders and product teams: it connects customer feedback, product data, team conversations and engineering work, so you know what matters and what to build next.",
   /** A self-contained paragraph an assistant can cite whole. */
   about:
     "Selixa is an AI Product Manager for founders and product teams. Product context is scattered across meetings, Slack threads, docs, support tickets, analytics and trackers, so decisions get lost and work drifts. Selixa brings it into one place per product. It joins product meetings and captures decisions, action items and open questions; reads customer calls, feedback and competitor notes into a research brief; explains why metrics moved; weighs the evidence and recommends what to build next with sources cited; keeps the roadmap current as decisions change; and turns decisions into tasks with owners in Linear, Jira, ClickUp or GitHub, following up until the work ships. Each product keeps its own isolated context, so nothing is shared between products.",

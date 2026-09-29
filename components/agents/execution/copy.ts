@@ -71,7 +71,7 @@ export const EXECUTION_COPY = {
       { slug: "roadmap", reason: "Where the plan came from." },
     ],
   },
-  cta: { headline: "stop building in chaos.", line: "Stop chasing tasks. Start shipping them." },
+  cta: { headline: "stop guessing what to build next.", line: "Stop chasing tasks. Start shipping them." },
 } as const;
 
 export type Task = { id: string; title: string; owner: "Dev Patel" | "Maya Chen" | "Sara Kim" };

@@ -106,7 +106,7 @@ export function Footer() {
             <Logo />
           </div>
           <p className="mt-6 max-w-[18rem] text-[1.25rem] leading-[1.35] tracking-[-0.02em] text-fg">
-            Your AI Product Manager for everything you&rsquo;re building.
+            Product intelligence for everything you&rsquo;re building.
           </p>
 
           {social.length > 0 && (

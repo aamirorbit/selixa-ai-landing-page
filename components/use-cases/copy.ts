@@ -30,7 +30,7 @@ export const HUB_COPY = {
   chipsLabel: "Choose your role",
   preview: { pain: "The pain", agents: "Where Selixa helps most", day: "A day with Selixa", link: "See the full day" },
   grid: { label: "Every role", headline: "every role, at a glance.", cardLink: "Read more" },
-  cta: { headline: "stop building in chaos.", line: "Whatever your role, start with your product." },
+  cta: { headline: "stop guessing what to build next.", line: "Whatever your role, start with your product." },
 } as const;
 
 export const PAGE_COPY = {
@@ -47,5 +47,5 @@ export const PAGE_COPY = {
   timeline: { label: "The day", headline: "a day with Selixa.", line: "Four moments. What Selixa did in each.", selixa: "Selixa" },
   agents: { label: "What it does", headline: "where it helps most.", cardLink: "See how it works" },
   tools: { label: "Tools", headline: "tools you'll connect.", line: "Selixa reads them for this product only.", link: "All integrations" },
-  cta: { headline: "stop building in chaos.", line: "Start with your product's website." },
+  cta: { headline: "stop guessing what to build next.", line: "Start with your product's website." },
 } as const;

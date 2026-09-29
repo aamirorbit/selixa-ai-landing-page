@@ -5,7 +5,7 @@ import { ChaosToOrder } from "@/components/site/ChaosToOrder";
 import { d } from "./ui";
 
 /**
- * The home page's close: scraps of product work pulled into the orb while "chaos." settles,
+ * The home page's close: scraps of product work pulled into the orb while "next." settles,
  * then the site CTA, pulsing on the hold. Built on the shared ChaosToOrder (transform-only
  * scraps, no backdrop blur).
  */
@@ -14,13 +14,13 @@ export function FinalCTA() {
     <ChaosToOrder
       // The header tucks away from here down: this closing section and the footer carry the brand.
       hidesNav
-      label="stop building in chaos."
-      word="chaos."
+      label="stop guessing what to build next."
+      word="next."
       lead={
         <>
-          stop building
+          stop guessing
           <br />
-          <span style={{ color: "var(--chaos-in)" }}>{"in "}</span>
+          <span style={{ color: "var(--chaos-in)" }}>{"what to build "}</span>
         </>
       }
       after={({ done, still }) => (
