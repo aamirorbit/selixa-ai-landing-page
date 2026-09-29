@@ -4,7 +4,7 @@ import { d } from "./ui";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col [--hf:clamp(3.25rem,8.2vw,7.5rem)] justify-center py-16 lg:py-10">
+    <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col [--hf:clamp(2.75rem,6.6vw,6.25rem)] justify-center py-16 lg:py-10">
       {/* Rings behind the headline */}
       <div aria-hidden="true" className="fade pointer-events-none absolute inset-0 grid place-items-center" style={d(300)}>
         <div className="absolute aspect-square w-[min(92vw,56rem)] rounded-full border border-ink/[0.05]" />
@@ -14,29 +14,30 @@ export function Hero() {
         <div className="absolute bottom-[-18%] h-[46%] w-[min(120vw,80rem)] rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgb(var(--brand-glow-rgb)/0.2),transparent_65%)] blur-2xl" />
       </div>
 
-      {/* The chaos; it ends in the full stop of "chaos." */}
+      {/* The chaos; it ends in the full stop of "next." */}
       <HeroChaos />
 
-      <div className="relative mx-auto flex max-w-[52rem] flex-col items-center text-center">
+      <div className="relative mx-auto flex max-w-[64rem] flex-col items-center text-center">
         <span className="reveal pill gap-2.5 px-4 py-3" style={d(60)}>
           <span className="live-dot" aria-hidden="true" />
-          AI Product Manager
+          Product intelligence
         </span>
 
         <h1
           className="reveal mt-8 font-display text-[length:var(--hf)] font-light leading-[0.95] tracking-[-0.055em] text-fg"
           style={d(140)}
         >
-          stop building
+          Stop guessing
           <br />
-          <ChaosWord />
+          <ChaosWord text="what to build next." />
         </h1>
 
         <p
-          className="reveal mt-8 max-w-[38rem] text-[1.125rem] leading-[1.6] text-fg-2 text-pretty sm:text-[1.25rem]"
+          className="reveal mt-8 max-w-[42rem] text-[1.125rem] leading-[1.6] text-fg-2 text-pretty sm:text-[1.25rem]"
           style={d(220)}
         >
-          &amp; let Selixa turn scattered product work into clear next steps.
+          Selixa connects your customer feedback, product data, team conversations, and engineering work so you know what
+          matters and what to do next.
         </p>
 
         <div className="reveal mt-10 flex w-full justify-center" style={d(300)}>

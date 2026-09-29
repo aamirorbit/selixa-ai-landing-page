@@ -310,27 +310,32 @@ export function HeroChaos() {
 }
 
 /**
- * "chaos." as letters that shiver out of line, then settle as the fragments are pulled in.
- * The full stop is where they all go: it pulses once as it takes them in.
+ * The headline's last word as letters that shiver out of line, then settle as the fragments are
+ * pulled in. Its full stop is where they all go: it pulses once as it takes them in.
  */
-const WORD = "in chaos.";
-// Offsets per letter in em; only "chaos." misbehaves.
-const JITTER: Record<number, [number, number, number]> = {
-  3: [-0.06, 0.08, -9],
-  4: [0.05, -0.1, 7],
-  5: [-0.04, 0.12, -6],
-  6: [0.07, -0.06, 11],
-  7: [-0.05, 0.09, -8],
-  8: [0.08, 0.05, 14],
-};
+// Offsets per letter in em, applied in order to the last word's letters (and its full stop).
+const JITTER: [number, number, number][] = [
+  [-0.06, 0.08, -9],
+  [0.05, -0.1, 7],
+  [-0.04, 0.12, -6],
+  [0.07, -0.06, 11],
+  [-0.05, 0.09, -8],
+  [0.08, 0.05, 14],
+];
 
-export function ChaosWord() {
+export function ChaosWord({ text = "in chaos." }: { text?: string }) {
+  const WORD = text;
+  // Only the last word misbehaves. It takes the tail of JITTER, so its full stop always gets
+  // the last (widest) offset, as "chaos." did.
+  const first = WORD.lastIndexOf(" ") + 1;
+  const skip = Math.max(0, JITTER.length - (WORD.length - first));
+  const jitterAt = (i: number) => (i >= first ? JITTER[Math.min(i - first + skip, JITTER.length - 1)] : undefined);
   const n = WORD.length;
   return (
     <span className="inline-block pb-[0.12em] -mb-[0.12em]">
       <span className="sr-only">{WORD}</span>
       {WORD.split("").map((ch, i) => {
-        const j = JITTER[i];
+        const j = jitterAt(i);
         const style = {
           backgroundSize: `${n * 100}% 100%`,
           backgroundPosition: `${(i / (n - 1)) * 100}% 0`,
@@ -339,7 +344,7 @@ export function ChaosWord() {
             "--jy": `${j[1]}em`,
             "--jr": `${j[2]}deg`,
             "--sh": `${j[0] < 0 ? 0.025 : -0.025}em ${j[1] < 0 ? 0.02 : -0.02}em`,
-            "--cd": `${1650 + (i - 3) * 45}ms`,
+            "--cd": `${1650 + (i - first) * 45}ms`,
           }),
         } as CSSProperties;
         return (
