@@ -194,7 +194,7 @@ export function DocDemo({ script, logo }: { script: DocScript; logo?: BrandLogo;
   );
 }
 
-/* ---------- issue (Linear, Jira, GitHub) ---------- */
+/* ---------- issue (Linear, Jira, ClickUp, GitHub) ---------- */
 
 export function IssueDemo({ script, logo, labels, place }: { script: IssueScript; logo?: BrandLogo; labels: DemoLabels; place: string }) {
   const titleMs = Math.round((script.title.length / 60) * 1000 + 150);
@@ -350,9 +350,9 @@ export function CallDemo({ script, logo, labels }: { script: CallScript; logo?: 
   );
 }
 
-/* ---------- chart (PostHog, Mixpanel) ---------- */
+/* ---------- chart (PostHog) ---------- */
 
-// Illustrative: gently rising, then ~8% down from index 15, flat after (same on both tools).
+// Illustrative: gently rising, then ~8% down from index 15, flat after .
 const SERIES = [40, 40.4, 40.2, 40.8, 41, 40.9, 41.3, 41.6, 41.4, 41.9, 42.1, 42, 42.4, 42.6, 42.5, 42.6, 40.2, 39.3, 39.1, 39.2, 39, 39.2, 39.1, 39.2];
 const MARK = 15;
 const DIP = SERIES.indexOf(Math.min(...SERIES.slice(MARK)));

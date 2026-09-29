@@ -16,12 +16,12 @@ export const TOOL_LOOK: Record<IntegrationSlug, ToolLook> = {
   "google-drive": { rgb: "66 133 244", aDark: 0.24, aLight: 0.13 },
   linear: { rgb: "94 106 210", aDark: 0.3, aLight: 0.14 },
   jira: { rgb: "0 82 204", aDark: 0.34, aLight: 0.13 },
+  clickup: { rgb: "123 104 238", aDark: 0.28, aLight: 0.13 },
   github: { rgb: "ink", aDark: 0.1, aLight: 0.06 },
   zoom: { rgb: "11 92 255", aDark: 0.3, aLight: 0.13 },
   "google-meet": { rgb: "0 137 123", aDark: 0.3, aLight: 0.14 },
   intercom: { rgb: "106 253 239", aDark: 0.16, aLight: 0.18 },
   posthog: { rgb: "ink", aDark: 0.1, aLight: 0.06 },
-  mixpanel: { rgb: "120 86 255", aDark: 0.26, aLight: 0.13 },
 };
 
 /** The tool's mark, joined by name. */

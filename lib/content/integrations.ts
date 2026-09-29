@@ -22,8 +22,8 @@ export type IntegrationSlug =
   | "zoom"
   | "google-meet"
   | "intercom"
-  | "posthog"
-  | "mixpanel";
+  | "clickup"
+  | "posthog";
 
 export type IntegrationCategory = "Chat" | "Docs" | "Issues" | "Code" | "Meetings" | "Feedback" | "Analytics";
 
@@ -59,7 +59,7 @@ export type DocScript = {
   byline: string;
 };
 
-/** Linear / Jira / GitHub: an issue created from a decision. */
+/** Linear / Jira / ClickUp / GitHub: an issue created from a decision. */
 export type IssueScript = {
   kind: "issue";
   /** The decision the issue came from, shown above it. */
@@ -86,7 +86,7 @@ export type CallScript = {
   footer: string;
 };
 
-/** PostHog / Mixpanel: a chart with Selixa's annotation. */
+/** PostHog: a chart with Selixa's annotation. */
 export type ChartScript = {
   kind: "chart";
   metric: string;
@@ -260,6 +260,32 @@ export const INTEGRATIONS: Integration[] = [
     permissions: null,
   },
   {
+    slug: "clickup",
+    keywords: ["task", "tasks", "ticket", "tracker", "project"],
+    name: "ClickUp",
+    category: "Issues",
+    job: "Decisions into tasks.",
+    reads: ["Spaces and lists you choose", "Task status", "Blockers"],
+    writes: ["Tasks from decisions", "Owners and due dates", "Status follow-ups"],
+    demo: "issue",
+    demoScript: {
+      kind: "issue",
+      decision: "Ship the shorter onboarding flow on Oct 14",
+      key: "ATL-142",
+      title: "Move Slack connect after first project",
+      fields: [
+        { label: "Assignee", value: "Dev Patel" },
+        { label: "List", value: "Onboarding v2" },
+        { label: "Status", value: "To Do" },
+      ],
+      footer: "14 tasks created in Onboarding v2",
+    },
+    setup: ["Connect ClickUp to Atlas.", "Pick the space and lists.", "Decisions become tasks."],
+    agents: ["execution", "roadmap"],
+    metaDescription: "Connect ClickUp to Selixa. Decisions from meetings become tasks with owners, and Selixa follows them to done.",
+    permissions: null,
+  },
+  {
     slug: "github",
     keywords: ["pr", "prs", "pull request", "repo", "code"],
     name: "GitHub",
@@ -370,28 +396,6 @@ export const INTEGRATIONS: Integration[] = [
     setup: ["Connect PostHog to Atlas.", "Pick the metrics to watch.", "Selixa explains what moves."],
     agents: ["analyst", "product"],
     metaDescription: "Connect PostHog to Selixa. It watches the metrics you pick and explains what moved, with the meetings and feedback behind it.",
-    permissions: null,
-  },
-  {
-    slug: "mixpanel",
-    keywords: ["metrics", "events", "funnel"],
-    name: "Mixpanel",
-    category: "Analytics",
-    job: "Numbers with a cause.",
-    reads: ["Events and funnels", "Metrics you pick", "Cohorts"],
-    writes: ["Annotations on what moved", "Alerts when a metric drops"],
-    demo: "chart",
-    demoScript: {
-      kind: "chart",
-      metric: "Activation",
-      change: "−8%",
-      marker: "Aug 12 release",
-      annotation: "Integrations step added. 38% of new workspaces never finish setup.",
-      sources: ["4 customer calls", "7 feedback notes"],
-    },
-    setup: ["Connect Mixpanel to Atlas.", "Pick the metrics to watch.", "Selixa explains what moves."],
-    agents: ["analyst", "product"],
-    metaDescription: "Connect Mixpanel to Selixa. It watches the metrics you pick and explains what moved, with the meetings and feedback behind it.",
     permissions: null,
   },
 ];

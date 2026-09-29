@@ -19,8 +19,8 @@ export type IntegrationName =
   | "Zoom"
   | "Google Meet"
   | "Intercom"
-  | "PostHog"
-  | "Mixpanel";
+  | "ClickUp"
+  | "PostHog";
 
 /** A: timeline on the left. B: timeline across the top. C: timeline as stacked cards. */
 export type UseCaseVariant = "A" | "B" | "C";
@@ -110,7 +110,7 @@ export const USE_CASES: UseCase[] = [
       { time: "17:00", moment: "Stakeholder update", selixa: "Drafted the weekly update from the week's decisions." },
     ],
     agents: ["meeting", "research", "product"],
-    integrations: ["Jira", "Zoom", "Intercom", "Mixpanel"],
+    integrations: ["ClickUp", "Zoom", "Intercom", "PostHog"],
     variant: "C",
   },
   {
@@ -200,7 +200,7 @@ export const USE_CASES: UseCase[] = [
       { time: "16:00", moment: "Kickoff", selixa: "Created 14 tasks and set activation as the goal." },
     ],
     agents: ["analyst", "product", "research"],
-    integrations: ["PostHog", "Mixpanel", "Linear"],
+    integrations: ["PostHog", "Linear", "ClickUp"],
     variant: "B",
   },
   {

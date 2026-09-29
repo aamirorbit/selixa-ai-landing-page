@@ -122,7 +122,7 @@ export const AGENTS: Agent[] = [
     icon: "ListChecks",
     headline: "from decision to done.",
     description:
-      "Selixa turns decisions into tasks with owners, syncs them to Linear, Jira or GitHub, and follows up until the work ships.",
+      "Selixa turns decisions into tasks with owners, syncs them to Linear, Jira, ClickUp or GitHub, and follows up until the work ships.",
     related: ["analyst", "roadmap"],
   },
 ];

@@ -44,7 +44,7 @@ export const ANALYST_COPY = {
     answer: ["Week-4 retention rose 5% in May, after saved views shipped on May 6.", "Teams that used saved views drove most of it."],
     chartTitle: "Week-4 retention · Apr–Jun",
     marker: "May 6 · Saved views",
-    sources: ["PostHog", "Mixpanel"],
+    sources: ["PostHog"],
     followUps: ["Break down by plan", "Compare to last year"],
     sender: "Selixa",
   },
