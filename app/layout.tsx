@@ -32,11 +32,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Selixa — Product intelligence",
   description:
-    "Stop guessing what to build next. Selixa connects your customer feedback, product data, team conversations, and engineering work so you know what matters and what to do next.",
+    "Stop guessing what to build next. Selixa brings your product signals together so you know what matters, what to build, and what to do next.",
   openGraph: {
     title: "Selixa — Product intelligence",
     description:
-      "Selixa connects your customer feedback, product data, team conversations, and engineering work so you know what matters and what to do next.",
+      "Selixa brings your product signals together so you know what matters, what to build, and what to do next.",
     siteName: "Selixa",
     type: "website",
   },

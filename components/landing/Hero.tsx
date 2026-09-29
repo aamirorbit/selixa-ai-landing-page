@@ -33,11 +33,13 @@ export function Hero() {
         </h1>
 
         <p
-          className="reveal mt-8 max-w-[42rem] text-[1.125rem] leading-[1.6] text-fg-2 text-pretty sm:text-[1.25rem]"
+          className="reveal mt-8 max-w-[38rem] text-[1.125rem] leading-[1.6] text-fg-2 text-pretty sm:text-[1.25rem]"
           style={d(220)}
         >
-          Selixa connects your customer feedback, product data, team conversations, and engineering work so you know what
-          matters and what to do next.
+          Selixa brings your product signals together so you know
+          {/* The three answers get their own line; on phones the text just wraps. */}
+          <br className="hidden sm:block" />
+          {" "}what matters, what to build, and what to do next.
         </p>
 
         <div className="reveal mt-10 flex w-full justify-center" style={d(300)}>
