@@ -61,25 +61,42 @@ def logo_svg(l,px):
     return f'<svg viewBox="{l["viewBox"]}" width="{px}" height="{px}">{paths}</svg>'
 
 def b_connected(c):
-    import math
-    cx,cy=730,198
-    inner,outer=LOGOS[:4],LOGOS[4:]
-    # Two elliptical orbits (the banner is wide); angles chosen so no spoke runs through another tile.
-    orbits=[(118,86),(236,146)]
-    spots=[(orbits[0],math.radians(45+90*i)) for i in range(len(inner))]+[(orbits[1],math.radians(360/len(outer)*i)) for i in range(len(outer))]
-    tiles,lines="",""
-    for l,((rx,ry),a) in zip(LOGOS,spots):
-        x,y=cx+rx*math.cos(a),cy+ry*math.sin(a)
-        lines+=f'<line x1="{cx}" y1="{cy}" x2="{x:.1f}" y2="{y:.1f}" stroke="url(#fade)" stroke-width="1"/>'
-        tiles+=(f'<div style="position:absolute;left:{x-23:.1f}px;top:{y-23:.1f}px;width:46px;height:46px;border-radius:13px;'
-                f'background:{c["tile"]};border:1px solid rgb({c["ring"]} / .12);box-shadow:0 8px 24px -10px rgb(0 0 0 / .45);'
-                f'display:grid;place-items:center">{logo_svg(l,24)}</div>')
-    svg=(f'<svg width="{W}" height="{H}" style="position:absolute;inset:0"><defs><radialGradient id="fade" gradientUnits="userSpaceOnUse" cx="{cx}" cy="{cy}" r="240">'
-         f'<stop offset="0" stop-color="#f23a2b" stop-opacity=".7"/><stop offset="1" stop-color="rgb({c["ring"]})" stop-opacity=".12"/></radialGradient></defs>{"".join(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="none" stroke="rgb({c['ring']} / .1)" stroke-dasharray="3 5"/>' for rx,ry in orbits)}{lines}</svg>')
-    core=(f'<div style="position:absolute;left:{cx-9}px;top:{cy-9}px;width:18px;height:18px;border-radius:50%;background:#f23a2b;'
-          f'box-shadow:0 0 0 8px rgb(242 58 43 / .14),0 0 0 18px rgb(242 58 43 / .06),0 0 60px 10px rgb(242 58 43 / .5)"></div>')
-    text=f'<div style="{right};left:1000px"><div style="{satoshi(70,c)}">stop building<br>in {grad(c,"chaos.")}</div></div>'
-    return frame(c, backdrop(c,cx,cy,radii=(300,420),glow=820)+svg+tiles+core+text)
+    """Tools on the left flow into Selixa; finished work flows out on the right. Flat field, no haze."""
+    dark = c is SCHEMES["dark"]
+    fx, fy = 960, 198                       # the Selixa hub
+    step = 52                               # vertical rhythm of the tool columns
+    # Six near, five far. A far tile sits where its line to the hub crosses the near column
+    # exactly in a gap between tiles, scaled by distance (300 / 400), so no line clips a tile.
+    near = [(fx - 300, fy + (i - 2.5) * step) for i in range(6)]
+    far = [(fx - 400, fy + (i - 2) * step * 400 / 300) for i in range(5)]
+    done = ["3 decisions captured", "Roadmap updated", "14 tasks created", "Recap sent"]
+    ox, orow = 1120, 64                     # where the outputs start, and their spacing
+    tile_bg = "#111114" if dark else "#ffffff"
+    edge = f'rgb({c["ring"]} / {".10" if dark else ".09"})'
+    fg2 = c["fg2"]
+    tiles, lines, defs = "", "", ""
+    for i, (l, (x, y)) in enumerate(zip(LOGOS, near + far)):
+        defs += (f'<linearGradient id="g{i}" gradientUnits="userSpaceOnUse" x1="{x:.1f}" y1="{y:.1f}" x2="{fx}" y2="{fy}">'
+                 f'<stop offset="0" stop-color="rgb({c["ring"]})" stop-opacity=".10"/><stop offset="1" stop-color="#f23a2b" stop-opacity=".7"/></linearGradient>')
+        lines += f'<line x1="{x:.1f}" y1="{y:.1f}" x2="{fx}" y2="{fy}" stroke="url(#g{i})" stroke-width="1"/>'
+        tiles += (f'<div style="position:absolute;left:{x-22:.1f}px;top:{y-22:.1f}px;width:44px;height:44px;border-radius:12px;'
+                  f'background:{tile_bg};border:1px solid {edge};display:grid;place-items:center">{logo_svg(l,22)}</div>')
+    rows = ""
+    for j, label in enumerate(done):
+        y = fy + (j - 1.5) * orow
+        defs += (f'<linearGradient id="o{j}" gradientUnits="userSpaceOnUse" x1="{fx}" y1="{fy}" x2="{ox}" y2="{y}">'
+                 f'<stop offset="0" stop-color="#f23a2b" stop-opacity=".7"/><stop offset="1" stop-color="rgb({c["ring"]})" stop-opacity=".18"/></linearGradient>')
+        lines += f'<line x1="{fx}" y1="{fy}" x2="{ox}" y2="{y:.1f}" stroke="url(#o{j})" stroke-width="1"/>'
+        rows += (f'<div style="position:absolute;left:{ox}px;top:{y-23:.1f}px;height:46px;display:flex;align-items:center;gap:12px;'
+                 f'padding:0 20px 0 12px;border-radius:12px;background:{tile_bg};border:1px solid {edge}">'
+                 f'<span style="width:22px;height:22px;border-radius:50%;background:#f23a2b;display:grid;place-items:center">'
+                 f'<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5l3 3 6-7"/></svg></span>'
+                 f'<span style="font:400 19px/1 Inter;color:{c["fg"]}">{label}</span></div>')
+    svg = f'<svg width="{W}" height="{H}" style="position:absolute;inset:0"><defs>{defs}</defs>{lines}</svg>'
+    hub = (f'<div style="position:absolute;left:{fx-36}px;top:{fy-36}px;width:72px;height:72px;border-radius:50%;'
+           f'background:radial-gradient(circle at 35% 28%,rgb(255 255 255 / .18),transparent 45%),radial-gradient(circle at 50% 62%,rgb(242 58 43 / .35),transparent 70%),#0b0b0e;'
+           f'border:1px solid rgb(255 255 255 / .16);box-shadow:0 0 40px -4px rgb(242 58 43 / .55);display:grid;place-items:center">{inline("#ffffff",30)}</div>')
+    return frame(c, svg + tiles + rows + hub)
 
 def mono_logo(l,px,fill,bg):
     """A logo in one flat colour (the "Integrated with" row); cut-outs take the background."""

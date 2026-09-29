@@ -15,13 +15,13 @@ import { pageMetadata } from "@/lib/site";
 // components/landing/ui.tsx (Mark), in Satoshi Light and Inter, so they match the site.
 const K = "/brand";
 /** Bump after re-running scripts/render-brand-assets.py, so browsers fetch the new banners. */
-const V = "?v=12";
+const V = "?v=19";
 
 const C = {
   eyebrow: "Brand",
   headline: "take selixa with you.",
   line: "The logo, the colours and a LinkedIn banner. Free to use when you talk about Selixa.",
-  kit: { label: "Download the kit", href: `${K}/selixa-brand-kit.zip`, note: "SVG and PNG · 4.6 MB" },
+  kit: { label: "Download the kit", href: `${K}/selixa-brand-kit.zip`, note: "SVG and PNG · 3.4 MB" },
   linkedin: {
     headline: "wear it on LinkedIn.",
     line: "Backing Selixa? Put it in your profile header.",
@@ -30,7 +30,7 @@ const C = {
       { id: "plain", label: "Plain", alt: "LinkedIn banner: stop building in chaos, on a plain background" },
       { id: "headline", label: "Headline", alt: "LinkedIn banner: stop building in chaos" },
       { id: "tagline", label: "Tagline", alt: "LinkedIn banner: Agentic Operating Systems for Product Management" },
-      { id: "connected", label: "Connected", alt: "LinkedIn banner: the tools Selixa connects to, around one point, and stop building in chaos" },
+      { id: "connected", label: "Connected", alt: "LinkedIn banner: 11 tools flow into Selixa, and out come decisions, an updated roadmap, tasks and a recap" },
     ].map((b) => ({ ...b, src: { dark: `${K}/linkedin-banner-${b.id}-dark.png${V}`, light: `${K}/linkedin-banner-${b.id}-light.png${V}` } })),
     profileLine: "Building with Selixa",
     steps: [
