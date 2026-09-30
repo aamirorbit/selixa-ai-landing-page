@@ -15,6 +15,7 @@ import { Proactive } from "@/components/landing/Proactive";
 import { Problem } from "@/components/landing/Problem";
 import { Products } from "@/components/landing/Products";
 import { ScrollReveal } from "@/components/landing/ScrollReveal";
+import { ScrollZoom } from "@/components/landing/ScrollZoom";
 import { Workspace } from "@/components/landing/Workspace";
 import { Nav } from "@/components/Nav";
 import { softwareJsonLd } from "@/lib/seo";
@@ -54,6 +55,7 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollReveal />
+      <ScrollZoom />
     </>
   );
 }

@@ -3,7 +3,7 @@
 import { Check, ChevronsUpDown, Lock, Plus } from "lucide-react";
 import { useState } from "react";
 import { Section, SectionHeader, WindowBar, d } from "./ui";
-import { useSequence } from "./useSequence";
+import { useScrollSequence } from "./useScrollSequence";
 
 type Product = {
   name: string;
@@ -26,8 +26,8 @@ const PRODUCTS: Product[] = [
 const SHADES = ["bg-ink/[0.14]", "bg-ink/[0.09]", "bg-ink/[0.2]", "bg-ink/[0.06]"];
 
 export function Products() {
-  // Cycles through the products on its own until someone picks one.
-  const { ref, step } = useSequence(PRODUCTS.map(() => 2600));
+  // Steps through the products as the page scrolls, until someone picks one.
+  const { ref, step } = useScrollSequence(PRODUCTS.map(() => 2600));
   const [picked, setPicked] = useState<number | null>(null);
   const active = picked ?? step;
   const setActive = setPicked;

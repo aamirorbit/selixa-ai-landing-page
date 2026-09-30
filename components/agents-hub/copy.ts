@@ -6,12 +6,12 @@ export const HUB_COPY = {
     title: "Product — Selixa, the AI Product Manager",
     description:
       "Selixa is one AI Product Manager for the whole job: meetings, research, analytics, priorities, roadmap and tasks. Each product keeps its own context.",
-    ogTitle: "The whole job, in one AI — Selixa",
+    ogTitle: "Meet Selixa, your AI Product Manager",
     ogDescription: "One piece of work, from a meeting to 14 shipped tasks. Selixa carries it the whole way.",
   },
   hero: {
     eyebrow: "Product",
-    headline: "the whole job, in one AI.",
+    headline: "meet Selixa, your AI Product Manager.",
     line: "From the meeting to shipped tasks. Selixa carries it all the way.",
     scrollHint: "Follow one piece of work",
   },

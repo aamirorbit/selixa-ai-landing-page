@@ -3,7 +3,7 @@
 import { ArrowUp, BookOpen, ChartLine, Check, CircleDot, FileText, Map as MapIcon, MessageSquare, Telescope, Video, type LucideIcon } from "lucide-react";
 import { Stage, Typed } from "./demo";
 import { Orb, Section, SectionHeader, WindowBar, d } from "./ui";
-import { useSequence } from "./useSequence";
+import { useScrollSequence } from "./useScrollSequence";
 
 const KNOWS: { label: string; meta: string; icon: LucideIcon }[] = [
   { label: "Meetings", meta: "148 conversations", icon: Video },
@@ -35,7 +35,7 @@ const ANSWERING = THINK + 1;
 const CITE = ANSWERING + 1;
 
 export function Context() {
-  const { ref, step, still } = useSequence(SCRIPT);
+  const { ref, step, still } = useScrollSequence(SCRIPT);
 
   return (
     <Section id="context">

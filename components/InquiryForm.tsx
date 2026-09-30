@@ -86,7 +86,7 @@ export function InquiryForm({ titleId, heading, intro, source = "modal", submitL
           name="problem"
           label="What problem are you trying to solve?"
           multiline
-          rows={1}
+          rows={2}
           icon={<CircleHelp />}
           error={errors.problem}
           defaultValue={values?.problem ?? defaults?.problem}

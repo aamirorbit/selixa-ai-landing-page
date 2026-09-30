@@ -35,6 +35,8 @@ export const SITE_ROUTES: Route[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/product", changeFrequency: "monthly", priority: 0.9 },
   ...LIVE_AGENT_PAGES.map((slug): Route => ({ path: `${PRODUCT_HUB}/${AGENT_PATH[slug]}`, changeFrequency: "monthly", priority: 0.8 })),
+  { path: "/product/signal", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/product/capture", changeFrequency: "monthly", priority: 0.8 },
   { path: "/integrations", changeFrequency: "monthly", priority: 0.8 },
   // Every tool page is generated from the same list (app/integrations/[slug], generateStaticParams).
   ...INTEGRATIONS.map((i): Route => ({ path: `/integrations/${i.slug}`, changeFrequency: "monthly", priority: 0.6 })),

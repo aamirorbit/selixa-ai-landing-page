@@ -3,7 +3,7 @@
 import { ChartLine, Compass, ListChecks, Map as MapIcon, Telescope, Video, type LucideIcon } from "lucide-react";
 import { Typed } from "./demo";
 import { Orb, Section, SectionHeader, d } from "./ui";
-import { useSequence } from "./useSequence";
+import { useScrollSequence } from "./useScrollSequence";
 
 type Agent = { name: string; body: string; status: string; doing: string; icon: LucideIcon };
 
@@ -20,11 +20,11 @@ const AGENTS: Agent[] = [
 const HOLD = 1600;
 
 export function Agents() {
-  const { ref, step, still } = useSequence<HTMLUListElement>(AGENTS.map(() => HOLD));
+  const { ref, step, still } = useScrollSequence<HTMLUListElement>(AGENTS.map(() => HOLD));
 
   return (
     <Section id="agents">
-      <SectionHeader num="06" label="What it does" title="The whole job, in one AI." />
+      <SectionHeader num="06" label="What it does" title="Meet Selixa, your AI Product Manager." />
 
       <ul ref={ref} className="mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {AGENTS.map(({ name, body, status, doing, icon: Icon }, i) => {

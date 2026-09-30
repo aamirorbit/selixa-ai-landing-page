@@ -3,7 +3,7 @@
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { Avatar, Section, SectionHeader, d } from "./ui";
-import { useSequence } from "./useSequence";
+import { useScrollSequence } from "./useScrollSequence";
 
 const STEPS: { label: string; body: ReactNode }[] = [
   { label: "Decision", body: <p className="text-fg">Shorten onboarding</p> },
@@ -61,7 +61,7 @@ const STEPS: { label: string; body: ReactNode }[] = [
 const SCRIPT = [300, ...STEPS.map(() => 450), 3000];
 
 export function Execution() {
-  const { ref, step, still } = useSequence<HTMLOListElement>(SCRIPT);
+  const { ref, step, still } = useScrollSequence<HTMLOListElement>(SCRIPT);
   const reached = Math.min(step, STEPS.length); // stages done or in progress
 
   return (

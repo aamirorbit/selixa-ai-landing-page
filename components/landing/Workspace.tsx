@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { Stage, Typed } from "./demo";
 import { Orb, Section, SectionHeader, WindowBar, d } from "./ui";
-import { useSequence } from "./useSequence";
+import { useScrollSequence } from "./useScrollSequence";
 
 const NAV: { label: string; icon: LucideIcon; badge?: number }[] = [
   { label: "Home", icon: House },
@@ -43,7 +43,7 @@ const CARDS_AT = 3;
 const FOCUS = CARDS_AT + ATTENTION.length;
 
 export function Workspace() {
-  const { ref, step, still } = useSequence(SCRIPT);
+  const { ref, step, still } = useScrollSequence(SCRIPT);
 
   return (
     <Section id="workspace">

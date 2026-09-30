@@ -3,7 +3,7 @@
 import { ArrowDown, Bell, ChartLine, MessageSquare, Video, type LucideIcon } from "lucide-react";
 import { Stage } from "./demo";
 import { Orb, Section, SectionHeader, d } from "./ui";
-import { useSequence } from "./useSequence";
+import { useScrollSequence } from "./useScrollSequence";
 
 type Signal = { label: string; value: string; icon: LucideIcon; points: string };
 
@@ -39,7 +39,7 @@ function Sparkline({ points, on }: { points: string; on: boolean }) {
 }
 
 export function Proactive() {
-  const { ref, step, still } = useSequence(SCRIPT);
+  const { ref, step, still } = useScrollSequence(SCRIPT);
 
   return (
     <Section id="proactive">

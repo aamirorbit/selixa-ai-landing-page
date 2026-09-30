@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { ConversationCTA } from "@/components/ConversationCTA";
 import { Orb, d } from "@/components/landing/ui";
@@ -9,6 +10,8 @@ type CTASectionProps = {
   line?: ReactNode;
   /** Button label (default "Get started"). */
   label?: string;
+  /** A quiet text link under the CTA, e.g. back to the page's demo. */
+  secondary?: { label: string; href: string };
 };
 
 /**
@@ -16,7 +19,7 @@ type CTASectionProps = {
  * (`ConversationCTA variant="site"`), the page's one primary action. The ring
  * layer matches the home FinalCTA; the scraps and tumbling letters stay home-only.
  */
-export function CTASection({ title, line, label = "Get started" }: CTASectionProps) {
+export function CTASection({ title, line, label = "Get started", secondary }: CTASectionProps) {
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 grid place-items-center">
@@ -44,6 +47,12 @@ export function CTASection({ title, line, label = "Get started" }: CTASectionPro
         <div data-reveal style={d(240)} className="mt-12 flex w-full justify-center">
           <ConversationCTA variant="site" label={label} />
         </div>
+        {secondary && (
+          <a data-reveal style={d(300)} href={secondary.href} className="link-arrow mt-8 text-fg-2 hover:text-fg">
+            {secondary.label}
+            <ArrowRight className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+          </a>
+        )}
       </div>
     </section>
   );

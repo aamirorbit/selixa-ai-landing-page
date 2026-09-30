@@ -1,5 +1,6 @@
 "use client";
 
+import { setSceneScrolling } from "@/components/SmoothScroll";
 import {
   createContext,
   useContext,
@@ -99,10 +100,14 @@ type Props = {
   top?: string;
   /** Below this stage height (px) the scene falls back to static. */
   minStageHeight?: number;
+  /** Below this viewport width (px) the scene falls back to static (e.g. pinned on desktop only). */
+  minWidth?: number;
   /** aria-label for the section. */
   label?: string;
   /** Classes on the stage (the pinned element). */
   className?: string;
+  /** Classes on the section itself, e.g. to bleed past the page container. */
+  sectionClassName?: string;
   children: ReactNode;
 };
 
@@ -115,7 +120,7 @@ function toPx(len: string) {
 
 const motionOn = () => document.documentElement.dataset.motion === "on";
 
-export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, label, className = "", children }: Props) {
+export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, minWidth = 0, label, className = "", sectionClassName = "", children }: Props) {
   const [store] = useState(() => new SceneStore());
   const section = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -127,7 +132,7 @@ export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, 
       window.addEventListener("resize", onChange);
       return () => window.removeEventListener("resize", onChange);
     },
-    () => window.innerHeight - toPx(top) >= minStageHeight,
+    () => window.innerHeight - toPx(top) >= minStageHeight && window.innerWidth >= minWidth,
     () => true,
   );
 
@@ -154,20 +159,58 @@ export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, 
       if (store.setProgress(p)) stg.style.setProperty("--p", p.toFixed(4));
     };
     const progressNow = () => clamp01((window.scrollY - start) / range);
-    const compute = () => set(progressNow());
+
+    // The scene follows the scroll with inertia: it eases toward where the page is (TAU) and
+    // never moves faster than MAX_PX of scroll per second, so a fast flick still plays the
+    // story at a watchable pace and then catches up. One rAF loop, only while it's behind.
+    const TAU = 0.22;
+    const MAX_PX = 1500;
+    let target = 0;
+    let shown = 0;
+    let raf = 0;
+    let last = 0;
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000 || 1 / 60);
+      last = now;
+      const gap = target - shown;
+      if (Math.abs(gap) < 0.0006) {
+        shown = target;
+        set(shown);
+        raf = 0;
+        return;
+      }
+      let step = gap * (1 - Math.exp(-dt / TAU));
+      const cap = (MAX_PX * dt) / range;
+      if (Math.abs(step) > cap) step = Math.sign(step) * cap;
+      shown += step;
+      set(shown);
+      raf = requestAnimationFrame(tick);
+    };
+    // While the stage is actually pinned, the page scrolls heavier (see SmoothScroll).
+    let holding = false;
+    const hold = (on: boolean) => {
+      if (on === holding) return;
+      holding = on;
+      setSceneScrolling(on);
+    };
+    const follow = () => {
+      target = progressNow();
+      hold(target > 0 && target < 1);
+      if (!raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
+    };
+    const jump = (p: number) => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      target = shown = p;
+      set(p);
+    };
+    const compute = follow;
 
     // Lenis scrolls the real window, so a passive scroll listener sees every smoothed position.
-    // The listener only flags; one rAF per frame reads scrollY (no layout) and notifies.
-    let pending = false;
-    let raf = 0;
-    const onScroll = () => {
-      if (pending) return;
-      pending = true;
-      raf = requestAnimationFrame(() => {
-        pending = false;
-        compute();
-      });
-    };
+    const onScroll = follow;
 
     let attached = false;
     const attach = () => {
@@ -182,10 +225,9 @@ export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, 
       attached = false;
       delete stg.dataset.active;
       window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-      pending = false;
-      // A fast scroll or anchor jump never leaves the scene mid-beat.
-      set(above ? 0 : 1);
+      hold(false);
+      // Once it's off screen, snap to the end it left by: never parked mid-beat.
+      jump(above ? 0 : 1);
     };
 
     // Only listen while the section is near the viewport.
@@ -195,12 +237,13 @@ export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, 
     );
     const ro = new ResizeObserver(() => {
       measure();
-      compute();
+      jump(progressNow());
     });
 
     measure();
     // First frame before paint, wherever the page was loaded or restored to.
     const p0 = progressNow();
+    target = shown = p0;
     stg.style.setProperty("--p", p0.toFixed(4));
     store.setLive(true, p0);
     io.observe(sec);
@@ -211,6 +254,7 @@ export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, 
       ro.disconnect();
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(raf);
+      hold(false);
       delete stg.dataset.active;
       stg.style.removeProperty("--p");
     };
@@ -220,7 +264,7 @@ export function StickyScene({ id, length, top = "4.5rem", minStageHeight = 520, 
 
   return (
     <SceneContext.Provider value={store}>
-      <section ref={section} id={id} aria-label={label} className="scene" style={style} data-live={tall ? "" : undefined}>
+      <section ref={section} id={id} aria-label={label} className={`scene ${sectionClassName}`} style={style} data-live={tall ? "" : undefined}>
         <div ref={stage} className={`scene-stage ${className}`}>
           {children}
         </div>

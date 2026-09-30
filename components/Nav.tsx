@@ -2,10 +2,12 @@
 
 import {
   ArrowRight,
+  AudioLines,
   ChevronDown,
   ListChecks,
   Menu,
   Plus,
+  Radar,
   Video,
   X,
   type LucideIcon,
@@ -23,11 +25,16 @@ import { AGENT_ICONS, agentHref } from "./site/agents";
 import { ConversationCTA } from "./ConversationCTA";
 import { Logo } from "./Logo";
 
-type Item = { title: string; body: string; href: string; icon?: LucideIcon; logo?: (typeof LOGOS)[number] };
+type Item = { title: string; body: string; href: string; icon?: LucideIcon; logo?: (typeof LOGOS)[number]; badge?: string };
 
 // From lib/content/agents.ts, in hand-off order. Each item goes to its area's page once it
 // exists (LIVE_AGENT_PAGES), else to the hub.
-const AGENTS: Item[] = AGENT_DATA.map((a) => ({ title: a.name, body: a.short, href: agentHref(a.slug, "/product"), icon: AGENT_ICONS[a.icon] }));
+// Signal (the market) and Capture (the people you talk to) lead: Selixa's signals from outside the product.
+const AGENTS: Item[] = [
+  { title: "Signal", body: "See what’s changing in your market", href: "/product/signal", icon: Radar, badge: "New" },
+  { title: "Capture", body: "Keep the context behind every conversation", href: "/product/capture", icon: AudioLines, badge: "New" },
+  ...AGENT_DATA.map((a) => ({ title: a.name, body: a.short, href: agentHref(a.slug, "/product"), icon: AGENT_ICONS[a.icon] })),
+];
 
 // From lib/content/integrations.ts (joined to the marks by name), each to its own page.
 const INTEGRATIONS: Item[] = [
@@ -233,7 +240,12 @@ function MenuLink({ item, onClick, tile }: { item: Item; onClick: () => void; ti
         )}
       </span>
       <span className="flex min-w-0 flex-col">
-        <span className={`truncate text-fg ${tile ? "text-[1.0625rem]" : "text-[0.9375rem]"}`}>{item.title}</span>
+        <span className={`flex items-center gap-2 truncate text-fg ${tile ? "text-[1.0625rem]" : "text-[0.9375rem]"}`}>
+          {item.title}
+          {item.badge && (
+            <span className="rounded-full bg-brand-500/15 px-1.5 py-0.5 text-[0.625rem] uppercase tracking-[0.12em] text-brand-300">{item.badge}</span>
+          )}
+        </span>
         <span className="text-[0.8125rem] leading-snug text-fg-3">{item.body}</span>
       </span>
     </Link>

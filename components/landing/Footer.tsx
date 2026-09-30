@@ -45,7 +45,7 @@ const COLUMNS: Column[][] = [
     {
       title: "What it does",
       // Each area's page once it exists (LIVE_AGENT_PAGES), else the hub.
-      links: AGENTS.map((a) => ({ label: a.name, href: agentHref(a.slug, "/product") })),
+      links: [{ label: "Signal", href: "/product/signal" }, { label: "Capture", href: "/product/capture" }, ...AGENTS.map((a) => ({ label: a.name, href: agentHref(a.slug, "/product") }))],
     },
   ],
   [
