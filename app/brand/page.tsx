@@ -15,7 +15,7 @@ import { pageMetadata } from "@/lib/site";
 // components/landing/ui.tsx (Mark), in Satoshi Light and Inter, so they match the site.
 const K = "/brand";
 /** Bump after re-running scripts/render-brand-assets.py, so browsers fetch the new banners. */
-const V = "?v=20";
+const V = "?v=26";
 
 const C = {
   eyebrow: "Brand",
@@ -26,6 +26,10 @@ const C = {
     headline: "wear it on LinkedIn.",
     line: "Backing Selixa? Put it in your profile header.",
     banners: [
+      { id: "intelligence", label: "Intelligence", alt: "LinkedIn banner: Product Intelligence for Decision Makers" },
+      { id: "intelligence-plain", label: "Intelligence, plain", alt: "LinkedIn banner: Product Intelligence for Decision Makers, on a plain background" },
+      { id: "chaos", label: "Chaos", alt: "LinkedIn banner: stop building in chaos" },
+      { id: "chaos-plain", label: "Chaos, plain", alt: "LinkedIn banner: stop building in chaos, on a plain background" },
       { id: "integrated", label: "Integrated", alt: "LinkedIn banner: Agentic Operating Systems for Product Management, integrated with 11 tools" },
       { id: "plain", label: "Plain", alt: "LinkedIn banner: stop guessing what to build next, on a plain background" },
       { id: "headline", label: "Headline", alt: "LinkedIn banner: stop guessing what to build next" },

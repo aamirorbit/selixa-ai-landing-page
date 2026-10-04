@@ -56,6 +56,9 @@ def b_headline(c):
 def b_tagline(c):
     return frame(c, backdrop(c,1060)+f'<div style="{right}"><div style="{satoshi(70,c)}">{grad(c,"Agentic")} Operating Systems<br>for Product Management</div></div>')
 
+def b_intelligence(c):
+    return frame(c, backdrop(c,1060)+f'<div style="{right}"><div style="{satoshi(70,c)}">Product {grad(c,"Intelligence")}<br>for Decision Makers</div></div>')
+
 def logo_svg(l,px):
     paths="".join(f'<path d="{p["d"]}" fill="{p.get("fill") or l["color"]}"/>' for p in l["paths"])
     return f'<svg viewBox="{l["viewBox"]}" width="{px}" height="{px}">{paths}</svg>'
@@ -132,7 +135,24 @@ def b_plain(c):
   stop guessing<br>what to build {grad(c,"next.")}
 </div></div>'''
 
-BANNERS={"headline":b_headline,"tagline":b_tagline,"connected":b_connected,"integrated":b_integrated,"plain":b_plain}
+def b_intelligence_plain(c):
+    """The Intelligence line on a flat field, as in Plain."""
+    return f'''<div style="position:relative;width:{W}px;height:{H}px;background:{c["bg"]};overflow:hidden">
+<div style="position:absolute;right:112px;top:50%;transform:translateY(-50%);text-align:right;{satoshi(70,c)}">
+  Product {grad(c,"Intelligence")}<br>for Decision Makers
+</div></div>'''
+
+# The chaos line sits dead centre; the avatar only covers the lower left, clear of it.
+center='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center'
+
+def b_chaos(c):
+    return frame(c, backdrop(c,W//2)+f'<div style="{center}"><div style="{satoshi(84,c)}">stop building in {grad(c,"chaos.")}</div></div>')
+
+def b_chaos_plain(c):
+    """The chaos line, centred on a flat field."""
+    return frame(c, f'<div style="{center}"><div style="{satoshi(72,c)}">stop building in {grad(c,"chaos.")}</div></div>')
+
+BANNERS={"chaos":b_chaos,"chaos-plain":b_chaos_plain,"intelligence":b_intelligence,"intelligence-plain":b_intelligence_plain,"headline":b_headline,"tagline":b_tagline,"connected":b_connected,"integrated":b_integrated,"plain":b_plain}
 
 def icon():
     return f'''<div style="width:1024px;height:1024px;border-radius:0;background:
