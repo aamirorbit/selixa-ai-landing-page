@@ -55,7 +55,7 @@ const MENUS: { id: MenuId; label: string; items: Item[]; cols: string; tiles?: b
 export function Nav() {
   const [open, setOpen] = useState<MenuId | null>(null);
   const [sheet, setSheet] = useState(false);
-  // Past the first few pixels of scroll, the solid bar fades in behind the header.
+  // Past the first few pixels of scroll (or past a data-nav-clear hero), the solid bar fades in behind the header.
   const [scrolled, setScrolled] = useState(false);
   // Once the closing section (or the footer) reaches the top, the brand is on screen there, so the header tucks away.
   const [atFooter, setAtFooter] = useState(false);
@@ -84,10 +84,12 @@ export function Nav() {
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 24);
+        // A page whose opening section is marked data-nav-clear keeps the bar clear over it.
+        const clear = document.querySelector("[data-nav-clear]");
+        const h = header.current?.offsetHeight ?? 72;
+        setScrolled(clear ? clear.getBoundingClientRect().bottom <= h : window.scrollY > 24);
         // From the page's closing section (marked data-hide-nav) or else the footer, down.
         const end = document.querySelector("[data-hide-nav]") ?? document.querySelector("footer");
-        const h = header.current?.offsetHeight ?? 72;
         setAtFooter(!!end && end.getBoundingClientRect().top <= h);
       });
     };

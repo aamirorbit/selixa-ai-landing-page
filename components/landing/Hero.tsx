@@ -1,10 +1,13 @@
 import { ConversationCTA } from "@/components/ConversationCTA";
+import { HeroBackdrop } from "./HeroBackdrop";
 import { ChaosWord, HeroChaos } from "./HeroChaos";
 import { d } from "./ui";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col [--hf:clamp(2.75rem,6.6vw,6.25rem)] justify-center py-16 lg:py-10">
+    <section data-nav-clear className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col [--hf:clamp(2.75rem,6.6vw,6.25rem)] justify-center py-16 lg:py-10">
+      <HeroBackdrop />
+
       {/* Rings behind the headline */}
       <div aria-hidden="true" className="fade pointer-events-none absolute inset-0 grid place-items-center" style={d(300)}>
         <div className="absolute aspect-square w-[min(92vw,56rem)] rounded-full border border-ink/[0.05]" />
@@ -36,7 +39,7 @@ export function Hero() {
           className="reveal mt-8 max-w-[38rem] text-[1.125rem] leading-[1.6] text-fg-2 text-pretty sm:text-[1.25rem]"
           style={d(220)}
         >
-          Selixa brings your product signals together so you know
+          let Selixa brings your product signals together so you know
           {/* The three answers get their own line; on phones the text just wraps. */}
           <br className="hidden sm:block" />
           {" "}what matters, what to build, and what to do next.
