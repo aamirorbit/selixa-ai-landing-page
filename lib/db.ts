@@ -27,6 +27,38 @@ const SCHEMA = [
   `ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS tools text[] NOT NULL DEFAULT '{}'`,
   `ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS pains text[] NOT NULL DEFAULT '{}'`,
   `ALTER TABLE inquiries ADD COLUMN IF NOT EXISTS role text NOT NULL DEFAULT ''`,
+  // First-party analytics (lib/analytics.ts). No IPs, no user agents, no cookies: `visitor` is a
+  // hash under a salt that is deleted daily, so it can't be linked across days or reversed.
+  `CREATE TABLE IF NOT EXISTS events (
+    id bigserial PRIMARY KEY,
+    ts timestamptz NOT NULL DEFAULT now(),
+    visitor text NOT NULL,
+    type text NOT NULL,
+    path text NOT NULL DEFAULT '',
+    ref text NOT NULL DEFAULT '',
+    utm_source text NOT NULL DEFAULT '',
+    utm_medium text NOT NULL DEFAULT '',
+    utm_campaign text NOT NULL DEFAULT '',
+    country text NOT NULL DEFAULT '',
+    region text NOT NULL DEFAULT '',
+    city text NOT NULL DEFAULT '',
+    device text NOT NULL DEFAULT '',
+    browser text NOT NULL DEFAULT '',
+    os text NOT NULL DEFAULT '',
+    label text NOT NULL DEFAULT '',
+    href text NOT NULL DEFAULT '',
+    x real,
+    y real,
+    vw integer,
+    num integer,
+    ms integer
+  )`,
+  `CREATE INDEX IF NOT EXISTS events_ts_idx ON events (ts)`,
+  `CREATE INDEX IF NOT EXISTS events_visitor_ts_idx ON events (visitor, ts)`,
+  `CREATE TABLE IF NOT EXISTS analytics_salts (
+    day date PRIMARY KEY,
+    salt text NOT NULL
+  )`,
 ];
 
 let connection: Promise<Db | null> | undefined;

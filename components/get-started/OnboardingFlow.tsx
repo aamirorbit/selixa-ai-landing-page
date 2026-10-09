@@ -9,6 +9,7 @@ import { BrandMark } from "@/components/landing/BrandMark";
 import { d } from "@/components/landing/ui";
 import { PAIN_OPTIONS, ROLE_OPTIONS, TOOL_OPTIONS, toolLogo } from "@/lib/onboarding";
 import { toDomain } from "@/lib/site";
+import { track } from "@/lib/track";
 import { BriefCard } from "./BriefCard";
 import { GS } from "./copy";
 
@@ -92,6 +93,7 @@ export function OnboardingFlow({ initialSite }: { initialSite: string }) {
   }
   useEffect(() => {
     if (state.status !== "success") return;
+    track("convert", "get-started");
     try {
       sessionStorage.removeItem(STORE);
     } catch {}
@@ -113,6 +115,11 @@ export function OnboardingFlow({ initialSite }: { initialSite: string }) {
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
+
+  // Funnel analytics: each step reached (lib/track.ts).
+  useEffect(() => {
+    if (!done) track("step", step);
+  }, [step, done]);
 
   // Focus the new step's heading on every change (not on first load).
   const headings = useRef<Partial<Record<Step, HTMLElement | null>>>({});

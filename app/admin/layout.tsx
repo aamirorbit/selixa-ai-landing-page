@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Logo } from "@/components/Logo";
+import { AdminNav } from "./AdminNav";
 
 export const metadata: Metadata = {
   title: "Inquiries — Selixa admin",
@@ -16,6 +17,7 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
             <span aria-hidden="true" className="h-4 w-px bg-line-strong" />
             <span className="text-[0.8125rem] tracking-[0.08em] text-fg-3 uppercase">Admin</span>
           </div>
+          <AdminNav />
         </header>
         {children}
       </div>

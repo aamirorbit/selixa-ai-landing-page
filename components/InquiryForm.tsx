@@ -3,6 +3,7 @@
 import { ArrowUpRight, Briefcase, Check, CircleHelp, Loader2, Lock, Mail, Pencil, User } from "lucide-react";
 import { startTransition, useActionState, useEffect, useId, useRef, type FormEvent, type ReactNode } from "react";
 import { submitInquiry, type FieldName, type InquiryState } from "@/app/actions";
+import { track } from "@/lib/track";
 
 const initial: InquiryState = { status: "idle" };
 
@@ -28,6 +29,7 @@ export function InquiryForm({ titleId, heading, intro, source = "modal", submitL
   const values = state.status === "error" ? state.values : undefined;
 
   useEffect(() => {
+    if (state.status === "success") track("convert", "inquiry");
     if (state.status !== "error") return;
     const first = formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]');
     first?.focus({ preventScroll: false });
