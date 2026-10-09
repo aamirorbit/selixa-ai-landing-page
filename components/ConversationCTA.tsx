@@ -1,6 +1,8 @@
 "use client";
 
 import { ArrowUpRight, Globe, X } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useId, useImperativeHandle, useRef, useState, type FormEvent, type MouseEvent, type ReactNode, type Ref } from "react";
 import type { FieldName } from "@/app/actions";
 import { toDomain } from "@/lib/site";
@@ -30,15 +32,19 @@ export type ConversationCTAHandle = { open: (defaults?: Partial<Record<FieldName
 
 const TRUST = ["Slack", "Linear", "Notion", "GitHub", "Zoom"].map((n) => LOGOS.find((l) => l.name === n)!);
 
-/** Call-to-action that opens the inquiry form in a modal dialog. */
+/**
+ * Call-to-action. The sign-up variants ("premium", "compact", "site") go to /get-started (the
+ * site box carries what was typed as ?site=). Only "link", and opening from code via `ref`, open
+ * the inquiry form in a modal: those are specific requests with a prefilled message.
+ */
 export function ConversationCTA({ label = "Get started", variant = "premium", className = "", defaults, focus = "name", children, ref }: Props) {
+  const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const titleId = useId();
-  const [site, setSite] = useState("");
   const [siteError, setSiteError] = useState(false);
   // Defaults passed at open time (e.g. a search query) override the prop's.
   const [opened, setOpened] = useState<Partial<Record<FieldName, string>> | undefined>(undefined);
-  const formDefaults = { ...defaults, ...opened, ...(site ? { company: site } : null) };
+  const formDefaults = { ...defaults, ...opened };
   const hasDefaults = Object.keys(formDefaults).length > 0;
 
   const open = (extra?: Partial<Record<FieldName, string>>) => {
@@ -71,19 +77,18 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
       return;
     }
     setSiteError(false);
-    setSite(domain);
-    open();
+    router.push(domain ? `/get-started?site=${encodeURIComponent(domain)}` : "/get-started");
   };
 
   return (
     <>
       {variant === "premium" ? (
-        <button type="button" onClick={() => open()} className="btn-premium">
+        <Link href="/get-started" className="btn-premium">
           <span className="relative">{label}</span>
           <span className="chip" aria-hidden="true">
             <ArrowUpRight className="h-[1.125rem] w-[1.125rem]" strokeWidth={2.25} />
           </span>
-        </button>
+        </Link>
       ) : variant === "link" ? (
         <button type="button" onClick={() => open()} className={className}>
           {children ?? label}
@@ -138,45 +143,40 @@ export function ConversationCTA({ label = "Get started", variant = "premium", cl
           )}
         </div>
       ) : (
-        <button
-          type="button"
-          onClick={() => open()}
+        <Link
+          href="/get-started"
           className="inline-flex items-center rounded-full bg-[linear-gradient(180deg,var(--brand-cta),var(--brand-cta-2))] px-[1.125rem] py-2.5 text-[0.875rem] font-medium leading-none text-[var(--brand-on)] transition-[filter] duration-200 hover:brightness-110"
         >
           {label}
-        </button>
+        </Link>
       )}
 
-      <dialog ref={dialog} onClick={onBackdrop} aria-labelledby={titleId} className="modal">
-        <div className="modal-panel">
-          <button type="button" onClick={close} aria-label="Close" className="modal-close">
-            <X className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
-          </button>
-          <InquiryForm
-            // New starting values (a site, a query) mean a fresh form carrying them. The same
-            // values keep the same form, so anything typed survives closing and reopening.
-            key={JSON.stringify(formDefaults)}
-            titleId={titleId}
-            heading={site ? `Let’s get Selixa learning ${site}` : "Get started with Selixa"}
-            intro={
-              site ? (
-                <>
-                  A few details and{" "}
-                  <strong className="font-medium text-fg">we&rsquo;ll set up your AI Product Manager on it.</strong>
-                </>
-              ) : (
+      {/* Only the request links (and `ref` callers) use the modal. */}
+      {(variant === "link" || ref) && (
+        <dialog ref={dialog} onClick={onBackdrop} aria-labelledby={titleId} className="modal">
+          <div className="modal-panel">
+            <button type="button" onClick={close} aria-label="Close" className="modal-close">
+              <X className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+            </button>
+            <InquiryForm
+              // New starting values (a query, a request) mean a fresh form carrying them. The same
+              // values keep the same form, so anything typed survives closing and reopening.
+              key={JSON.stringify(formDefaults)}
+              titleId={titleId}
+              heading="Get started with Selixa"
+              intro={
                 <>
                   Tell us what you&rsquo;re building.{" "}
                   <strong className="font-medium text-fg">We&rsquo;ll set you up with your AI Product Manager.</strong>
                 </>
-              )
-            }
-            defaults={hasDefaults ? formDefaults : undefined}
-            submitLabel="Request access"
-            compact
-          />
-        </div>
-      </dialog>
+              }
+              defaults={hasDefaults ? formDefaults : undefined}
+              submitLabel="Request access"
+              compact
+            />
+          </div>
+        </dialog>
+      )}
     </>
   );
 }
